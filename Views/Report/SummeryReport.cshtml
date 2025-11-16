@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "MemberDetails";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<html>
+<head>
+    <title>
+        <h3>Progress Report Report</h3>
+    </title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="~/Scripts/Stylesheet.css" rel="stylesheet" />
+
+@*    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PrintArea/2.4.1/jquery.PrintArea.js" type="text/javascript"></script>
+
+</head>
+<body>
+    @using (Html.BeginForm("SummeryReport","Report",FormMethod.Post))
+    {        
+        <div class="container">
+            <div style="float:left;margin-top: 2.5%;"> <label >Select From Date&nbsp</label><input type="date" id="frmdatepicker">
+            <label >Select To Date&nbsp</label><input type="date" id="todatepicker">
+                <input type="button" value="Show Records" id="btnShowData" class="btn btn-primary" />
+               <input type="button" value="Print" id="btnPrint" class="btn btn-primary" />
+       </div> <br /> <br /> <br /> 
+            <div  id="dvLoanTrans" style="display:none; width:850px; height:400px;border:none">
+                <br /><h3>Summery Report</h3><br />
+                <p>Progress Report From : <label id="lblFrmDate"></label> To <label id="lblToDate"></label></p>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr style="background-color: #428bca;color: #1b0a0a;">
+                        <th style="width:5px">Sl.No
+                        </th>
+                        <th>Particulars
+                        </th>
+                        <th>Beginning of Report
+                        </th>
+                        <th>Added
+                        </th>
+                        <th>Dropped
+                        </th>
+                        <th>End of Reporting
+                        </th>
+                    </tr>                    
+                </thead>
+                <tbody  id="tblProgress" class="tbody">
+                </tbody>
+            </table><br /><br />
+
+                <div class="container" style="width:850px;">
+                <table class="table table-bordered table-hover"  style="width:400px;float:left">
+                <thead>
+                    <tr style="background-color: #428bca;color: #1b0a0a;">
+                        <th style="width:250px">Receipts
+                        </th>
+                        <th style="width:100px">Rupees
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tblReceipts" class="tbody">
+                </tbody>
+           </table>
+                <table  class="table table-bordered table-hover" style="width:400px; float:right">
+                <thead>
+                    <tr style="background-color: #428bca;color: #1b0a0a;">
+                        <th style="width:250px">Payments
+                        </th>
+                        <th style="width:100px">Rupees
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tblPayments" class="tbody">
+                </tbody>
+            </table>
+            </div>
+
+             <div>            
+            <br /><label style="float: left; " >CO Signature :___________________</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<label style="text-align: right";> BM Signature :___________________ </label>
+                 <br /><br /><br /><label style="float: left";>Visitor Signature :___________________ </label>
+            </div>
+                </div><br />
+</div>  
+        
+        
+    }      
+</body>
+</html>
+
+<script type="text/javascript">
+    //Load Data in Table when documents is read
+
+    $("#btnShowData").click(function () {
+
+        if ($('#frmdatepicker').val().length == 0 ||
+             $('#todatepicker').val().length == 0) {
+            return alert("Please select From date and To date.")
+        }
+        else {
+            var today = new Date();
+            var frmDt = new Date($('#frmdatepicker').val());
+            var toDt = new Date($('#todatepicker').val());
+            if (frmDt.getDate() > today.getDate() && frmDt.getMonth() >= today.getMonth() && frmDt.getFullYear() == today.getFullYear())
+            {
+                return alert("Feture date is not allowed.")
+            }
+            if (toDt.getDate() > today.getDate() && toDt.getMonth() >= today.getMonth() && toDt.getFullYear() == today.getFullYear()) {
+                return alert("Feture date is not allowed.")
+            }
+        }
+
+        $('#dvLoanTrans').attr("style", "display:normal");
+        $("#lblFrmDate").html($("#frmdatepicker").val());
+        $("#lblToDate").html($("#todatepicker").val());
+        loadData();
+    })
+
+    $("#btnPrint").click(function () {
+        $('#dvLoanTrans').attr("style", "display:normal");
+
+        $("#lblFrmDate").html($("#frmdatepicker").val());
+        $("#lblToDate").html($("#todatepicker").val());
+        var mode = 'iframe';
+        var close = mode == "popup";
+        var options = { mode: mode, popClose: close };
+        $("#dvLoanTrans").printArea(options);
+    });
+
+
+    //Load Data function
+    function loadData() {
+        var vFrmDt = $("#frmdatepicker").val();
+        var vToDt = $("#todatepicker").val();
+        $.ajax({
+            url: '@Url.Action("GetSummeyReportData","Report")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            async: true,
+            data: { sFrmDt: vFrmDt, sToDt: vToDt },
+            catch: false,
+            dataType: "json",
+            success: function (result) {
+
+                var tblProgresshtml = '';
+                var tblReceipts = '';
+                var tblPayments = '';
+                $.each(result, function (key, item) {
+
+                    if (item.SlNo != 'Receipts' && item.SlNo != 'Payments') {
+                        if (item.Particulars != 'A.L.R Collected') {
+                            tblProgresshtml += '<tr>';
+                            tblProgresshtml += '<td>' + item.SlNo + '</td>';
+                            tblProgresshtml += '<td>' + item.Particulars + '</td>';
+                            tblProgresshtml += '<td>' + item.BOR + '</td>';
+                            tblProgresshtml += '<td>' + item.Added + '</td>';
+                            tblProgresshtml += '<td>' + item.Dropped + '</td>';
+                            tblProgresshtml += '<td>' + item.EOR + '</td>';
+                            tblProgresshtml += '</tr>';
+                        }
+                    }
+                    else if (item.SlNo == 'Receipts' && item.SlNo != 'Payments') {
+                        if (item.Receipts == 'Total Receipts') {
+                            tblReceipts += '<tr>';
+                            tblReceipts += '<td><b>' + item.Receipts + '</b></td>';
+                            tblReceipts += '<td><b>' + item.RRs + '</b></td>';
+                            tblReceipts += '</tr>';
+                        }
+                        else {
+                            if (item.Receipts != 'ALR Collected') {
+                                tblReceipts += '<tr>';
+                                tblReceipts += '<td>' + item.Receipts + '</td>';
+                                tblReceipts += '<td>' + item.RRs + '</td>';
+                                tblReceipts += '</tr>';
+                            }
+                        }
+                    }
+                    else if (item.SlNo == 'Payments' && item.SlNo != 'Receipts') {
+                        if (item.Payments == 'Total Payments') {
+                            tblPayments += '<tr>';
+                            tblPayments += '<td><b>' + item.Payments + '</b></td>';
+                            tblPayments += '<td><b>' + item.PRs + '</b></td>';
+                            tblPayments += '</tr>';
+                        }
+                        else {
+                            if (item.Payments != 'ALR Adjustment') {
+                                tblPayments += '<tr>';
+                                tblPayments += '<td>' + item.Payments + '</td>';
+                                tblPayments += '<td>' + item.PRs + '</td>';
+                                tblPayments += '</tr>';
+                            }
+                        }
+                    }
+                });
+                $('#tblProgress').html(tblProgresshtml);
+                $('#tblReceipts').html(tblReceipts);
+                $('#tblPayments').html(tblPayments);
+            },
+
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+</script>
+
+

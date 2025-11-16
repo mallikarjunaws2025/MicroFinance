@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MicroFinanceModelStoreContainer" CdmEntityContainer="MicroFinanceEntities">
+    <EntitySetMapping Name="StaffLogins">
+      <EntityTypeMapping TypeName="MicroFinanceModel.StaffLogin">
+        <MappingFragment StoreEntitySet="StaffLogin">
+          <ScalarProperty Name="UsrId" ColumnName="UsrId" />
+          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="RolePermission" ColumnName="RolePermission" />
+          <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserLogs">
+      <EntityTypeMapping TypeName="MicroFinanceModel.UserLog">
+        <MappingFragment StoreEntitySet="UserLog">
+          <ScalarProperty Name="LogId" ColumnName="LogId" />
+          <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+          <ScalarProperty Name="LogInDateTime" ColumnName="LogInDateTime" />
+          <ScalarProperty Name="LogOutDateTime" ColumnName="LogOutDateTime" />
+          <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Branches">
+      <EntityTypeMapping TypeName="MicroFinanceModel.Branch">
+        <MappingFragment StoreEntitySet="Branch">
+          <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+          <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="BAddress" ColumnName="BAddress" />
+          <ScalarProperty Name="OpenDate" ColumnName="OpenDate" />
+          <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+          <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+          <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spGetLoanDetails" FunctionName="MicroFinanceModel.Store.spGetLoanDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MicroFinanceModel.spGetLoanDetails_Result">
+          <ScalarProperty Name="LoanColId" ColumnName="LoanColId" />
+          <ScalarProperty Name="LoanId" ColumnName="LoanId" />
+          <ScalarProperty Name="MbrId" ColumnName="MbrId" />
+          <ScalarProperty Name="Collected_Amount" ColumnName="Collected_Amount" />
+          <ScalarProperty Name="Actual_Balance" ColumnName="Actual_Balance" />
+          <ScalarProperty Name="Prin_Balance" ColumnName="Prin_Balance" />
+          <ScalarProperty Name="Int_Collect" ColumnName="Int_Collect" />
+          <ScalarProperty Name="Prin_Collected" ColumnName="Prin_Collected" />
+          <ScalarProperty Name="Balance_Installment" ColumnName="Balance_Installment" />
+          <ScalarProperty Name="Balance_Interest" ColumnName="Balance_Interest" />
+          <ScalarProperty Name="Prin_Due" ColumnName="Prin_Due" />
+          <ScalarProperty Name="Int_Due" ColumnName="Int_Due" />
+          <ScalarProperty Name="Transact_Date" ColumnName="Transact_Date" />
+          <ScalarProperty Name="Next_Due_Date" ColumnName="Next_Due_Date" />
+          <ScalarProperty Name="Upto_Last_Savings" ColumnName="Upto_Last_Savings" />
+          <ScalarProperty Name="During_Savings" ColumnName="During_Savings" />
+          <ScalarProperty Name="As_On" ColumnName="As_On" />
+          <ScalarProperty Name="Adjustment" ColumnName="Adjustment" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Staffs">
+      <EntityTypeMapping TypeName="MicroFinanceModel.Staff">
+        <MappingFragment StoreEntitySet="Staff">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DOJ" ColumnName="DOJ" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+          <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Members">
+      <EntityTypeMapping TypeName="MicroFinanceModel.Member">
+        <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="AdharaCardNum" ColumnName="AdharaCardNum" />
+          <ScalarProperty Name="PhoneNo2" ColumnName="PhoneNo2" />
+          <ScalarProperty Name="Nominee" ColumnName="Nominee" />
+          <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+          <ScalarProperty Name="GrpName" ColumnName="GrpName" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="CantactNo" ColumnName="CantactNo" />
+          <ScalarProperty Name="DOJ" ColumnName="DOJ" />
+          <ScalarProperty Name="MbrAddress" ColumnName="MbrAddress" />
+          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+          <ScalarProperty Name="WithdrawDt" ColumnName="WithdrawDt" />
+          <ScalarProperty Name="MbrStatus" ColumnName="MbrStatus" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="Husbandname" ColumnName="Husbandname" />
+          <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+          <ScalarProperty Name="MbrName" ColumnName="MbrName" />
+          <ScalarProperty Name="MbrId" ColumnName="MbrId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ALRAudjustments">
+      <EntityTypeMapping TypeName="MicroFinanceModel.ALRAudjustment">
+        <MappingFragment StoreEntitySet="ALRAudjustments">
+          <ScalarProperty Name="CrDt" ColumnName="CrDt" />
+          <ScalarProperty Name="AdvanceALR" ColumnName="AdvanceALR" />
+          <ScalarProperty Name="ALRSavings" ColumnName="ALRSavings" />
+          <ScalarProperty Name="MbrID" ColumnName="MbrID" />
+          <ScalarProperty Name="ALRID" ColumnName="ALRID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Loans">
+      <EntityTypeMapping TypeName="MicroFinanceModel.Loan">
+        <MappingFragment StoreEntitySet="Loans">
+          <ScalarProperty Name="LoanType" ColumnName="LoanType" />
+          <ScalarProperty Name="Balance_Interest" ColumnName="Balance_Interest" />
+          <ScalarProperty Name="NextDueDt" ColumnName="NextDueDt" />
+          <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+          <ScalarProperty Name="GrpCode" ColumnName="GrpCode" />
+          <ScalarProperty Name="NetSavings" ColumnName="NetSavings" />
+          <ScalarProperty Name="Other_Income" ColumnName="Other_Income" />
+          <ScalarProperty Name="Insurance" ColumnName="Insurance" />
+          <ScalarProperty Name="Stationary" ColumnName="Stationary" />
+          <ScalarProperty Name="Processing_Fee" ColumnName="Processing_Fee" />
+          <ScalarProperty Name="GRFAmt" ColumnName="GRFAmt" />
+          <ScalarProperty Name="ALRSavings" ColumnName="ALRSavings" />
+          <ScalarProperty Name="Expiry_Date" ColumnName="Expiry_Date" />
+          <ScalarProperty Name="Date_Of_Disbursement" ColumnName="Date_Of_Disbursement" />
+          <ScalarProperty Name="NoOfDay" ColumnName="NoOfDay" />
+          <ScalarProperty Name="Int_EMI" ColumnName="Int_EMI" />
+          <ScalarProperty Name="Prin_EMI" ColumnName="Prin_EMI" />
+          <ScalarProperty Name="RateOfInterest" ColumnName="RateOfInterest" />
+          <ScalarProperty Name="Balance_Amount" ColumnName="Balance_Amount" />
+          <ScalarProperty Name="Loan_Amount" ColumnName="Loan_Amount" />
+          <ScalarProperty Name="MbrId" ColumnName="MbrId" />
+          <ScalarProperty Name="LoanID" ColumnName="LoanID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PartnerDetails">
+      <EntityTypeMapping TypeName="MicroFinanceModel.PartnerDetail">
+        <MappingFragment StoreEntitySet="PartnerDetails">
+          <ScalarProperty Name="InvestmentAmt" ColumnName="InvestmentAmt" />
+          <ScalarProperty Name="CrDate" ColumnName="CrDate" />
+          <ScalarProperty Name="AdharaCardNum" ColumnName="AdharaCardNum" />
+          <ScalarProperty Name="ZIP" ColumnName="ZIP" />
+          <ScalarProperty Name="Statte" ColumnName="Statte" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="CatntactNum" ColumnName="CatntactNum" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="PrtnrName" ColumnName="PrtnrName" />
+          <ScalarProperty Name="PrtnrID" ColumnName="PrtnrID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Loan_Cols">
+      <EntityTypeMapping TypeName="MicroFinanceModel.Loan_Cols">
+        <MappingFragment StoreEntitySet="Loan_Cols">
+          <ScalarProperty Name="PostedUserID" ColumnName="PostedUserID" />
+          <ScalarProperty Name="Collect_Or_RefoundAmt" ColumnName="Collect_Or_RefoundAmt" />
+          <ScalarProperty Name="PreInterestAmt" ColumnName="PreInterestAmt" />
+          <ScalarProperty Name="PrePrinAmt" ColumnName="PrePrinAmt" />
+          <ScalarProperty Name="PaidEMI" ColumnName="PaidEMI" />
+          <ScalarProperty Name="Adjustment" ColumnName="Adjustment" />
+          <ScalarProperty Name="As_On" ColumnName="As_On" />
+          <ScalarProperty Name="ALRSavings" ColumnName="ALRSavings" />
+          <ScalarProperty Name="Upto_Last_Savings" ColumnName="Upto_Last_Savings" />
+          <ScalarProperty Name="Next_Due_Date" ColumnName="Next_Due_Date" />
+          <ScalarProperty Name="Transact_Date" ColumnName="Transact_Date" />
+          <ScalarProperty Name="Int_Due" ColumnName="Int_Due" />
+          <ScalarProperty Name="Prin_Due" ColumnName="Prin_Due" />
+          <ScalarProperty Name="Balance_Interest" ColumnName="Balance_Interest" />
+          <ScalarProperty Name="Balance_Installment" ColumnName="Balance_Installment" />
+          <ScalarProperty Name="Prin_Collected" ColumnName="Prin_Collected" />
+          <ScalarProperty Name="Int_Collect" ColumnName="Int_Collect" />
+          <ScalarProperty Name="Prin_Balance" ColumnName="Prin_Balance" />
+          <ScalarProperty Name="Actual_Balance" ColumnName="Actual_Balance" />
+          <ScalarProperty Name="Collected_Amount" ColumnName="Collected_Amount" />
+          <ScalarProperty Name="MbrId" ColumnName="MbrId" />
+          <ScalarProperty Name="LoanId" ColumnName="LoanId" />
+          <ScalarProperty Name="LoanColId" ColumnName="LoanColId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TmpLoanColsBackUpDatas">
+      <EntityTypeMapping TypeName="MicroFinanceModel.TmpLoanColsBackUpData">
+        <MappingFragment StoreEntitySet="TmpLoanColsBackUpData">
+          <ScalarProperty Name="LoanColId" ColumnName="LoanColId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TmpLoansBackUpDatas">
+      <EntityTypeMapping TypeName="MicroFinanceModel.TmpLoansBackUpData">
+        <MappingFragment StoreEntitySet="TmpLoansBackUpData">
+          <ScalarProperty Name="LoanType" ColumnName="LoanType" />
+          <ScalarProperty Name="Balance_Interest" ColumnName="Balance_Interest" />
+          <ScalarProperty Name="NextDueDt" ColumnName="NextDueDt" />
+          <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+          <ScalarProperty Name="GrpCode" ColumnName="GrpCode" />
+          <ScalarProperty Name="NetSavings" ColumnName="NetSavings" />
+          <ScalarProperty Name="Other_Income" ColumnName="Other_Income" />
+          <ScalarProperty Name="Insurance" ColumnName="Insurance" />
+          <ScalarProperty Name="Stationary" ColumnName="Stationary" />
+          <ScalarProperty Name="Processing_Fee" ColumnName="Processing_Fee" />
+          <ScalarProperty Name="GRFAmt" ColumnName="GRFAmt" />
+          <ScalarProperty Name="ALRSavings" ColumnName="ALRSavings" />
+          <ScalarProperty Name="Expiry_Date" ColumnName="Expiry_Date" />
+          <ScalarProperty Name="Date_Of_Disbursement" ColumnName="Date_Of_Disbursement" />
+          <ScalarProperty Name="NoOfDay" ColumnName="NoOfDay" />
+          <ScalarProperty Name="Int_EMI" ColumnName="Int_EMI" />
+          <ScalarProperty Name="Prin_EMI" ColumnName="Prin_EMI" />
+          <ScalarProperty Name="RateOfInterest" ColumnName="RateOfInterest" />
+          <ScalarProperty Name="Balance_Amount" ColumnName="Balance_Amount" />
+          <ScalarProperty Name="Loan_Amount" ColumnName="Loan_Amount" />
+          <ScalarProperty Name="MbrId" ColumnName="MbrId" />
+          <ScalarProperty Name="LoanID" ColumnName="LoanID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spDeleteBackUpTble" FunctionName="MicroFinanceModel.Store.spDeleteBackUpTble" />
+    <FunctionImportMapping FunctionImportName="spTakeBackUpBeforeLoanPost" FunctionName="MicroFinanceModel.Store.spTakeBackUpBeforeLoanPost" />
+    <EntitySetMapping Name="TmpReceipts">
+      <EntityTypeMapping TypeName="MicroFinanceModel.TmpReceipt">
+        <MappingFragment StoreEntitySet="TmpReceipts">
+          <ScalarProperty Name="Rs" ColumnName="Rs" />
+          <ScalarProperty Name="Receipts" ColumnName="Receipts" />
+          <ScalarProperty Name="SlNo" ColumnName="SlNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TmpSummeryReportDatas">
+      <EntityTypeMapping TypeName="MicroFinanceModel.TmpSummeryReportData">
+        <MappingFragment StoreEntitySet="TmpSummeryReportData">
+          <ScalarProperty Name="EOR" ColumnName="EOR" />
+          <ScalarProperty Name="Dropped" ColumnName="Dropped" />
+          <ScalarProperty Name="Added" ColumnName="Added" />
+          <ScalarProperty Name="BOR" ColumnName="BOR" />
+          <ScalarProperty Name="Particulars" ColumnName="Particulars" />
+          <ScalarProperty Name="SlNo" ColumnName="SlNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spGetProgressReportData" FunctionName="MicroFinanceModel.Store.spGetProgressReportData" />
+    <FunctionImportMapping FunctionImportName="spGetReceiptsAndPaymentsData" FunctionName="MicroFinanceModel.Store.spGetReceiptsAndPaymentsData" />
+    <FunctionImportMapping FunctionImportName="spGetDailyDueReportsData" FunctionName="MicroFinanceModel.Store.spGetDailyDueReportsData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MicroFinanceModel.spGetDailyDueReportsData_Result8">
+          <ScalarProperty Name="GrpName" ColumnName="GrpName" />
+          <ScalarProperty Name="Net_Members" ColumnName="Net_Members" />
+          <ScalarProperty Name="CrDt" ColumnName="CrDt" />
+          <ScalarProperty Name="DOC" ColumnName="DOC" />
+          <ScalarProperty Name="Loan_Amount" ColumnName="Loan_Amount" />
+          <ScalarProperty Name="Balance_Interest" ColumnName="Balance_Interest" />
+          <ScalarProperty Name="ALRSavings" ColumnName="ALRSavings" />
+          <ScalarProperty Name="NetSavings" ColumnName="NetSavings" />
+          <ScalarProperty Name="NoOfDay" ColumnName="NoOfDay" />
+          <ScalarProperty Name="Prin_EMI" ColumnName="Prin_EMI" />
+          <ScalarProperty Name="Int_EMI" ColumnName="Int_EMI" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spDueAndCollectedAmt" FunctionName="MicroFinanceModel.Store.spDueAndCollectedAmt">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MicroFinanceModel.spDueAndCollectedAmt_Result1">
+          <ScalarProperty Name="Total_Due_Amount" ColumnName="Total Due Amount" />
+          <ScalarProperty Name="CollectedAmount" ColumnName="CollectedAmount" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spGetLoanMbrsList" FunctionName="MicroFinanceModel.Store.spGetLoanMbrsList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MicroFinanceModel.spGetLoanMbrsList_Result6">
+          <ScalarProperty Name="LoanID" ColumnName="LoanID" />
+          <ScalarProperty Name="MbrId" ColumnName="MbrId" />
+          <ScalarProperty Name="MbrName" ColumnName="MbrName" />
+          <ScalarProperty Name="GrpName" ColumnName="GrpName" />
+          <ScalarProperty Name="Actual_Balance" ColumnName="Actual_Balance" />
+          <ScalarProperty Name="NoOfDay" ColumnName="NoOfDay" />
+          <ScalarProperty Name="PaidEMI" ColumnName="PaidEMI" />
+          <ScalarProperty Name="Collected_Amount" ColumnName="Collected_Amount" />
+          <ScalarProperty Name="Balance_Amount" ColumnName="Balance_Amount" />
+          <ScalarProperty Name="Balance_Installment" ColumnName="Balance_Installment" />
+          <ScalarProperty Name="Prin_EMI" ColumnName="Prin_EMI" />
+          <ScalarProperty Name="Next_Due_Date" ColumnName="Next_Due_Date" />
+          <ScalarProperty Name="ALRSavings" ColumnName="ALRSavings" />
+          <ScalarProperty Name="NetSavings" ColumnName="NetSavings" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="FinGroups">
+      <EntityTypeMapping TypeName="MicroFinanceModel.FinGroup">
+        <MappingFragment StoreEntitySet="FinGroup">
+          <ScalarProperty Name="RecoveryDay" ColumnName="RecoveryDay" />
+          <ScalarProperty Name="GrpName" ColumnName="GrpName" />
+          <ScalarProperty Name="GType" ColumnName="GType" />
+          <ScalarProperty Name="MeetingPlaceAddress" ColumnName="MeetingPlaceAddress" />
+          <ScalarProperty Name="FormedBy" ColumnName="FormedBy" />
+          <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+          <ScalarProperty Name="GStatus" ColumnName="GStatus" />
+          <ScalarProperty Name="Distance" ColumnName="Distance" />
+          <ScalarProperty Name="DOC" ColumnName="DOC" />
+          <ScalarProperty Name="CrDt" ColumnName="CrDt" />
+          <ScalarProperty Name="Net_Members" ColumnName="Net_Members" />
+          <ScalarProperty Name="Village" ColumnName="Village" />
+          <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+          <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+          <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spLoansReport" FunctionName="MicroFinanceModel.Store.spLoansReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MicroFinanceModel.spLoansReport_Result">
+          <ScalarProperty Name="MbrId" ColumnName="MbrId" />
+          <ScalarProperty Name="MbrName" ColumnName="MbrName" />
+          <ScalarProperty Name="GrpName" ColumnName="GrpName" />
+          <ScalarProperty Name="CantactNo" ColumnName="CantactNo" />
+          <ScalarProperty Name="MbrAddress" ColumnName="MbrAddress" />
+          <ScalarProperty Name="MbrStatus" ColumnName="MbrStatus" />
+          <ScalarProperty Name="Husbandname" ColumnName="Husbandname" />
+          <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+          <ScalarProperty Name="LoanID" ColumnName="LoanID" />
+          <ScalarProperty Name="Loan_Amount" ColumnName="Loan_Amount" />
+          <ScalarProperty Name="Balance_Amount" ColumnName="Balance_Amount" />
+          <ScalarProperty Name="Balance_Interest" ColumnName="Balance_Interest" />
+          <ScalarProperty Name="NextDueDt" ColumnName="NextDueDt" />
+          <ScalarProperty Name="Expiry_Date" ColumnName="Expiry_Date" />
+          <ScalarProperty Name="StaffRowCount" ColumnName="StaffRowCount" />
+          <ScalarProperty Name="GrpRowCount" ColumnName="GrpRowCount" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spGetLoanMbrsList1" FunctionName="MicroFinanceModel.Store.spGetLoanMbrsList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MicroFinanceModel.spGetLoanMbrsList_Result6">
+          <ScalarProperty Name="LoanID" ColumnName="LoanID" />
+          <ScalarProperty Name="MbrId" ColumnName="MbrId" />
+          <ScalarProperty Name="MbrName" ColumnName="MbrName" />
+          <ScalarProperty Name="GrpName" ColumnName="GrpName" />
+          <ScalarProperty Name="Actual_Balance" ColumnName="Actual_Balance" />
+          <ScalarProperty Name="NoOfDay" ColumnName="NoOfDay" />
+          <ScalarProperty Name="PaidEMI" ColumnName="PaidEMI" />
+          <ScalarProperty Name="Collected_Amount" ColumnName="Collected_Amount" />
+          <ScalarProperty Name="Balance_Amount" ColumnName="Balance_Amount" />
+          <ScalarProperty Name="Balance_Installment" ColumnName="Balance_Installment" />
+          <ScalarProperty Name="Prin_EMI" ColumnName="Prin_EMI" />
+          <ScalarProperty Name="Next_Due_Date" ColumnName="Next_Due_Date" />
+          <ScalarProperty Name="ALRSavings" ColumnName="ALRSavings" />
+          <ScalarProperty Name="NetSavings" ColumnName="NetSavings" />
+          <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

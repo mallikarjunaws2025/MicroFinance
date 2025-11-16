@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+ 
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>HomePage</title>
+   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>	
+<script>
+    window.onload = function () {
+
+        new Chart(document.getElementById("doughnut-chart"), {
+            type: 'doughnut',
+            data: {
+                labels: ["CollectedAmount", "Total Due Amount"],
+                datasets: [
+                  {
+                      label: "Population (millions)",
+                      backgroundColor: ["#3cba9f","#c45850"],
+                      data: [@Html.Raw(ViewBag.Counts)]
+                  }
+                ]
+            },
+            options: {
+                title: {
+                    display: false,
+                    text: 'Predicted world population (millions) in 2050'
+                }
+            }
+        });
+
+        new Chart(document.getElementById("bar-chart-horizontal"), {
+            type: 'horizontalBar',
+            data: {
+                labels: [@Html.Raw(ViewBag.InvColnames)],
+                datasets: [
+                  {
+                      label: "Invested Amount",
+                      backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                      data: [@Html.Raw(ViewBag.InvCounts)]
+                  }
+                ]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: 'Investment Details Graph'
+                }
+            }
+        });
+
+        $(document).ready(function () {
+            var dayEnd = '@Session["DueColl"]';
+            if (dayEnd != '' && dayEnd == '0.00') {
+                $('#lblmgs').attr("style", "display:normal");
+                $("#lblmgs").html("<h4 style='color: red;'>Day Collection Over(Day Ended : " + dayEnd + ")</h4>");
+            }
+            else {
+                $("#lblmgs").htm("<h4 style='color: red;'>Day Collection :" + '@Session["CollectedAmount"]' + "/"+'@Session["Total_Due_Amount"]'+"</h4>");
+            }
+        });
+    }
+
+</script>
+</head>
+<body> 
+      
+      <div>      
+      <canvas id="doughnut-chart"></canvas> <label id="lblmgs" style="display:none"></label>
+      <canvas id="bar-chart-horizontal" ></canvas> 
+              
+     </div>  
+</body>
+</html>       

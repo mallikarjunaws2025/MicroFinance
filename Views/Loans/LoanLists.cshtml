@@ -1,0 +1,237 @@
+﻿@model IEnumerable<TestApp.DB.Loan>
+@{
+    ViewBag.Title = "MemberDetails";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        <h3>Loan Details</h3>
+    </title>
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Scripts/Stylesheet.css" rel="stylesheet" />
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        
+        
+        <div class="container" style="margin-left: 20%; margin-right: 10%;">
+            <h2>Loan Details</h2>
+            <div style="margin-top: 1%;">
+                <label>Select Group Name&nbsp</label>@Html.DropDownList("ObjList", new SelectList(ViewBag.GrpCodeList, "Value", "Text",ViewBag.GrpCodeID), "--All Groups--", new { @class = "btn btn-primary", @style = "width: 150px;", @id = "GrpCode" })&nbsp
+            </div>
+            <b>
+                <br />
+            </b>
+        </div> <br />  
+        <div class="container">
+            <div class="form-control" style="height: auto; margin-left: 15%; overflow: auto;">
+                <table class="table table-bordered table-hover" id="tblLoansList">
+                    <thead>
+                        <tr style="background-color: #428bca; color: #1b0a0a;">
+                            <th>Loan ID</th>
+                            <th>Member ID
+                            </th>
+                            <th>Loan Amount
+                            </th>
+                            <th>Balance Amount
+                            </th>
+                            <th>Balance Interest 
+                            </th>
+                            <th>Prin EMI Amount
+                            </th>
+                            <th>Int EMI Amt
+                            </th>
+                            <th>No Of Days/Week
+                            </th>
+                            <th>Disbus Date 
+                            </th>
+                            <th>Next Due Date
+                            </th>
+                            <th>Staff Name
+                            </th>
+                            <th>Group Name
+                            </th>
+                            @if (ViewBag.IsAdmin == true)
+                            { 
+                                <th>Action 
+                                </th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+
+                        <tr>
+                            @if (Model != null)
+                            {
+                                foreach (var loan in Model)
+                                {
+                                <tr ondblclick="loadHistPage('@loan.LoanID')" id="@loan.LoanID">
+                                    <td>@loan.LoanID </td>
+                                    <td>@loan.MbrId </td>
+                                    <td>@loan.Loan_Amount </td>
+                                    <td>@loan.Balance_Amount </td>
+                                    <td>@loan.RateOfInterest </td>
+                                    <td>@loan.Prin_EMI</td>
+                                    <td>@loan.Int_EMI</td>
+                                    <td>@loan.NoOfDay</td>
+                                    <td>@loan.Date_Of_Disbursement </td>
+                                    <td>@loan.NextDueDt </td>
+                                    <td>@loan.StaffName </td>
+                                    <td>@loan.GrpCode </td>
+
+                                    @if (ViewBag.IsAdmin == true)
+                                    { 
+                                        <td><a href="#" onclick="getbyID('@loan.LoanID')">Edit</a> | <a href="#" onclick="Delele('@loan.LoanID')">Delete</a></td>
+                                    }
+
+                                </tr>
+                                }
+                            }
+                            else
+                            { 
+                                <tr>
+                                    <td colspan="13" align="Center">No Data Found</td>
+                                </tr>
+                            }
+
+                    </tbody>
+                </table>
+            </div>
+            <br />
+        </div>  
+        
+        
+    }
+
+</body>
+</html>
+
+<script type="text/javascript">
+    //Load Data in Table when documents is ready
+    $(document).ready(function () {        
+        // loadData();
+    });
+
+    //$('tr').dblclick(function () {
+    //    var LoanID = $(this).attr('id');
+    //    window.open("/Loans/Partialload?TabName=HistList," + LoanID, "_blank", "width=1000,height=500");
+    //})
+
+    function loadHistPage(LoanID) {
+        window.open("/Loans/Partialload?TabName=HistList," + LoanID, "_blank", "width=1000,height=500");
+    }
+
+    $("#GrpCode").change(function () {
+        var selectedGrpCode = $("#GrpCode :selected").val();
+        window.location.href = "/Loans/LoanLists?GrpCodeID=" + selectedGrpCode;
+
+       @* $.ajax({
+            url: '@Url.Action("LoanLists", "Loans")',
+            type: "Get",
+            contentType: "application/json;charset=utf-8",
+            async: true,
+            data: { sGrpCode: selectedGrpCode },
+            catch: false,
+            dataType: "json",
+            success: function (result) {
+
+            },
+            error: function (errormessage) {
+
+                alert(errormessage.responseText);
+            }
+        });*@
+    });
+
+
+    @*//Load Data function
+    function loadData() {
+        var selectedGrpCode = $("#GrpCode :selected").text();
+        $.ajax({
+            url: '@Url.Action("LoanLists", "Loans")',
+            type: "Get",
+            contentType: "application/json;charset=utf-8",
+            async: true,
+            data: { sGrpCode: selectedGrpCode },
+            catch: false,
+            dataType: "json",
+            success: function (result) {
+
+                var html = '';
+                $.each(result, function (key, item) {
+                    html += '<tr>';
+                    html += '<td>' + item.LoanID + '</td>';
+                    html += '<td>' + item.MbrId + '</td>';
+                    html += '<td>' + item.Loan_Amount + '</td>';
+                    html += '<td>' + item.Balance_Amount + '</td>';
+                    html += '<td>' + item.RateOfInterest + '</td>';
+                    html += '<td>' + item.Prin_EMI + '</td>';
+                    html += '<td>' + item.Int_EMI + '</td>';
+                    html += '<td>' + item.NoOfDays + '</td>';
+                    html += '<td>' + item.Date_Of_Disbursement + '</td>';
+                    html += '<td>' + item.NextDueDt + '</td>';
+                    html += '<td>' + item.StaffName + '</td>';
+                    html += '<td>' + item.GrpName + '</td>';
+
+                    if (ViewBag.IsAdmin == true) {
+                        html += '<td><a href="#" onclick="return getbyID(' + item.LoanID + ')">Edit</a> | <a href="#" onclick="Delele(' + item.LoanID + ')">Delete</a></td>';
+                    }
+
+                    html += '</tr>';
+                });
+                $('.tbody').html(html);
+            },
+            error: function (errormessage) {
+
+                alert(errormessage.responseText);
+            }
+        });
+    }*@
+
+
+    //Function for getting the Data Based upon Employee ID
+    function getbyID(LoanId) {
+        var iLoanId = LoanId;
+        //window.location.href = '@Url.Action("EditLoan", "Loans", new { iLoanId = "ID" })'.replace("ID", iLoanId);
+        window.open("/Loans/EditLoan?iLoanId=" + iLoanId, "_blank", "width=1000,height=500");
+    }
+
+
+
+    //function for deleting employee's record
+    function Delele(ID) {
+        var ans = confirm("Are you sure you want to delete this Record?");
+        if (ans) {
+            $.ajax({
+                url: '@Url.Action("RemoveLoan", "Loans")',
+                type: "Get",
+                contentType: "application/json;charset=utf-8",
+                async: true,
+                data: { iLoanID: ID },
+                catch: false,
+                success: function (result) {
+                    if (result == '0') {
+                        alert("Successfully Deleted Member : " + iMbrID);
+                    }
+                    else {
+                        alert('Unable to delete due to relationship with loans and collections');
+                    }
+
+                    loadData();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+    }
+
+</script>
+
+

@@ -1,0 +1,334 @@
+﻿@model TestApp.VModels.Member.MemberViewModel
+@{
+    ViewBag.Title = "CreateBranch";
+    Layout = "~/Views/Shared/P_LayoutPage.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Create Branch</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>  
+ <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'>
+<link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
+<link rel="stylesheet" href="css/style.css">  
+</head>
+    <style>
+        .drpdwn {
+            width :25%;
+                height: 30px;
+        }
+
+    </style>
+<body>
+     @Html.HiddenFor(model => model.IsSucess, new { @id ="IsSucess"  })
+ 
+      <div class="container" style="border-color: darkgrey;border-width:2px;">
+@using (Html.BeginForm(null, null, FormMethod.Post,htmlAttributes:new{@class="well form-horizontal"}))
+{ 
+   
+                    @Html.ValidationSummary(false, "", new { @id="Errors", @class = "text-danger" }) 
+      <label id="lblmgs"></label>
+<fieldset>
+
+<!-- Form Name -->
+<legend><h2><b>Member Registration</b></h2></legend><br>  
+<!-- Group Code-->
+<div class="form-group">
+  <label class="col-md-4 control-label">Group Name</label>  
+  <div class="col-md-4 inputGroupContainer">
+  <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+      @Html.DropDownListFor(x => Model.GrpCode, new SelectList(Model.GrpNameList,"Value", "Text"),"-Group Code-", htmlAttributes: new {@class="form-control", @id = "dGrpCode"})
+    </div>
+  </div>
+</div>
+
+<!-- Member ID-->
+<div class="form-group">
+  <label class="col-md-4 control-label" >Member ID</label> 
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        @Html.TextBoxFor(model => model.MbrID, new { @class="form-control",@readonly="readonly", @placeholder="Member Name", @required="required", @id ="MbrID"  })
+    </div>
+  </div>
+</div>
+
+<!-- Member Name-->
+<div class="form-group">
+  <label class="col-md-4 control-label" >Member Name</label> 
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        @Html.TextBoxFor(model => model.MbrName, new { @class="form-control", @placeholder="Member Name", @required="required", @id ="MbrName"  })
+    </div>
+  </div>
+</div>
+    
+    <!-- Gender -->
+<div class="form-group">
+  <label class="col-md-4 control-label">Gender</label>  
+  <div class="col-md-4 inputGroupContainer">
+  <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+      @Html.DropDownListFor(x => Model.Gen,new SelectList(new[]{"Male","Female"}),"-- Select Gender --", htmlAttributes: new { @class = "form-control", id = "Gen"})
+    </div>
+  </div>
+</div>
+
+   <!-- Husband Name -->
+<div class="form-group"> 
+  <label class="col-md-4 control-label">Husband Name</label>
+    <div class="col-md-4 selectContainer">
+    <div class="input-group">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          @Html.TextBoxFor(model => model.HsbndName, new { @class="form-control", @placeholder="Husband Name", @required="required", @id ="HsbndName"  })
+  </div>
+</div>
+</div>
+  
+<!--Age-->
+<div class="form-group">
+  <label class="col-md-4 control-label">Age</label>  
+  <div class="col-md-4 inputGroupContainer">
+  <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+      @Html.TextBoxFor(model => model.Age, new { @class="form-control", @placeholder="Age", @required="required", @id ="Age"  })
+    </div>
+  </div>
+</div>
+
+<!-- MDOJ-->
+<div class="form-group">
+  <label class="col-md-4 control-label" >Date of Join</label> 
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+     <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>&nbsp
+        @Html.DropDownListFor(x => Model.CrD,Enumerable.Range(1,31).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}), "DD", htmlAttributes: new { @class = "drpdwn", @id = "CrD" })&nbsp&nbsp;
+         @Html.DropDownListFor(x => Model.CrM,Enumerable.Range(1,12).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}),"-Month-", htmlAttributes: new {@class="drpdwn",@id = "CrM"})&nbsp&nbsp;
+         @Html.DropDownListFor(x => Model.CrY,Enumerable.Range(2015, Convert.ToInt32(DateTime.Now.Year-2015+1)).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}),"-Year-", htmlAttributes: new {@class="drpdwn", @id = "CrY"})
+
+    </div>
+  </div>
+</div>
+
+<!-- Status-->
+<div class="form-group">
+  <label class="col-md-4 control-label">Status</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+      @Html.TextBoxFor(model => model.MbrStatus, new { @class="form-control", @placeholder="Member Status", @required="required", @id ="MbrStatus"  })
+    </div>
+  </div>
+</div>
+
+<!-- MDOJ-->
+<div class="form-group">
+  <label class="col-md-4 control-label" >WithDraw Date</label> 
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>&nbsp
+        @Html.DropDownListFor(x => Model.WD, Enumerable.Range(1,31).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}),"-Day-", htmlAttributes: new {@class="drpdwn", @id = "WD"})&nbsp&nbsp;
+         @Html.DropDownListFor(x => Model.WM,Enumerable.Range(1,12).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}),"-Month-", htmlAttributes: new {@class="drpdwn", @id = "WM"})&nbsp&nbsp;
+         @Html.DropDownListFor(x => Model.WY, Enumerable.Range(2015, Convert.ToInt32(DateTime.Now.Year-2015+1)).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}),"-Year-", htmlAttributes: new {@class="drpdwn", @id = "WY"})
+    </div>
+  </div>
+</div>
+
+    <!-- Staff Name-->
+<div class="form-group">
+  <label class="col-md-4 control-label">Staff Name</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+      @Html.DropDownListFor(x => Model.StaffID, new SelectList(Model.StaffMbrList,"Value", "Text"),"-Staff Name-", htmlAttributes: new {@class="form-control", @id = "StaffID"})
+    </div>
+  </div>
+</div>
+
+    <!--Member Address-->
+<div class="form-group">
+  <label class="col-md-4 control-label">Address</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+      @Html.TextBoxFor(model => model.MbrAddress, new { @class="form-control", @placeholder="Member Address", @required="required", @id ="MbrAddress"  })
+    </div>
+  </div>
+</div>
+
+       <!-- Cantact Num -->
+<div class="form-group"> 
+  <label class="col-md-4 control-label">Cantact Num</label>
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          @Html.TextBoxFor(model => model.CantactNum, new { @class="form-control", @placeholder="Cantact Num", @required="required", @id ="CantactNum"  })
+  </div>
+</div>
+</div>
+
+ <!-- Cantact Num2 -->
+<div class="form-group"> 
+    <label class="col-md-4 control-label">Cantact Num 2</label>
+    <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+            @Html.TextBoxFor(model => model.PhoneNo2, new { @class = "form-control", @placeholder = "Cantact Num2", @id = "PhoneNo2" })
+        </div>
+    </div>
+</div>
+
+  <!--Nominee-->
+<div class="form-group">
+    <label class="col-md-4 control-label">Nominee</label>
+    <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-male"></i></span>
+            @Html.TextBoxFor(model => model.Nominee, new { @class="form-control", @placeholder="Nominee ", @id ="Nominee"  })
+        </div>
+    </div>    
+</div>
+
+<!-- Success message -->
+<label class="alert alert-success" style="display:none" role="alert" id="success_message"> <i class="glyphicon glyphicon-thumbs-up"></i> Success!.</label>
+    
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label"></label>
+  <div class="col-md-4 inputGroupContainer">
+       <input type="submit" id="btnSaveNext" class="btn btn-warning" value="Save"/>&nbsp
+      <input type="button" value="Cancel" id="btnCancel" class="btn btn-warning" style="float:right" />
+  </div>
+</div>
+
+</fieldset>
+}
+</div>
+   
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+<script  src="js/index.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+    $("#btnCancel").click(function () {
+        $("form")[0].reset(); //.attr("action", "/home/cancelform");
+    });
+    $(document).ready(function () {
+        //Removes validation from input-fields
+        $('.input-validation-error').addClass('input-validation-valid');
+        $('.input-validation-error').removeClass('input-validation-error');
+        //Removes validation message after input-fields
+        $('.field-validation-error').addClass('field-validation-valid');
+        $('.field-validation-error').removeClass('field-validation-error');
+        //Removes validation summary 
+        $('.validation-summary-errors').addClass('validation-summary-valid');
+        $('.validation-summary-errors').removeClass('validation-summary-errors');
+
+        if ('@Model.IsSucess' == "1") {
+            $("#lblmgs").html("<h3 style='color: green;'>Successfully Updated.</h3>");
+        }
+        else if ('@Model.IsSucess' == "2") {
+              $("#lblmgs").html("<h3 style='color: red;'>Unable to update information.</h3>");
+        }
+        else if ('@Model.IsSucess' == "A") {
+            $("#lblmgs").html("<h3 style='color: red;'>Already Member linked to this Adhard Card Number.</h3>");
+            alert("Already Member linked to this Adhard Card Number.");
+        }
+
+        var today = new Date();
+        var D = today.getDate();
+        var M = today.getMonth() + 1;
+
+        $('#WD option').map(function () {
+            if ($(this).text() == D) return this;
+        }).attr('selected', 'selected');
+
+        $('#WM option').map(function () {
+            if ($(this).text() == M) return this;
+        }).attr('selected', 'selected');
+
+        $('#WY option').map(function () {
+            if ($(this).text() == Y) return this;
+        }).attr('selected', 'selected');
+
+
+        $('#CrD option').map(function () {
+            if ($(this).text() == D) return this;
+        }).attr('selected', 'selected');
+
+        $('#CrM option').map(function () {
+            if ($(this).text() == M) return this;
+        }).attr('selected', 'selected');
+
+        $('#CrY option').map(function () {
+            if ($(this).text() == Y) return this;
+        }).attr('selected', 'selected');
+      
+    });
+    
+
+            $('#dGrpCode option').map(function () {
+                if ($(this).val() == '@Model.GrpCode') return this;
+            }).attr('selected', 'selected');
+     
+
+            $('#StaffId option').map(function () {
+                if ($(this).text() == '@Model.StaffID') return this;
+            }).attr('selected', 'selected');
+
+            $('#WD option').map(function () {
+                if ($(this).text() == '@Model.WD') return this;
+            }).attr('selected', 'selected');
+    $("#WD").val($("#dGrpCode option").eq("@Model.WD").val());
+
+            $('#WM option').map(function () {
+                if ($(this).text() == '@Model.WM') return this;
+            }).attr('selected', 'selected');
+    $("#WM").val($("#dGrpCode option").eq("@Model.WM").val());
+
+            $('#WY option').map(function () {
+                if ($(this).text() == '@Model.WY') return this;
+            }).attr('selected', 'selected');
+    $("#WY").val($("#dGrpCode option").eq("@Model.WY").val());
+
+    $('#Gen').val('@Model.Gen')
+
+    $('#CrD option').map(function () {
+        if ($(this).text() == '@Model.CrD') return this;
+    }).attr('selected', 'selected');
+
+    $('#CrM option').map(function () {
+        if ($(this).text() == '@Model.CrM') return this;
+        }).attr('selected', 'selected');
+
+    $('#CrY option').map(function () {
+        if ($(this).text() == '@Model.CrY') return this;
+        }).attr('selected', 'selected');
+
+    $("#MbrName").val('@Model.MbrName');
+    $("#MbrID").val('@Model.MbrID');
+    
+
+            $("#HsbndName").val('@Model.HsbndName');
+            $("#Age").val('@Model.Age');
+            @* $("#CrD").val('@Model.CrD');
+            $("#CrM").val('@Model.CrM');
+            $("#CrY").val('@Model.CrY');
+            $("#WD").val('@Model.WD');
+            $("#WM").val('@Model.WM');
+            $("#WY").val('@Model.WY');*@
+            $("#MbrAddress").val('@Model.MbrAddress');
+    $("#MbrStatus").val('@Model.MbrStatus');
+    $("#CantactNum").val('@Model.CantactNum');
+    $("#Nominee").val('@Model.Nominee');
+    $("#PhoneNo2").val('@Model.PhoneNo2');
+            '@Session["IsEditableMemberInfo"]' = false;
+     
+    </script>

@@ -1,0 +1,135 @@
+﻿@model IEnumerable<TestApp.DB.Loan>
+
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    WebGrid webGrid = new WebGrid(source: Model, canPage: true, canSort: false); 
+    var SelectedgrpCode="";
+    var SelectedMbrID="";
+}
+ 
+<!DOCTYPE html>
+ 
+<html>
+<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js">  </script>  
+    <title>Loans List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+       
+        .label {
+            color: grey;
+        }
+        .Grid {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            margin-top:5%;
+        }
+ 
+        .Grid th {
+            background-color: #428bca;
+            font-weight: bold;
+        }
+ 
+        .Grid th, .Grid td {
+            padding: 5px;
+            width: 150px;
+            border: 1px solid #ccc;
+        }
+ 
+        .Grid, .Grid table td {
+            border: 0px solid #ccc;
+        }
+ 
+        .Grid th a, .Grid th a:visited {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+   <div class="container" ;border-color: "darkgrey";border-width:"2px";">              
+    <div class="well form-horizontal" style="margin-top: 3%;">
+     
+     <h2> Loans List</h2>
+       <br>
+     
+        <div style="float:left;margin-top: 1%;"> <label >Select Group Name&nbsp</label>@Html.DropDownList("ObjList", new SelectList(ViewBag.GrpCodeList, "Value", "Text"),  "--All Groups--", new { @class = "btn btn-primary" ,@style="width: 150px;", @id = "drGrpCode" })&nbsp
+            <label >Select Member Name&nbsp</label>@Html.DropDownList("ObjListmbr", new SelectList(ViewBag.MbrList, "Value", "Text"), "--All Members--", new {@class = "btn btn-primary",@style="width: 150px;", @id = "drMbrId" })
+        </div> <br /> <br /> <br /> 
+        <div id="divProduct"  ></div>
+      
+             </div>
+</div> 
+        
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript">
+         
+        $(document).ready(function () {
+            $.get("@Url.Action("PLoanLists", "Loans")", function (data) {
+                 $('#divProduct').html(data);
+             });
+         });
+
+        $("#drGrpCode").change(function () {
+            //SelectedMbrID = $("#drMbrId :selected").val();
+            SelectedgrpCode = $("#drGrpCode :selected").val();
+
+            $.ajax({
+                url: '@Url.Action("GetLoanMemberList","Loans")',
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                async: true,
+                data: { sGrpCode: selectedGrpCode },
+                catch: false,
+                dataType: "json",
+                success: function (res) {
+                    var datat = res;
+
+                    $("#drMbrId").html(""); 
+                    $("#drMbrId").empty();
+                    $.each(res, function (index, item) { // item is now an object containing properties ID and Text
+                        $("#drMbrId").append($('<option></option>').text(item.Text).val(item.Value));
+                    });
+                   
+                  
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
+            //$('#drMbrId').trigger('change');
+        });
+ 
+
+
+        $("#drMbrId").change(function () {           
+           SelectedMbrID = $("#drMbrId :selected").val();
+           SelectedgrpCode = $("#drGrpCode :selected").val();
+           bootbox.alert("Refresing Data Please Wait");
+
+           $.ajax({
+                url: '@Url.Action("PLoanLists","Loans")',
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                data: { "GrpCodeID": $("#drGrpCode :selected").val(), "MbrCode": $("#drMbrId :selected").val() },
+                catch: false,
+                success: function (result) {
+                  
+                    $('#divProduct').html(result);
+                    $('#alert').alert('close');
+                   
+                },
+                error: function (errormessage) {
+                    alert("Error while process your request");
+                }
+            });
+        }); 
+
+
+    </script>
+</body>
+</html>

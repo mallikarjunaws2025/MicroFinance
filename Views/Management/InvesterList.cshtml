@@ -1,0 +1,157 @@
+﻿@model IEnumerable<TestApp.DB.Management>
+
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    WebGrid webGrid = new WebGrid(source: Model, canPage: true, canSort: false);
+}
+ 
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>Index</title>
+    <style type="text/css">
+       
+        .label {
+            color: grey;
+        }
+        .Grid {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            margin-top:5%;
+        }
+ 
+        .Grid th {
+            background-color: #428bca;
+            font-weight: bold;
+        }
+ 
+        .Grid th, .Grid td {
+            padding: 5px;
+            width: 150px;
+            border: 1px solid #ccc;
+        }
+ 
+        .Grid, .Grid table td {
+            border: 0px solid #ccc;
+        }
+ 
+        .Grid th a, .Grid th a:visited {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+          <div class="container" ;border-color: "darkgrey";border-width:"2px";">
+    <div class="well form-horizontal" style="margin-top: 3%;">
+        <h2>Investment List</h2>
+      <div style="width:100%;overflow:auto"> 
+             @webGrid.GetHtml(
+                 htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+                 columns: webGrid.Columns(
+                 webGrid.Column(header: "Id", format: @<text>  <span  class="display-mode">@item.InvestID </span> <label id="lblId" class="edit-mode">@item.InvestID</label> </text>, style: "col1Width"),
+                 webGrid.Column(header: "Partner ID", format: @<text>  <span  class="display-mode"> <label id="lblPrtnrID"  >@item.PrtnrID</label> </span> <input type="text" id="PrtnrID" value="@item.PrtnrID" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Partner Name", format: @<text>  <span  class="display-mode"> <label id="lblInvesterName"  >@item.InvesterName</label> </span> <input type="text" id="InvesterName" value="@item.InvesterName" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Investment Amt", format: @<text>  <span  class="display-mode"> <label id="lblInvestmentAmt"  >@item.InvestmentAmt</label> </span> <input type="text" id="InvestmentAmt" value="@item.InvestmentAmt" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Withdraw Amt", format: @<text>  <span  class="display-mode"> <label id="lblWithdrawAmt"  >@item.WithdrawAmt</label> </span> <input type="text" id="WithdrawAmt" value="@item.WithdrawAmt" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Balance Amt", format: @<text>  <span  class="display-mode"> <label id="lblBalanceAmt"  >@item.BalanceAmt</label> </span> <input type="text" id="BalanceAmt" value="@item.BalanceAmt" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "WithdrawDate", format: @<text>  <span  class="display-mode"> <label id="lblWithdrawDate"  >@item.WithdrawDate</label> </span> <input type="text" id="WithdrawDate" value="@item.WithdrawDate" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Notes", format: @<text> <span  class="display-mode"> <label id="lblNotes">@item.Notes</label> </span>  <input type="text" id="Notes" value="@item.Notes" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(header: "Profit Amt", format: @<text>  <span  class="display-mode"> <label id="lblProfitAmt"  >@item.ProfitAmt</label> </span> <input type="text" id="ProfitAmt" value="@item.ProfitAmt" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Loss Amt", format: @<text> <span  class="display-mode"> <label id="lblLossAmt">@item.LossAmt</label> </span>  <input type="text" id="LossAmt" value="@item.LossAmt" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(header: "Due Amt", format: @<text> <span  class="display-mode"> <label id="lblDueAmt">@item.DueAmt</label> </span>  <input type="text" id="DueAmt" value="@item.DueAmt" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(header: "CrDate", format: @<text> <span  class="display-mode"> <label id="lblCrDate">@item.CrDate</label> </span>  <input type="text" id="CrDate" value="@item.CrDate" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(format: @<text>  
+                                <button class="edit-user display-mode" style="background-color: #428bca;font-weight: bold" >Edit</button>  
+                                <button class="save-user edit-mode" style="background-color:lightgreen" >Save</button>  
+                                <button class="cancel-user edit-mode" style="background-color:orangered">Cancel</button>  
+                            </text>, style: "col3Width", canSort: false)))
+    <br/>
+             </div>
+          </div> 
+        </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.edit-mode').hide();
+            $('.edit-user, .cancel-user').on('click', function () {
+                var tr = $(this).parents('tr:first');
+                tr.find('.edit-mode, .display-mode').toggle();
+            });
+
+            $('.save-user').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var InvestID = tr.find("#lblId").html();
+                var PrtnrID = tr.find("#PrtnrID").val();
+                var InvesterName = tr.find("#InvesterName").val();
+                var InvestmentAmt = tr.find("#InvestmentAmt").val();
+                var WithdrawAmt = tr.find("#WithdrawAmt").val();
+                var BalanceAmt = tr.find("#BalanceAmt").val();
+                var WithdrawDate = tr.find("#WithdrawDate").val();
+                var ProfitAmt = tr.find("#ProfitAmt").val();
+                var LossAmt = tr.find("#LossAmt").val();
+                var DueAmt = tr.find("#DueAmt").val();
+                var Notes = tr.find("#Notes").val();
+                var CrDate = tr.find("#CrDate").val();
+
+
+                //tr.find("#lblPrtnrID").text(InvesterName);
+                tr.find("#lblInvesterName").text(InvesterName);
+                tr.find("#lblInvestmentAmt").text(InvestmentAmt);
+                tr.find("#lblWithdrawAmt").text(WithdrawAmt);
+                tr.find("#lblBalanceAmt").text(BalanceAmt);
+                tr.find("#lblWithdrawDate").text(WithdrawDate);
+
+                tr.find("#lblProfitAmt").text(ProfitAmt);
+                tr.find("#lblLossAmt").text(LossAmt);
+                tr.find("#lblDueAmt").text(DueAmt);
+                tr.find("#lblNotes").text(Notes);
+                tr.find("#lblCrDate").text(CrDate);
+
+
+
+
+                tr.find('.edit-mode, .display-mode').toggle();
+                var UserModel = InvestID + "," +
+                                PrtnrID + "," +
+                                InvesterName + "," +
+                                InvestmentAmt + "," +
+                                WithdrawAmt + "," +
+                                BalanceAmt + "," +
+                                WithdrawDate + "," +
+                                ProfitAmt + "," +
+                                LossAmt + "," +
+                                DueAmt + "," +
+                                Notes + "," +
+                                CrDate;
+               
+                $.ajax({
+                    url: '@Url.Action("EditInvester", "Management")', 
+                    data:  { UserModel: UserModel }, 
+                    type: 'GET',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data == 'Success') {
+                            $.ajax({
+                                url: '@Url.Action("InvesterList", "Management")',
+                                 type: 'GET',
+                                 contentType: 'application/json; charset=utf-8',
+                                 success: function (data) {
+
+                                 }
+                             });
+                             alert("Successfully updated Staff details");
+                         }
+                         else {
+                             alert("Failed to update please try again");
+                         }
+                    }
+                });
+
+            });
+        })
+    </script>
+</body>
+</html>

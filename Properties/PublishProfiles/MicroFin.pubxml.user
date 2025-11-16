@@ -1,0 +1,845 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedPlatform>Any CPU</LastUsedPlatform>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include=".vs/ManageFinancery/config/applicationhost.config">
+      <publishTime>11/13/2021 15:11:52</publishTime>
+    </File>
+    <File Include=".vs/ManageFinancery/v16/.suo">
+      <publishTime>11/13/2021 15:18:48</publishTime>
+    </File>
+    <File Include="App_Data/FinServeDB.mdf">
+      <publishTime>11/29/2022 22:51:25</publishTime>
+    </File>
+    <File Include="App_Data/FinServeDB_log.ldf">
+      <publishTime>11/29/2022 22:51:25</publishTime>
+    </File>
+    <File Include="App_Start/FilterConfig.cs">
+      <publishTime>05/07/2018 10:23:40</publishTime>
+    </File>
+    <File Include="App_Start/RouteConfig.cs">
+      <publishTime>11/14/2021 18:59:05</publishTime>
+    </File>
+    <File Include="App_Start/WebApiConfig.cs">
+      <publishTime>05/07/2018 10:23:40</publishTime>
+    </File>
+    <File Include="AutoMapper.dll">
+      <publishTime>08/22/2018 20:10:16</publishTime>
+    </File>
+    <File Include="AutoMapper.Net4.dll">
+      <publishTime>08/22/2018 20:10:16</publishTime>
+    </File>
+    <File Include="bin/AutoMapper.dll">
+      <publishTime>08/22/2018 20:10:16</publishTime>
+    </File>
+    <File Include="bin/AutoMapper.Net4.dll">
+      <publishTime>08/22/2018 20:10:16</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>05/12/2018 07:57:54</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>03/08/2012 09:20:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.xml">
+      <publishTime>03/08/2012 09:20:10</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>06/14/2016 04:36:14</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.xml">
+      <publishTime>06/01/2018 09:17:46</publishTime>
+    </File>
+    <File Include="bin/NLog.dll">
+      <publishTime>07/11/2018 09:24:42</publishTime>
+    </File>
+    <File Include="bin/NLog.Web.dll">
+      <publishTime>07/11/2018 09:24:42</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.xml">
+      <publishTime>06/09/2012 01:00:32</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.xml">
+      <publishTime>06/22/2012 01:00:28</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="bin/TestApp.dll">
+      <publishTime>10/15/2023 10:42:29</publishTime>
+    </File>
+    <File Include="bin/TestApp.pdb">
+      <publishTime>10/15/2023 10:42:29</publishTime>
+    </File>
+    <File Include="Comman/Helper.cs">
+      <publishTime>11/14/2021 18:34:05</publishTime>
+    </File>
+    <File Include="Controllers/ChartsController.cs">
+      <publishTime>11/14/2021 19:06:49</publishTime>
+    </File>
+    <File Include="Controllers/GroupController.cs">
+      <publishTime>11/14/2021 19:07:08</publishTime>
+    </File>
+    <File Include="Controllers/LoansController.cs">
+      <publishTime>11/14/2021 23:13:10</publishTime>
+    </File>
+    <File Include="Controllers/ManagementController.cs">
+      <publishTime>11/14/2021 19:07:55</publishTime>
+    </File>
+    <File Include="Controllers/MemberController.cs">
+      <publishTime>11/15/2021 21:10:12</publishTime>
+    </File>
+    <File Include="Controllers/ReportController.cs">
+      <publishTime>11/15/2021 21:05:14</publishTime>
+    </File>
+    <File Include="Controllers/StaffController.cs">
+      <publishTime>11/14/2021 19:05:53</publishTime>
+    </File>
+    <File Include="DB/ALRAudjustment.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/Branch.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/FinGroup.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/Loan.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/Loan_Cols.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/MDF Files/MicroFinance.mdf">
+      <publishTime>08/26/2018 01:38:04</publishTime>
+    </File>
+    <File Include="DB/MDF Files/MicroFinance_log.LDF">
+      <publishTime>08/26/2018 01:38:04</publishTime>
+    </File>
+    <File Include="DB/Member.cs">
+      <publishTime>11/14/2021 16:27:58</publishTime>
+    </File>
+    <File Include="DB/MicroFinDB.Context.tt">
+      <publishTime>05/15/2018 12:09:10</publishTime>
+    </File>
+    <File Include="DB/MicroFinDB.Context1.cs">
+      <publishTime>11/14/2021 16:27:57</publishTime>
+    </File>
+    <File Include="DB/MicroFinDB.cs">
+      <publishTime>11/13/2021 16:31:51</publishTime>
+    </File>
+    <File Include="DB/MicroFinDB.Designer.cs">
+      <publishTime>11/13/2021 16:31:42</publishTime>
+    </File>
+    <File Include="DB/MicroFinDB.edmx">
+      <publishTime>11/14/2021 16:27:57</publishTime>
+    </File>
+    <File Include="DB/MicroFinDB.edmx.diagram">
+      <publishTime>12/04/2021 20:52:05</publishTime>
+    </File>
+    <File Include="DB/MicroFinDB.tt">
+      <publishTime>05/15/2018 12:09:10</publishTime>
+    </File>
+    <File Include="DB/MicroFinDB1.cs">
+      <publishTime>11/14/2021 16:27:58</publishTime>
+    </File>
+    <File Include="DB/MicroFinDB1.Designer.cs">
+      <publishTime>11/14/2021 16:27:58</publishTime>
+    </File>
+    <File Include="DB/PartnerDetail.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spDueAndCollectedAmt1_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spDueAndCollectedAmt_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spDueAndCollectedAmt_Result1.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetDailyDueReportsData_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetDailyDueReportsData_Result1.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetDailyDueReportsData_Result2.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetDailyDueReportsData_Result3.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetDailyDueReportsData_Result4.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetDailyDueReportsData_Result5.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetDailyDueReportsData_Result6.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetDailyDueReportsData_Result7.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetDailyDueReportsData_Result8.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanDetails_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList1_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList1_Result1.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList2_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList3_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList4_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList5_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList_Result1.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList_Result2.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList_Result3.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList_Result4.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList_Result5.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetLoanMbrsList_Result6.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetWithDrawMbrsList1_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spGetWithDrawMbrsList_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spSelectReceiptsAndPaymentsReportDta_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spSelectReceiptsAndPaymentsReportDta_Result1.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spSelectSummerReportDta_Result.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/spSelectSummerReportDta_Result1.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/Staff.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/StaffLogin.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/sysdiagram.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/TmpLoanColsBackUpData.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/TmpLoansBackUpData.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/TmpReceipt.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/TmpSummeryReportData.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="DB/UserLog.cs">
+      <publishTime>11/13/2021 16:31:50</publishTime>
+    </File>
+    <File Include="EntityFramework.dll">
+      <publishTime>05/12/2018 07:57:54</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>05/07/2018 10:23:40</publishTime>
+    </File>
+    <File Include="Global.asax.cs">
+      <publishTime>11/13/2021 15:16:55</publishTime>
+    </File>
+    <File Include="ManageFinancery.csproj">
+      <publishTime>11/15/2021 21:50:44</publishTime>
+    </File>
+    <File Include="ManageFinancery.csproj.user">
+      <publishTime>11/15/2021 21:50:44</publishTime>
+    </File>
+    <File Include="ManageFinancery.sln">
+      <publishTime>11/13/2021 16:31:28</publishTime>
+    </File>
+    <File Include="ManageFinancery.v11.suo">
+      <publishTime>11/15/2021 21:48:54</publishTime>
+    </File>
+    <File Include="Microsoft.Web.Infrastructure.dll">
+      <publishTime>03/08/2012 09:20:10</publishTime>
+    </File>
+    <File Include="Microsoft.Web.Infrastructure.xml">
+      <publishTime>03/08/2012 09:20:10</publishTime>
+    </File>
+    <File Include="NLog.config">
+      <publishTime>11/14/2021 16:19:05</publishTime>
+    </File>
+    <File Include="NLog.dll">
+      <publishTime>07/11/2018 09:24:42</publishTime>
+    </File>
+    <File Include="NLog.Web.dll">
+      <publishTime>07/11/2018 09:24:42</publishTime>
+    </File>
+    <File Include="Output-EntityDataModel.txt">
+      <publishTime>11/14/2021 16:27:56</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>08/17/2023 19:57:54</publishTime>
+    </File>
+    <File Include="Properties/AssemblyInfo.cs">
+      <publishTime>05/07/2018 10:23:40</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/Mallikarjun.pubxml">
+      <publishTime>11/15/2021 21:11:53</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/Mallikarjun.pubxml.user">
+      <publishTime>11/13/2021 18:05:36</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/MicroFin.pubxml">
+      <publishTime>11/15/2021 21:50:44</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/MicroFin.pubxml.user">
+      <publishTime>11/15/2021 21:50:44</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/TestMK.pubxml">
+      <publishTime>07/24/2018 11:12:16</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/TestMK.pubxml.user">
+      <publishTime>07/24/2018 11:12:24</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/TestPublish.pubxml">
+      <publishTime>07/24/2018 10:57:14</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/TestPublish.pubxml.user">
+      <publishTime>07/24/2018 10:57:14</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/TodayDeploy.pubxml">
+      <publishTime>07/27/2018 10:14:24</publishTime>
+    </File>
+    <File Include="Properties/PublishProfiles/TodayDeploy.pubxml.user">
+      <publishTime>07/30/2018 09:35:44</publishTime>
+    </File>
+    <File Include="Refdll/AutoMapper.dll">
+      <publishTime>08/22/2018 20:10:16</publishTime>
+    </File>
+    <File Include="Refdll/AutoMapper.Net4.dll">
+      <publishTime>08/22/2018 20:10:16</publishTime>
+    </File>
+    <File Include="Refdll/EntityFramework.dll">
+      <publishTime>05/12/2018 07:57:54</publishTime>
+    </File>
+    <File Include="Refdll/Microsoft.Web.Infrastructure.dll">
+      <publishTime>03/08/2012 09:20:10</publishTime>
+    </File>
+    <File Include="Refdll/Newtonsoft.Json.xml">
+      <publishTime>06/01/2018 09:17:46</publishTime>
+    </File>
+    <File Include="Refdll/NLog.dll">
+      <publishTime>07/11/2018 09:24:42</publishTime>
+    </File>
+    <File Include="Refdll/NLog.Web.dll">
+      <publishTime>07/11/2018 09:24:42</publishTime>
+    </File>
+    <File Include="Refdll/System.Net.Http.Formatting.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="Refdll/System.Net.Http.Formatting.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.Helpers.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.Helpers.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.Http.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.Http.WebHost.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.Http.WebHost.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.Http.xml">
+      <publishTime>06/09/2012 01:00:32</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.Mvc.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.Mvc.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.Razor.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.Razor.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.WebPages.Deployment.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.WebPages.Deployment.xml">
+      <publishTime>06/22/2012 01:00:28</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.WebPages.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.WebPages.Razor.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.WebPages.Razor.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="Refdll/System.Web.WebPages.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="Resource/bck.png">
+      <publishTime>05/20/2018 05:39:28</publishTime>
+    </File>
+    <File Include="Resource/chartjs.html">
+      <publishTime>07/01/2018 04:15:44</publishTime>
+    </File>
+    <File Include="Resource/PLogo.png">
+      <publishTime>11/28/2021 15:20:51</publishTime>
+    </File>
+    <File Include="Scripts/bootsrtap.min2.js">
+      <publishTime>05/08/2018 09:24:58</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.css">
+      <publishTime>05/08/2018 09:25:14</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>05/07/2018 10:37:30</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min2.css">
+      <publishTime>05/08/2018 09:32:04</publishTime>
+    </File>
+    <File Include="Scripts/custom.min.css">
+      <publishTime>07/01/2018 04:01:34</publishTime>
+    </File>
+    <File Include="Scripts/custom.min.js">
+      <publishTime>07/01/2018 04:05:30</publishTime>
+    </File>
+    <File Include="Scripts/font-awesome.min.css">
+      <publishTime>07/01/2018 03:59:34</publishTime>
+    </File>
+    <File Include="Scripts/grid.locale-en.js">
+      <publishTime>06/01/2018 11:08:42</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.11.1.min.js">
+      <publishTime>05/08/2018 09:20:56</publishTime>
+    </File>
+    <File Include="Scripts/jquery.jqGrid.js">
+      <publishTime>06/01/2018 11:10:16</publishTime>
+    </File>
+    <File Include="Scripts/jquery.min.js">
+      <publishTime>05/07/2018 10:36:38</publishTime>
+    </File>
+    <File Include="Scripts/nprogress.css">
+      <publishTime>07/01/2018 04:00:38</publishTime>
+    </File>
+    <File Include="Scripts/nprogress.js">
+      <publishTime>07/01/2018 04:04:36</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/Chart.min.js">
+      <publishTime>07/01/2018 01:34:32</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery-1.7.1.intellisense.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery-1.7.1.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery-1.7.1.min.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery-ui-1.8.20.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery-ui-1.8.20.min.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery.printPage.js">
+      <publishTime>08/16/2018 08:24:24</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery.validate-vsdoc.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery.validate.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery.validate.min.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/knockout-2.1.0.debug.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/knockout-2.1.0.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/modernizr-2.5.3.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/_references.js">
+      <publishTime>05/31/2018 12:19:48</publishTime>
+    </File>
+    <File Include="Scripts/Stylesheet.css">
+      <publishTime>05/18/2018 10:18:14</publishTime>
+    </File>
+    <File Include="System.Net.Http.Formatting.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="System.Net.Http.Formatting.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="System.Web.Helpers.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="System.Web.Helpers.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="System.Web.Http.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="System.Web.Http.WebHost.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="System.Web.Http.WebHost.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="System.Web.Http.xml">
+      <publishTime>06/09/2012 01:00:32</publishTime>
+    </File>
+    <File Include="System.Web.Mvc.dll">
+      <publishTime>07/10/2012 21:51:54</publishTime>
+    </File>
+    <File Include="System.Web.Mvc.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="System.Web.Razor.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="System.Web.Razor.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="System.Web.WebPages.Deployment.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="System.Web.WebPages.Deployment.xml">
+      <publishTime>06/22/2012 01:00:28</publishTime>
+    </File>
+    <File Include="System.Web.WebPages.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="System.Web.WebPages.Razor.dll">
+      <publishTime>07/10/2012 21:53:02</publishTime>
+    </File>
+    <File Include="System.Web.WebPages.Razor.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="System.Web.WebPages.xml">
+      <publishTime>05/30/2012 01:00:26</publishTime>
+    </File>
+    <File Include="TestApp.dll">
+      <publishTime>11/15/2021 21:41:31</publishTime>
+    </File>
+    <File Include="TestApp.pdb">
+      <publishTime>11/15/2021 21:41:31</publishTime>
+    </File>
+    <File Include="ViewModels/ChartsData/DataPoint.cs">
+      <publishTime>07/01/2018 04:25:50</publishTime>
+    </File>
+    <File Include="Views/Charts/Index.cshtml">
+      <publishTime>08/30/2018 11:18:08</publishTime>
+    </File>
+    <File Include="Views/Group/CreateGroup.cshtml">
+      <publishTime>12/31/2022 15:33:18</publishTime>
+    </File>
+    <File Include="Views/Group/ErrorPage.cshtml">
+      <publishTime>07/10/2018 09:52:44</publishTime>
+    </File>
+    <File Include="Views/Group/GrpList.cshtml">
+      <publishTime>11/14/2021 19:30:41</publishTime>
+    </File>
+    <File Include="Views/Loans/ALRAdjustments.cshtml">
+      <publishTime>08/14/2018 04:18:06</publishTime>
+    </File>
+    <File Include="Views/Loans/LoanLists.cshtml">
+      <publishTime>12/31/2022 14:24:42</publishTime>
+    </File>
+    <File Include="Views/Loans/LoanPosting.cshtml">
+      <publishTime>07/01/2018 03:18:52</publishTime>
+    </File>
+    <File Include="Views/Loans/LoansCols - Copy2.cshtml">
+      <publishTime>06/21/2018 10:49:02</publishTime>
+    </File>
+    <File Include="Views/Loans/LoansCols-HTMLTable.zip">
+      <publishTime>06/28/2018 10:26:32</publishTime>
+    </File>
+    <File Include="Views/Loans/LoansCols-HTMLTable/LoansCols.cshtml">
+      <publishTime>06/28/2018 10:18:52</publishTime>
+    </File>
+    <File Include="Views/Loans/LoansCols.cshtml">
+      <publishTime>11/28/2021 16:06:10</publishTime>
+    </File>
+    <File Include="Views/Loans/LoansCols.zip">
+      <publishTime>06/08/2018 09:24:04</publishTime>
+    </File>
+    <File Include="Views/Loans/LoansCols/LoansCols.cshtml">
+      <publishTime>06/08/2018 08:55:22</publishTime>
+    </File>
+    <File Include="Views/Loans/LoansDisbus.cshtml">
+      <publishTime>12/31/2022 14:17:15</publishTime>
+    </File>
+    <File Include="Views/Loans/LonsDetailsPartialView.cshtml">
+      <publishTime>11/28/2021 22:45:28</publishTime>
+    </File>
+    <File Include="Views/Loans/PartialIndex.cshtml">
+      <publishTime>11/20/2021 23:46:34</publishTime>
+    </File>
+    <File Include="Views/Loans/PostHistry.cshtml">
+      <publishTime>11/27/2021 19:58:51</publishTime>
+    </File>
+    <File Include="Views/Loans/Rollback.cshtml">
+      <publishTime>08/21/2018 20:28:48</publishTime>
+    </File>
+    <File Include="Views/Loans/WithdrawDateScreen.cshtml">
+      <publishTime>11/13/2021 17:31:33</publishTime>
+    </File>
+    <File Include="Views/Management/About.cshtml">
+      <publishTime>08/08/2018 09:52:52</publishTime>
+    </File>
+    <File Include="Views/Management/CreatePartner.cshtml">
+      <publishTime>06/25/2018 20:12:12</publishTime>
+    </File>
+    <File Include="Views/Management/InvesterList.cshtml">
+      <publishTime>11/13/2021 17:33:02</publishTime>
+    </File>
+    <File Include="Views/Management/NewPartner.cshtml">
+      <publishTime>08/31/2018 12:18:10</publishTime>
+    </File>
+    <File Include="Views/Member/CreateMember.cshtml">
+      <publishTime>12/31/2022 14:08:30</publishTime>
+    </File>
+    <File Include="Views/Member/EditMember.cshtml">
+      <publishTime>12/04/2021 16:28:59</publishTime>
+    </File>
+    <File Include="Views/Member/MemberDetails.cshtml">
+      <publishTime>11/28/2021 22:20:53</publishTime>
+    </File>
+    <File Include="Views/Member/MemberDetails.zip">
+      <publishTime>05/25/2018 11:51:18</publishTime>
+    </File>
+    <File Include="Views/Member/MemberDetails/MemberDetails.cshtml">
+      <publishTime>05/25/2018 11:51:08</publishTime>
+    </File>
+    <File Include="Views/Member/test.cshtml">
+      <publishTime>05/24/2018 09:22:56</publishTime>
+    </File>
+    <File Include="Views/Report/DailyReport.cshtml">
+      <publishTime>12/05/2021 00:00:15</publishTime>
+    </File>
+    <File Include="Views/Report/DailyReport.zip">
+      <publishTime>08/29/2018 10:01:00</publishTime>
+    </File>
+    <File Include="Views/Report/GetRecoveryReport.cshtml">
+      <publishTime>12/31/2022 16:43:44</publishTime>
+    </File>
+    <File Include="Views/Report/LoansReport.cshtml">
+      <publishTime>12/05/2021 12:56:22</publishTime>
+    </File>
+    <File Include="Views/Report/SummeryReport.cshtml">
+      <publishTime>12/05/2021 00:00:39</publishTime>
+    </File>
+    <File Include="Views/Report/SummeryReport.zip">
+      <publishTime>08/29/2018 10:00:58</publishTime>
+    </File>
+    <File Include="Views/Shared/P_LayoutPage.cshtml">
+      <publishTime>11/28/2021 14:29:46</publishTime>
+    </File>
+    <File Include="Views/Shared/_LayoutPage.cshtml">
+      <publishTime>12/05/2021 11:53:09</publishTime>
+    </File>
+    <File Include="Views/Shared/_LoanList.cshtml">
+      <publishTime>11/28/2021 17:37:08</publishTime>
+    </File>
+    <File Include="Views/Shared/_LonsListPage.cshtml">
+      <publishTime>11/20/2021 22:51:40</publishTime>
+    </File>
+    <File Include="Views/Shared/_MemberList.cshtml">
+      <publishTime>12/05/2021 11:51:39</publishTime>
+    </File>
+    <File Include="Views/Shared/_PostingHistory.cshtml">
+      <publishTime>11/28/2021 22:19:55</publishTime>
+    </File>
+    <File Include="Views/Staff/BranchList.cshtml">
+      <publishTime>11/13/2021 17:34:05</publishTime>
+    </File>
+    <File Include="Views/Staff/ChangePWD.cshtml">
+      <publishTime>07/10/2018 09:57:12</publishTime>
+    </File>
+    <File Include="Views/Staff/ChangePWDFormLogin.cshtml">
+      <publishTime>08/31/2018 22:00:32</publishTime>
+    </File>
+    <File Include="Views/Staff/CreateBranch.cshtml">
+      <publishTime>07/15/2018 05:03:02</publishTime>
+    </File>
+    <File Include="Views/Staff/CreateStaff.cshtml">
+      <publishTime>08/31/2018 21:25:10</publishTime>
+    </File>
+    <File Include="Views/Staff/HomePage.cshtml">
+      <publishTime>05/18/2018 10:12:02</publishTime>
+    </File>
+    <File Include="Views/Staff/Logout.cshtml">
+      <publishTime>06/24/2018 10:03:10</publishTime>
+    </File>
+    <File Include="Views/Staff/NewUserLoginAcc.cshtml">
+      <publishTime>08/31/2018 22:03:14</publishTime>
+    </File>
+    <File Include="Views/Staff/StaffList.cshtml">
+      <publishTime>11/13/2021 17:34:45</publishTime>
+    </File>
+    <File Include="Views/Staff/StaffLogin.cshtml">
+      <publishTime>11/16/2021 23:20:24</publishTime>
+    </File>
+    <File Include="Views/Staff/StaffSignUp.cshtml">
+      <publishTime>11/13/2021 17:35:05</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>07/31/2018 10:25:30</publishTime>
+    </File>
+    <File Include="VModels/BranchViewModel.cs">
+      <publishTime>05/31/2018 10:18:46</publishTime>
+    </File>
+    <File Include="VModels/ChangePWD.cs">
+      <publishTime>05/31/2018 09:49:34</publishTime>
+    </File>
+    <File Include="VModels/Group/Groups.cs">
+      <publishTime>09/12/2018 10:18:50</publishTime>
+    </File>
+    <File Include="VModels/Loans/LoanCols.cs">
+      <publishTime>07/25/2018 11:02:46</publishTime>
+    </File>
+    <File Include="VModels/Loans/LoanDisbus.cs">
+      <publishTime>11/14/2021 17:13:19</publishTime>
+    </File>
+    <File Include="VModels/Management/AddNewPartner.cs">
+      <publishTime>08/13/2018 02:23:22</publishTime>
+    </File>
+    <File Include="VModels/Member/MemberViewModel.cs">
+      <publishTime>11/14/2021 16:03:56</publishTime>
+    </File>
+    <File Include="VModels/NewStaff.cs">
+      <publishTime>08/29/2018 11:25:22</publishTime>
+    </File>
+    <File Include="VModels/Reports/DailyReport.cs">
+      <publishTime>08/18/2018 07:34:34</publishTime>
+    </File>
+    <File Include="VModels/Reports/SummeryReport.cs">
+      <publishTime>08/26/2018 00:13:02</publishTime>
+    </File>
+    <File Include="VModels/StaffLogin.cs">
+      <publishTime>05/19/2018 22:46:04</publishTime>
+    </File>
+    <File Include="VModels/StaffSignIn.cs">
+      <publishTime>07/10/2018 10:24:28</publishTime>
+    </File>
+    <File Include="VModels/StaffSignUP.cs">
+      <publishTime>05/31/2018 09:42:56</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>10/15/2023 10:42:30</publishTime>
+    </File>
+    <File Include="Web.Debug.config">
+      <publishTime>05/07/2018 10:23:40</publishTime>
+    </File>
+    <File Include="Web.Release.config">
+      <publishTime>05/07/2018 10:23:40</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

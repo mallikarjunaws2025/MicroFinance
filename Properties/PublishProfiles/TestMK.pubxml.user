@@ -1,0 +1,556 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>E:\MKKKKKKKKK</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>05/12/2018 20:27:52</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>05/07/2018 22:53:39</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>06/01/2018 21:47:44</publishTime>
+    </File>
+    <File Include="bin/NLog.dll">
+      <publishTime>07/11/2018 21:54:41</publishTime>
+    </File>
+    <File Include="bin/NLog.Web.dll">
+      <publishTime>07/11/2018 21:54:41</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>05/07/2018 22:53:39</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>05/07/2018 22:53:39</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>05/07/2018 22:53:40</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>05/07/2018 22:53:40</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>05/07/2018 22:53:39</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>05/07/2018 22:53:39</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>05/07/2018 22:53:39</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>05/07/2018 22:53:39</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>05/07/2018 22:53:39</publishTime>
+    </File>
+    <File Include="bin/TestApp.dll">
+      <publishTime>07/24/2018 23:42:16</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>05/07/2018 22:53:38</publishTime>
+    </File>
+    <File Include="Login_v2/css/main.css">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/css/util.css">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/css/font-awesome.css">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.eot">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.svg">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.ttf">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.woff">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/fonts/FontAwesome.otf">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/HELP-US-OUT.txt">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/animated.less">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/bordered-pulled.less">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/core.less">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/fixed-width.less">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/font-awesome.less">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/icons.less">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/larger.less">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/list.less">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/mixins.less">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/path.less">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/rotated-flipped.less">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/screen-reader.less">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/stacked.less">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/less/variables.less">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/font-awesome.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_animated.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_bordered-pulled.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_core.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_fixed-width.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_icons.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_larger.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_list.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_mixins.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_path.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_rotated-flipped.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_screen-reader.scss">
+      <publishTime>05/08/2018 00:41:19</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_stacked.scss">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/font-awesome-4.7.0/scss/_variables.scss">
+      <publishTime>05/08/2018 00:41:18</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/iconic/css/material-design-iconic-font.css">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/iconic/css/material-design-iconic-font.min.css">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/iconic/fonts/Material-Design-Iconic-Font.eot">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/iconic/fonts/Material-Design-Iconic-Font.svg">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/iconic/fonts/Material-Design-Iconic-Font.ttf">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/iconic/fonts/Material-Design-Iconic-Font.woff">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/iconic/fonts/Material-Design-Iconic-Font.woff2">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-Black.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-BlackItalic.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-Bold.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-BoldItalic.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-ExtraBold.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-ExtraBoldItalic.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-ExtraLight.ttf">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-ExtraLightItalic.ttf">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-Italic.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-Light.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-LightItalic.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-Medium.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-MediumItalic.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-Regular.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-SemiBold.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-SemiBoldItalic.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-Thin.ttf">
+      <publishTime>05/08/2018 00:41:17</publishTime>
+    </File>
+    <File Include="Login_v2/fonts/poppins/Poppins-ThinItalic.ttf">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/images/icons/favicon.ico">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/index.html">
+      <publishTime>05/08/2018 00:54:15</publishTime>
+    </File>
+    <File Include="Login_v2/js/main.js">
+      <publishTime>05/08/2018 00:41:16</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/animate/animate.css">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/animsition/css/animsition.css">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/animsition/css/animsition.min.css">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/animsition/js/animsition.js">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/animsition/js/animsition.min.js">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap-grid.css">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap-grid.css.map">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap-grid.min.css">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap-grid.min.css.map">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap-reboot.css">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap-reboot.css.map">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap-reboot.min.css">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap-reboot.min.css.map">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap.css">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap.css.map">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap.min.css">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/css/bootstrap.min.css.map">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/js/bootstrap.js">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/js/bootstrap.min.js">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/js/popper.js">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/js/popper.min.js">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/bootstrap/js/tooltip.js">
+      <publishTime>05/08/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/countdowntime/countdowntime.js">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/css-hamburgers/hamburgers.css">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/css-hamburgers/hamburgers.min.css">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/daterangepicker/daterangepicker.css">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/daterangepicker/daterangepicker.js">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/daterangepicker/moment.js">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/daterangepicker/moment.min.js">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/jquery/jquery-3.2.1.min.js">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/perfect-scrollbar/perfect-scrollbar.css">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/perfect-scrollbar/perfect-scrollbar.min.js">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/select2/select2.css">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/select2/select2.js">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/select2/select2.min.css">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="Login_v2/vendor/select2/select2.min.js">
+      <publishTime>05/08/2018 00:41:21</publishTime>
+    </File>
+    <File Include="MicroFinDB.edmx.diagram">
+      <publishTime>07/21/2018 23:28:15</publishTime>
+    </File>
+    <File Include="NLog.config">
+      <publishTime>07/11/2018 22:10:34</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>07/21/2018 12:58:24</publishTime>
+    </File>
+    <File Include="Resource/bck.png">
+      <publishTime>05/20/2018 18:09:26</publishTime>
+    </File>
+    <File Include="Resource/chartjs.html">
+      <publishTime>07/01/2018 16:45:42</publishTime>
+    </File>
+    <File Include="Scripts/bootsrtap.min2.js">
+      <publishTime>05/08/2018 21:54:57</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.css">
+      <publishTime>05/08/2018 21:55:13</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>05/07/2018 23:07:29</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min2.css">
+      <publishTime>05/08/2018 22:02:02</publishTime>
+    </File>
+    <File Include="Scripts/custom.min.css">
+      <publishTime>07/01/2018 16:31:33</publishTime>
+    </File>
+    <File Include="Scripts/custom.min.js">
+      <publishTime>07/01/2018 16:35:29</publishTime>
+    </File>
+    <File Include="Scripts/font-awesome.min.css">
+      <publishTime>07/01/2018 16:29:32</publishTime>
+    </File>
+    <File Include="Scripts/grid.locale-en.js">
+      <publishTime>06/01/2018 23:38:40</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.11.1.min.js">
+      <publishTime>05/08/2018 21:50:55</publishTime>
+    </File>
+    <File Include="Scripts/jquery.jqGrid.js">
+      <publishTime>06/01/2018 23:40:15</publishTime>
+    </File>
+    <File Include="Scripts/jquery.min.js">
+      <publishTime>05/07/2018 23:06:36</publishTime>
+    </File>
+    <File Include="Scripts/nprogress.css">
+      <publishTime>07/01/2018 16:30:36</publishTime>
+    </File>
+    <File Include="Scripts/nprogress.js">
+      <publishTime>07/01/2018 16:34:35</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/Chart.min.js">
+      <publishTime>07/01/2018 14:04:30</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery-1.7.1.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery-1.7.1.min.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery-ui-1.8.20.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery-ui-1.8.20.min.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery.validate.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery.validate.min.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/knockout-2.1.0.debug.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/knockout-2.1.0.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/modernizr-2.5.3.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Scripts/_references.js">
+      <publishTime>06/01/2018 00:49:47</publishTime>
+    </File>
+    <File Include="Scripts/Stylesheet.css">
+      <publishTime>05/18/2018 22:48:12</publishTime>
+    </File>
+    <File Include="Views/Charts/Index.cshtml">
+      <publishTime>07/10/2018 23:25:49</publishTime>
+    </File>
+    <File Include="Views/Group/CreateGroup.cshtml">
+      <publishTime>07/15/2018 17:34:07</publishTime>
+    </File>
+    <File Include="Views/Group/ErrorPage.cshtml">
+      <publishTime>07/10/2018 22:22:42</publishTime>
+    </File>
+    <File Include="Views/Group/GrpList.cshtml">
+      <publishTime>07/21/2018 14:34:29</publishTime>
+    </File>
+    <File Include="Views/Loans/LoanLists.cshtml">
+      <publishTime>07/21/2018 22:35:56</publishTime>
+    </File>
+    <File Include="Views/Loans/LoanPosting.cshtml">
+      <publishTime>07/01/2018 15:48:51</publishTime>
+    </File>
+    <File Include="Views/Loans/LoansCols.cshtml">
+      <publishTime>07/21/2018 21:46:22</publishTime>
+    </File>
+    <File Include="Views/Loans/LoansDisbus.cshtml">
+      <publishTime>07/21/2018 22:08:50</publishTime>
+    </File>
+    <File Include="Views/Loans/WithdrawDateScreen.cshtml">
+      <publishTime>07/10/2018 00:19:34</publishTime>
+    </File>
+    <File Include="Views/Management/CreatePartner.cshtml">
+      <publishTime>06/26/2018 08:42:11</publishTime>
+    </File>
+    <File Include="Views/Management/InvesterList.cshtml">
+      <publishTime>07/21/2018 14:37:32</publishTime>
+    </File>
+    <File Include="Views/Management/ManagemtPage.cshtml">
+      <publishTime>07/15/2018 17:34:07</publishTime>
+    </File>
+    <File Include="Views/Management/NewPartner.cshtml">
+      <publishTime>07/15/2018 17:32:18</publishTime>
+    </File>
+    <File Include="Views/Member/CreateMember.cshtml">
+      <publishTime>07/21/2018 14:06:35</publishTime>
+    </File>
+    <File Include="Views/Member/EditMember.cshtml">
+      <publishTime>07/15/2018 19:10:58</publishTime>
+    </File>
+    <File Include="Views/Member/MemberDetails.cshtml">
+      <publishTime>07/18/2018 09:39:01</publishTime>
+    </File>
+    <File Include="Views/Member/test.cshtml">
+      <publishTime>05/24/2018 21:52:55</publishTime>
+    </File>
+    <File Include="Views/Shared/_LayoutPage.cshtml">
+      <publishTime>07/21/2018 21:42:58</publishTime>
+    </File>
+    <File Include="Views/Staff/BranchList.cshtml">
+      <publishTime>07/21/2018 14:37:05</publishTime>
+    </File>
+    <File Include="Views/Staff/ChangePWD.cshtml">
+      <publishTime>07/10/2018 22:27:11</publishTime>
+    </File>
+    <File Include="Views/Staff/CreateBranch.cshtml">
+      <publishTime>07/15/2018 17:33:00</publishTime>
+    </File>
+    <File Include="Views/Staff/CreateStaff.cshtml">
+      <publishTime>07/15/2018 17:34:07</publishTime>
+    </File>
+    <File Include="Views/Staff/HomePage.cshtml">
+      <publishTime>05/18/2018 22:42:00</publishTime>
+    </File>
+    <File Include="Views/Staff/Logout.cshtml">
+      <publishTime>06/24/2018 22:33:09</publishTime>
+    </File>
+    <File Include="Views/Staff/NewUserLoginAcc.cshtml">
+      <publishTime>07/15/2018 18:24:19</publishTime>
+    </File>
+    <File Include="Views/Staff/StaffList.cshtml">
+      <publishTime>07/21/2018 14:37:10</publishTime>
+    </File>
+    <File Include="Views/Staff/StaffLogin.cshtml">
+      <publishTime>07/15/2018 17:45:34</publishTime>
+    </File>
+    <File Include="Views/Staff/StaffSignUp.cshtml">
+      <publishTime>07/15/2018 17:34:07</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>07/21/2018 14:02:38</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>07/24/2018 23:42:17</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

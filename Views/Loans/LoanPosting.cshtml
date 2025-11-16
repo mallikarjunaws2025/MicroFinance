@@ -1,0 +1,316 @@
+﻿@model  TestApp.VModels.Loans.LoanCols
+@{
+    ViewBag.Title = "MemberDetails";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<html>
+<head>
+    <title>
+        <h3>Loan Recovery</h3>
+    </title>
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Scripts/Stylesheet.css" rel="stylesheet" />
+
+    <meta charset="UTF-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>  
+  <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+  <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'>
+  <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
+  <link rel="stylesheet" href="css/style.css">  
+     <style>
+         .drpdwn {
+             width: 43px;
+             height: 30px;
+         }
+     </style>
+</head>
+<body>
+<div class="container"  style="margin-left: 20%; margin-right: 10%;border-color: darkgrey;border-width:2px"> 
+     <label id="lblmgs"></label>
+@using (Html.BeginForm("LoanPosting", "Loans", FormMethod.Post, htmlAttributes: new { @id="LoanColaForm", @class = "well form-horizontal" }))
+    {  
+                    @Html.HiddenFor(model => model.LoanColId, new { @id = "LoanColId" })  
+                    @Html.HiddenFor(model => model.MbrId, new { @id = "MbrId" })  
+                    @Html.HiddenFor(model => model.GType, new { @id = "GType" })             
+                    @Html.ValidationSummary(false, "", new { @id = "Errors", @class = "text-danger" }) 
+         <fieldset>     
+<!-- Form Name -->
+<legend><h3><b>Loan Posting</b></h3></legend><br>
+  <div id="dvPrePaid" class="form-group" style="display:none">
+  <label class="col-md-2 control-label">Number OF EMI</label>  
+  <div class="col-md-3 inputGroupContainer">
+  <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+      @Html.TextBox("NoOFEMI", null, new { @class = "form-control",@id = "NoOFEMI",@placeholder = "No OF EMI" }) 
+    </div>
+  </div>
+
+   @* <!-- Collected Amount-->
+  <label class="col-md-2 control-label" >Collected Amount</label> 
+    <div class="col-md-3 inputGroupContainer">
+    <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+        @Html.TextBoxFor(model => model.Collected_Amount, new { @class = "form-control", @placeholder = "Collected Amount", @required = "required", @id = "Collected_Amount" })
+    </div>
+  </div>*@
+</div>
+
+<!-- LoanID & Collected Amount-->
+<div class="form-group">
+  <label class="col-md-2 control-label">Loan ID</label>  
+  <div class="col-md-3 inputGroupContainer">
+  <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+      @Html.TextBoxFor(x => x.LoanId, new { @class = "form-control",@readonly="readonly", @placeholder = "Loan Id", @id = "LoanId" })
+    </div>
+  </div>
+
+    <!-- Collected Amount-->
+  <label class="col-md-2 control-label" >Collected Amount</label> 
+    <div class="col-md-3 inputGroupContainer">
+    <div class="input-group">
+  <span class="input-group-addon"><i>Rs.</i></span>
+        @Html.TextBoxFor(model => model.Collected_Amount, new { @class = "form-control", @placeholder = "Collected Amount", @required = "required", @id = "Collected_Amount" })
+    </div>
+  </div>
+</div>
+
+    <!-- Prin Balance & Actual Balance-->
+<div class="form-group">
+  <label class="col-md-2 control-label" >Actual Balance</label> 
+    <div class="col-md-3 inputGroupContainer">
+    <div class="input-group">
+  <span class="input-group-addon"><i>Rs.</i></span>
+        @Html.TextBoxFor(model => model.Actual_Balance, new { @class = "form-control", @placeholder = "Actual_Balance", @required = "required", @id = "Actual_Balance" })
+    </div>
+  </div>
+
+ <label class="col-md-2 control-label">Principal Balance</label>  
+  <div class="col-md-3 inputGroupContainer">
+  <div class="input-group">
+  <span class="input-group-addon"><i>Rs.</i></span>
+       @Html.TextBoxFor(model => model.Prin_Balance, new { @class = "form-control", @placeholder = "Prin Balance", @required = "required", @id = "Prin_Balance" })
+    </div>
+  </div>    
+</div>
+   
+<!-- Int EMI & Prin Collected-->
+<div class="form-group">
+  <label class="col-md-2 control-label">Interest Collected</label>
+    <div class="col-md-3 selectContainer">
+    <div class="input-group">
+               <span class="input-group-addon"><i>Rs.</i></span>
+          @Html.TextBoxFor(model => model.Int_Collect, new { @class = "form-control", @placeholder = "Int_Collect", @required = "required", @id = "Int_Collect" })
+  </div>
+</div>
+    <label class="col-md-2 control-label">Principal Collected</label>  
+  <div class="col-md-3 inputGroupContainer">
+  <div class="input-group">
+  <span class="input-group-addon"><i>Rs.</i></span>
+       @Html.TextBoxFor(model => model.Prin_Collected, new { @class = "form-control", @placeholder = "Prin Collected", @required = "required", @id = "Prin_Collected" })
+    </div>
+  </div>
+</div>
+
+<!-- Int_EMI & Balance_Interest-->
+<div class="form-group">  
+  <label class="col-md-2 control-label">Balance Installment</label>
+    <div class="col-md-3 selectContainer">
+    <div class="input-group">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+          @Html.TextBoxFor(model => model.Balance_Installment, new { @class = "form-control", @placeholder = "Balance_Installment", @required = "required", @id = "Balance_Installment" })
+  </div>
+</div>
+      <label class="col-md-2 control-label">Balance Interest</label>  
+  <div class="col-md-3 inputGroupContainer">
+  <div class="input-group">
+  <span class="input-group-addon"><i>Rs.</i></span>
+       @Html.TextBoxFor(model => model.Balance_Interest, new { @class = "form-control", @placeholder = "Balance Interest", @required = "required", @id = "Balance_Interest" })
+    </div>
+  </div>
+  </div>
+
+<!--  Prin_Due & Int_Due-->
+<div class="form-group">
+  <label class="col-md-2 control-label">Principal Due</label>
+    <div class="col-md-3 selectContainer">
+    <div class="input-group">
+               <span class="input-group-addon"><i>Rs.</i></span>
+          @Html.TextBoxFor(model => model.Prin_Due, new { @class = "form-control", @placeholder = "Prin Due", @required = "required", @id = "Prin_Due" })
+  </div>
+</div>
+<label class="col-md-2 control-label">Interest Due</label>  
+    <div class="col-md-3 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i>Rs.</i></span>
+      @Html.TextBoxFor(model => model.Int_Due, new { @class = "form-control", @placeholder = "Int Due", @required = "required", @id = "Int_Due" })
+    </div>
+  </div>
+  </div>
+
+<!-- Transact_Date & Next Due Date-->
+<div class="form-group">
+  <label class="col-md-2 control-label" >Transact Date</label> 
+    <div class="col-md-3 inputGroupContainer">
+    <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>&nbsp
+        @Html.DropDownListFor(x => Model.TD,Enumerable.Range(1,31).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}), "DD", htmlAttributes: new { @class = "drpdwn", @id = "TD" })&nbsp&nbsp;
+         @Html.DropDownListFor(x => Model.TM, Enumerable.Range(1,12).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}), "MM", htmlAttributes: new { @class = "drpdwn", @id = "TM" })&nbsp&nbsp;
+         @Html.DropDownListFor(x => Model.TY, Enumerable.Range(2015, Convert.ToInt32(DateTime.Now.Year-2015+1)).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}), "YYYY", htmlAttributes: new { @class = "drpdwn", @id = "TY" })
+    </div>
+  </div>
+      <label class="col-md-2 control-label" >Next Due Date</label> 
+    <div class="col-md-3 inputGroupContainer">
+    <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>&nbsp
+        @Html.DropDownListFor(x => Model.NxtDueD,Enumerable.Range(1,31).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}), "DD", htmlAttributes: new { @class = "drpdwn", @id = "ND" })&nbsp&nbsp;
+         @Html.DropDownListFor(x => Model.NxtDueM, Enumerable.Range(1,12).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}), "MM", htmlAttributes: new { @class = "drpdwn", @id = "NM" })&nbsp&nbsp;
+         @Html.DropDownListFor(x => Model.NxtDueY, Enumerable.Range(2015, Convert.ToInt32(DateTime.Now.Year-2015+1)).Select(i=> new SelectListItem {Value=i.ToString(),Text=i.ToString()}), "YYYY", htmlAttributes: new { @class = "drpdwn", @id = "NY" })
+    </div>
+  </div>
+</div>
+
+    <!--Upto_Last_Savings-->
+<div class="form-group">
+  <label class="col-md-2 control-label">Upto Last Savings</label>  
+    <div class="col-md-3 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i>Rs.</i></span>
+      @Html.TextBoxFor(model => model.Upto_Last_Savings, new { @class = "form-control", @placeholder = "Upto_Last_Savings", @required = "required", @id = "Upto_Last_Savings" })
+    </div>
+  </div>
+
+    <!--During_Savings-->
+  <label class="col-md-2 control-label">During Savings</label>  
+    <div class="col-md-3 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+      @Html.TextBoxFor(model => model.During_Savings, new { @class = "form-control", @placeholder = "During Savings", @required = "required", @id = "During_Savings" })
+    </div>
+  </div>
+</div>
+
+       <!-- As_On -->
+<div class="form-group"> 
+  <label class="col-md-2 control-label">As On</label>
+    <div class="col-md-3 selectContainer">
+    <div class="input-group">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          @Html.TextBoxFor(model => model.As_On, new { @class = "form-control", @placeholder = "As On", @required = "required", @id = "As_On" })
+  </div>
+</div>
+
+           <!-- Adjustment -->
+  <label class="col-md-2 control-label">Adjustment</label>
+    <div class="col-md-3 selectContainer">
+    <div class="input-group">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          @Html.TextBoxFor(model => model.Adjustment, new { @class = "form-control", @placeholder = "Adjustment", @required = "required", @id = "Adjustment" })
+  </div>
+</div>
+</div>
+
+<!-- Success message -->
+<label class="alert alert-success" style="display:none" role="alert" id="success_message"> <i class="glyphicon glyphicon-thumbs-up"></i> Success!.</label>
+    
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label"></label>
+  <div class="col-md-4 inputGroupContainer">
+      <input type="submit" style="float:left" id="btnSave" class="btn btn-warning" value="Submit"/>&nbsp&nbsp&nbsp
+      <input type="button" value="Cancel" id="btnCancel" class="btn btn-warning" style="float:right" />
+  </div>
+</div>
+</fieldset>  
+      }
+  <!-- /.container -->
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+<script  src="js/index.js"></script>
+</div>  
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        if ('@Model.IsSucess' == "1") {
+             $("#lblmgs").html("<h3 style='color: green;'>Successfully posted loan details.</h3>");
+         }
+        else if ('@Model.IsSucess' == "NoAdj") {
+            $("#lblmgs").html("<h3 style='color: red;'>Failed To post loan details Please try again.</h3>");
+        }
+        var InputData = $("#LoanId").val();
+         $.ajax({
+            url: '@Url.Action("GetLoanDetails","Loans")',
+            type: "GET",
+            contentType: "application/json",
+            data: { iLoanID: InputData },
+            catch: false,
+            success: function (result) {
+                if (result != null || result != '')
+                {
+
+                    var Data = result.split('//');
+                    $("#LoanId").val(Data[1]);
+                    $("#MbrId").val(Data[2]);
+                    $("#Collected_Amount").val(Data[3]);
+                    $("#Actual_Balance").val(Math.round(parseFloat(Data[4]) - parseFloat(Data[3])));
+                    $("#Prin_Balance").val(Math.round(parseFloat(Data[5]) - parseFloat(Data[10])));
+                    $("#Int_Collect").val(Data[6]);
+                    $("#Prin_Collected").val(Data[7]);
+                    $("#Balance_Installment").val(parseInt(Data[8])-1);
+                    $("#Balance_Interest").val(Math.round(parseFloat(Data[9])-parseFloat(Data[6])));
+                    $("#Prin_Due").val(Data[10]);
+                    $("#Int_Due").val(Data[11]);
+                    $("#Transact_Date").val(Data[12]);
+                    $("#Next_Due_Date").val(Data[13]);
+                    $("#Upto_Last_Savings").val(Data[14]);
+                    $("#During_Savings").val(Data[15]);
+                    $("#As_On").val(Data[16]);
+                    $("#Adjustment").val(Data[17]);
+                    
+                    var newDt = new Date();          
+
+                    $('#TD option').map(function () {
+                        if ($(this).text() == newDt.getDay()) return this;
+                    }).attr('selected', 'selected');
+
+                    $('#TM option').map(function () {
+                        if ($(this).text() == newDt.getMonth()) return this;
+                    }).attr('selected', 'selected');
+
+                    $('#TY option').map(function () {
+                        if ($(this).text() == newDt.getFullYear()) return this;
+                    }).attr('selected', 'selected');
+
+                    if (Data[18] != null && Data[18] == 'Daily') {
+                        $('#ND').val(parseInt(newDt.getDay()+1));
+                    }
+                    else if (Data[18] != null && Data[18] == 'Weekly') {
+                        $('#ND').val(parseInt(newDt.getDay() + 7));
+                    }
+                    else {
+                        $('#ND').val(parseInt(newDt.getDay() + 1));
+                    }
+
+                    
+
+                    $('#NM option').map(function () {
+                        if ($(this).text() == newDt.getMonth()) return this;
+                    }).attr('selected', 'selected');
+
+                    $('#NY option').map(function () {
+                        if ($(this).text() == newDt.getFullYear()) return this;
+                    }).attr('selected', 'selected');
+                }
+                    return true;                   
+            },
+            error: function (errormessage) {
+                alert("Error while process your request");
+            }
+        });
+     });
+
+</script>

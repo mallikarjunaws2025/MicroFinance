@@ -1,0 +1,267 @@
+﻿@model IEnumerable<TestApp.DB.Loan>
+
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    WebGrid webGrid = new WebGrid(source: Model, canPage: true, canSort: false); 
+    var SelectedgrpCode="";
+    var SelectedMbrID="";
+}
+ 
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>Loans List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+       
+        .label {
+            color: grey;
+        }
+        .Grid {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            margin-top:5%;
+        }
+ 
+        .Grid th {
+            background-color: #428bca;
+            font-weight: bold;
+        }
+ 
+        .Grid th, .Grid td {
+            padding: 5px;
+            width: 150px;
+            border: 1px solid #ccc;
+        }
+ 
+        .Grid, .Grid table td {
+            border: 0px solid #ccc;
+        }
+ 
+        .Grid th a, .Grid th a:visited {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+   <div class="container" ;border-color: "darkgrey";border-width:"2px";">              
+    <div class="well form-horizontal" style="margin-top: 3%;">
+     
+     <h2> Loans List</h2>
+       <br>
+     
+               <div style="float:left;margin-top: 1%;"> <label >Select Group Name&nbsp</label>@Html.DropDownList("ObjList", new SelectList(ViewBag.GrpCodeList, "Value", "Text"),  "--All Groups--", new { @class = "btn btn-primary" ,@style="width: 150px;", @id = "drGrpCode" })&nbsp
+                    <label >Select Member Name&nbsp</label>@Html.DropDownList("ObjListmbr", new SelectList(ViewBag.MbrList, "Value", "Text"), "--All Members--", new {@class = "btn btn-primary",@style="width: 150px;", @id = "drMbrId" })
+               </div> <br /> <br /> <br /> 
+         
+        
+          @if (ViewBag.IsAdmin == false)
+          { 
+              
+                               @webGrid.GetHtml(
+                htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+                columns: webGrid.Columns(
+                webGrid.Column(header: "Loan ID", format: @<text>  <span  class="display-mode">@item.LoanID </span> <label id="lblLoanID" class="edit-mode">@item.LoanID</label> </text>, style: "col1Width"),
+                webGrid.Column(header: "Mbr Id", format: @<text>  <span  class="display-mode"> <label id="lblMbrId"  >@item.MbrId</label> </span> <input type="text" id="MbrId" value="@item.MbrId" class="edit-mode" /></text>, style: "col2Width"),
+                webGrid.Column(header: "Loan Amount", format: @<text>  <span  class="display-mode"> <label id="lblLoan_Amount"  >@item.Loan_Amount</label> </span> <input type="text" id="Loan_Amount" value="@item.Loan_Amount" class="edit-mode" /></text>, style: "col2Width"),
+                webGrid.Column(header: "Balance Amount", format: @<text> <span  class="display-mode"> <label id="lblBalance_Amount">@item.Balance_Amount</label> </span>  <input type="text" id="Balance_Amount" value="@item.Balance_Amount" class="edit-mode" /> </text>, style: "col2Width"),
+                webGrid.Column(header: "Prin_EMI", format: @<text> <span  class="display-mode"> <label id="lblPrin_EMI">@item.Prin_EMI</label> </span>  <input type="text" id="Prin_EMI" value="@item.Prin_EMI" class="edit-mode" /> </text>, style: "col2Width"),
+                webGrid.Column(header: "Int_EMI", format: @<text>  <span  class="display-mode"> <label id="lblInt_EMI"  >@item.Int_EMI</label> </span> <input type="text" id="Int_EMI" value="@item.Int_EMI" class="edit-mode" /></text>, style: "col2Width"),
+                webGrid.Column(header: "Tenture", format: @<text>  <span  class="display-mode"> <label id="lblNoOfDay"  >@item.NoOfDay</label> </span> <input type="text" id="NoOfDay" value="@item.NoOfDay" class="edit-mode" /></text>, style: "col2Width"),
+                webGrid.Column(header: "Date Of Disbursement", format: @<text> <span  class="display-mode"> <label id="lblDate_Of_Disbursement">@item.Date_Of_Disbursement</label> </span>  <input type="text" id="Date_Of_Disbursement" value="@item.Date_Of_Disbursement" class="edit-mode" /> </text>, style: "col2Width"),
+                webGrid.Column(header: "Next Due Date", format: @<text> <span  class="display-mode"> <label id="lblNextDueDt">@item.NextDueDt</label> </span>  <input type="text" id="NextDueDt" value="@item.NextDueDt" class="edit-mode" /> </text>, style: "col2Width"),
+
+                webGrid.Column(header: "Staff Name", format: @<text>  <span  class="display-mode"> <label id="lblStaffName"  >@item.StaffName</label> </span> <input type="text" id="StaffName" value="@item.StaffName" class="edit-mode" /></text>, style: "col2Width"),
+                webGrid.Column(header: "Grp Code", format: @<text>  <span  class="display-mode"> <label id="lblGrpCode"  >@item.GrpCode</label> </span> <input type="text" id="GrpCode" value="@item.GrpCode" class="edit-mode" /></text>, style: "col2Width"),
+                webGrid.Column(header: "NetSavings", format: @<text> <span  class="display-mode"> <label id="lblSavings">@item.NetSavings</label> </span>  <input type="text" id="Savings" value="@item.NetSavings" class="edit-mode" /> </text>, style: "col2Width"),
+                webGrid.Column(header: "Balance Interest", format: @<text> <span  class="display-mode"> <label id="lblBalance_Interest">@item.Balance_Interest</label> </span>  <input type="text" id="Balance_Interest" value="@item.Balance_Interest" class="edit-mode" /> </text>, style: "col2Width")))
+              
+          }
+          else
+          { 
+
+                      @webGrid.GetHtml(
+            htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+            columns: webGrid.Columns(
+            webGrid.Column(header: "Loan ID", format: @<text>  <span  class="display-mode">@item.LoanID </span> <label id="lblLoanID" class="edit-mode">@item.LoanID</label> </text>, style: "col1Width"),
+            webGrid.Column(header: "Mbr Id", format: @<text>  <span  class="display-mode"> <label id="lblMbrId"  >@item.MbrId</label> </span> <input type="text" id="MbrId" value="@item.MbrId" class="edit-mode" /></text>, style: "col2Width"),
+            webGrid.Column(header: "Loan Amount", format: @<text>  <span  class="display-mode"> <label id="lblLoan_Amount"  >@item.Loan_Amount</label> </span> <input type="text" id="Loan_Amount" value="@item.Loan_Amount" class="edit-mode" /></text>, style: "col2Width"),
+            webGrid.Column(header: "Balance Amount", format: @<text> <span  class="display-mode"> <label id="lblBalance_Amount">@item.Balance_Amount</label> </span>  <input type="text" id="Balance_Amount" value="@item.Balance_Amount" class="edit-mode" /> </text>, style: "col2Width"),
+            webGrid.Column(header: "Prin_EMI", format: @<text> <span  class="display-mode"> <label id="lblPrin_EMI">@item.Prin_EMI</label> </span>  <input type="text" id="Prin_EMI" value="@item.Prin_EMI" class="edit-mode" /> </text>, style: "col2Width"),
+            webGrid.Column(header: "Int_EMI", format: @<text>  <span  class="display-mode"> <label id="lblInt_EMI"  >@item.Int_EMI</label> </span> <input type="text" id="Int_EMI" value="@item.Int_EMI" class="edit-mode" /></text>, style: "col2Width"),
+            webGrid.Column(header: "Tenture", format: @<text>  <span  class="display-mode"> <label id="lblNoOfDay"  >@item.NoOfDay</label> </span> <input type="text" id="NoOfDay" value="@item.NoOfDay" class="edit-mode" /></text>, style: "col2Width"),
+            webGrid.Column(header: "Date Of Disbursement", format: @<text> <span  class="display-mode"> <label id="lblDate_Of_Disbursement">@item.Date_Of_Disbursement</label> </span>  <input type="text" id="Date_Of_Disbursement" value="@item.Date_Of_Disbursement" class="edit-mode" /> </text>, style: "col2Width"),
+            webGrid.Column(header: "Next Due Date", format: @<text> <span  class="display-mode"> <label id="lblNextDueDt">@item.NextDueDt</label> </span>  <input type="text" id="NextDueDt" value="@item.NextDueDt" class="edit-mode" /> </text>, style: "col2Width"),
+
+            webGrid.Column(header: "Staff Name", format: @<text>  <span  class="display-mode"> <label id="lblStaffName"  >@item.StaffName</label> </span> <input type="text" id="StaffName" value="@item.StaffName" class="edit-mode" /></text>, style: "col2Width"),
+            webGrid.Column(header: "Grp Code", format: @<text>  <span  class="display-mode"> <label id="lblGrpCode"  >@item.GrpCode</label> </span> <input type="text" id="GrpCode" value="@item.GrpCode" class="edit-mode" /></text>, style: "col2Width"),
+            webGrid.Column(header: "NetSavings", format: @<text> <span  class="display-mode"> <label id="lblSavings">@item.NetSavings</label> </span>  <input type="text" id="Savings" value="@item.NetSavings" class="edit-mode" /> </text>, style: "col2Width"),
+            webGrid.Column(header: "Balance Interest", format: @<text> <span  class="display-mode"> <label id="lblBalance_Interest">@item.Balance_Interest</label> </span>  <input type="text" id="Balance_Interest" value="@item.Balance_Interest" class="edit-mode" /> </text>, style: "col2Width"),
+            webGrid.Column(format: @<text>  
+                        <button class="edit-user display-mode" style="background-color: #428bca;font-weight: bold" >Edit</button>  
+                        <button class="save-user edit-mode" style="background-color:lightgreen" >Save</button>  
+                        <button class="cancel-user edit-mode" style="background-color:orangered">Cancel</button>  
+                    </text>, style: "col3Width", canSort: false)))
+          }
+              <br/>
+          </div> 
+        </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            $('.edit-mode').hide();
+            $('.edit-user, .cancel-user').on('click', function () {
+                var tr = $(this).parents('tr:first');
+                tr.find('.edit-mode, .display-mode').toggle();
+            });
+
+            $('.save-user').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var LoanID = tr.find("#lblLoanID").html();
+                var Loan_Amount = tr.find("#Loan_Amount").val();
+                var Balance_Amount = tr.find("#Balance_Amount").val();
+                var Prin_EMI = tr.find("#Prin_EMI").val();
+
+                var Int_EMI = tr.find("#Int_EMI").val();
+                var NoOfDay = tr.find("#NoOfDay").val();
+                var Date_Of_Disbursement = tr.find("#Date_Of_Disbursement").val();
+                var NextDueDt = tr.find("#NextDueDt").val();
+                var StaffName = tr.find("#StaffName").val();
+
+                var GrpCode = tr.find("#GrpCode").val();
+                var NetSavings = tr.find("#NetSavings").val();
+                var Balance_Interest = tr.find("#Balance_Interest").val();
+
+                tr.find("#lblLoan_Amount").text(Loan_Amount);
+                tr.find("#lblBalance_Amount").text(Balance_Amount);
+                tr.find("#lblPrin_EMI").text(Prin_EMI);
+
+                tr.find("#lblInt_EMI").text(Int_EMI);
+                tr.find("#lblNoOfDay").text(NoOfDay);
+                tr.find("#lblDate_Of_Disbursement").text(Date_Of_Disbursement);
+                tr.find("#lblNextDueDt").text(NextDueDt);
+                tr.find("#lblStaffName").text(StaffName);
+
+                tr.find("#lblGrpCode").text(GrpCode);
+                tr.find("#lbNetSavings").text(NetSavings);
+                tr.find("#lblBalance_Interest").text(Balance_Interest);
+
+
+                tr.find('.edit-mode, .display-mode').toggle();
+
+                var UserModel = LoanID + "," +
+                Loan_Amount + "," +
+                Balance_Amount + "," +
+                Prin_EMI + "," +
+                Int_EMI + "," +
+                NoOfDay + "," +
+                Date_Of_Disbursement + "," +
+                NextDueDt + "," +
+                StaffName + "," +
+                GrpCode + "," +
+                NetSavings + "," +
+                Balance_Interest;
+
+                $.ajax({
+                    url: '@Url.Action("EditLoan", "Loans")',
+                    data: { UserModel: UserModel },
+                    type: 'GET',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data == 'Success') {
+                            $.ajax({
+                                url: '@Url.Action("GrpList", "Group")',
+                                type: 'GET',
+                                contentType: 'application/json; charset=utf-8',
+                                success: function (data) {
+
+                                }
+                            });
+                            alert("Successfully updated loans details");
+                        }
+                        else {
+                            alert("Failed to update please try again");
+                        }
+                    }
+                });
+
+            });
+        })
+
+        $("#drGrpCode").change(function () {
+            var selectedGrpCode = $("#drGrpCode :selected").val();
+
+            $.ajax({
+                url: '@Url.Action("GetLoanMemberList","Loans")',
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                async: true,
+                data: { sGrpCode: selectedGrpCode },
+                catch: false,
+                dataType: "json",
+                success: function (res) {
+                    var datat = res;
+                    debugger;
+                    $("#drMbrId").empty();
+                    $.each(res, function (index, item) { // item is now an object containing properties ID and Text
+                        $("#drMbrId").append($('<option></option>').text(item.Text).val(item.Value));
+                    });
+
+                    //if ($('#drMbrId > option').length == 1) {
+                    $('#drMbrId').trigger('change');
+                    //}
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        });
+
+
+
+        $("#drMbrId").change(function () {
+            SelectedMbrID = $("#drMbrId :selected").val();
+            SelectedgrpCode = $("#drGrpCode:selected").val();
+            $.ajax({
+                url: '@Url.Action("LoanLists","Loans")',
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                data: { "GrpCodeID": $("#drGrpCode:selected").val(), "MbrCode": $("#drMbrId :selected").val() },
+                catch: false,
+                success: function (result) {
+                    SelectedMbrID = $("#drMbrId :selected").val();
+                    SelectedgrpCode = $("#drGrpCode:selected").val();
+
+                    window.location = "/Loans/LoanLists?GrpCodeID=" + SelectedgrpCode + "&MbrCode=" + SelectedMbrID + ",Reload";
+
+
+                },
+                error: function (errormessage) {
+                    alert("Error while process your request");
+                }
+            });
+        });
+
+        $("body").on("dblclick", "#WebGrid td", function () {
+            debugger;
+            var row = $(this).closest("tr");
+            $("#WebGrid td").css("background-color", "white");
+            row.find("td").css("background-color", "Aqua");
+
+            var tr = $(this).parents('tr:first');
+            var LoanID = tr.find("#lblLoanID").html();
+            //var baseUrl = '@Url.Content("~/")';            
+            //window.open(baseUrl + "Loans/Partialload?TabName=HistList," + LonId +"?GrpID=''", "_blank", "width=800,height=500");
+            window.open("/Loans/Partialload?TabName=HistList," + LoanID, "_blank", "width=1000,height=500");
+        });
+
+
+    </script>
+</body>
+</html>

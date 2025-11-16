@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MicroFinanceModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="MicroFinanceModelStoreContainer">
+    <EntitySet Name="ALRAudjustments" EntityType="MicroFinanceModel.Store.ALRAudjustments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Branch" EntityType="MicroFinanceModel.Store.Branch" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FinGroup" EntityType="MicroFinanceModel.Store.FinGroup" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Loan_Cols" EntityType="MicroFinanceModel.Store.Loan_Cols" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Loans" EntityType="MicroFinanceModel.Store.Loans" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Member" EntityType="MicroFinanceModel.Store.Member" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PartnerDetails" EntityType="MicroFinanceModel.Store.PartnerDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Staff" EntityType="MicroFinanceModel.Store.Staff" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="StaffLogin" EntityType="MicroFinanceModel.Store.StaffLogin" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TmpLoanColsBackUpData" EntityType="MicroFinanceModel.Store.TmpLoanColsBackUpData" store:Type="Tables" store:Schema="dbo" store:Name="TmpLoanColsBackUpData">
+      <DefiningQuery>SELECT 
+      [TmpLoanColsBackUpData].[LoanColId] AS [LoanColId]
+      FROM [dbo].[TmpLoanColsBackUpData] AS [TmpLoanColsBackUpData]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="TmpLoansBackUpData" EntityType="MicroFinanceModel.Store.TmpLoansBackUpData" store:Type="Tables" store:Schema="dbo" store:Name="TmpLoansBackUpData">
+      <DefiningQuery>SELECT 
+      [TmpLoansBackUpData].[LoanID] AS [LoanID], 
+      [TmpLoansBackUpData].[MbrId] AS [MbrId], 
+      [TmpLoansBackUpData].[Loan_Amount] AS [Loan_Amount], 
+      [TmpLoansBackUpData].[Balance_Amount] AS [Balance_Amount], 
+      [TmpLoansBackUpData].[RateOfInterest] AS [RateOfInterest], 
+      [TmpLoansBackUpData].[Prin_EMI] AS [Prin_EMI], 
+      [TmpLoansBackUpData].[Int_EMI] AS [Int_EMI], 
+      [TmpLoansBackUpData].[NoOfDay] AS [NoOfDay], 
+      [TmpLoansBackUpData].[Date_Of_Disbursement] AS [Date_Of_Disbursement], 
+      [TmpLoansBackUpData].[Expiry_Date] AS [Expiry_Date], 
+      [TmpLoansBackUpData].[ALRSavings] AS [ALRSavings], 
+      [TmpLoansBackUpData].[GRFAmt] AS [GRFAmt], 
+      [TmpLoansBackUpData].[Processing_Fee] AS [Processing_Fee], 
+      [TmpLoansBackUpData].[Stationary] AS [Stationary], 
+      [TmpLoansBackUpData].[Insurance] AS [Insurance], 
+      [TmpLoansBackUpData].[Other_Income] AS [Other_Income], 
+      [TmpLoansBackUpData].[NetSavings] AS [NetSavings], 
+      [TmpLoansBackUpData].[GrpCode] AS [GrpCode], 
+      [TmpLoansBackUpData].[StaffName] AS [StaffName], 
+      [TmpLoansBackUpData].[NextDueDt] AS [NextDueDt], 
+      [TmpLoansBackUpData].[Balance_Interest] AS [Balance_Interest], 
+      [TmpLoansBackUpData].[LoanType] AS [LoanType]
+      FROM [dbo].[TmpLoansBackUpData] AS [TmpLoansBackUpData]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="TmpReceipts" EntityType="MicroFinanceModel.Store.TmpReceipts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TmpSummeryReportData" EntityType="MicroFinanceModel.Store.TmpSummeryReportData" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserLog" EntityType="MicroFinanceModel.Store.UserLog" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK__ALRAudjus__MbrID__29221CFB" Association="MicroFinanceModel.Store.FK__ALRAudjus__MbrID__29221CFB">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="ALRAudjustments" EntitySet="ALRAudjustments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Loan_Cols__Adjus__6477ECF3" Association="MicroFinanceModel.Store.FK__Loan_Cols__Adjus__6477ECF3">
+      <End Role="Loans" EntitySet="Loans" />
+      <End Role="Loan_Cols" EntitySet="Loan_Cols" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Loan_Cols__MbrId__656C112C" Association="MicroFinanceModel.Store.FK__Loan_Cols__MbrId__656C112C">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Loan_Cols" EntitySet="Loan_Cols" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Loans__Savings__5629CD9C" Association="MicroFinanceModel.Store.FK__Loans__Savings__5629CD9C">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Loans" EntitySet="Loans" />
+    </AssociationSet>
+    <AssociationSet Name="FK__StaffLogi__Staff__06CD04F7" Association="MicroFinanceModel.Store.FK__StaffLogi__Staff__06CD04F7">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="StaffLogin" EntitySet="StaffLogin" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ALRAudjustments">
+    <Key>
+      <PropertyRef Name="ALRID" />
+    </Key>
+    <Property Name="ALRID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="MbrID" Type="int" />
+    <Property Name="ALRSavings" Type="varchar(max)" />
+    <Property Name="AdvanceALR" Type="varchar(max)" />
+    <Property Name="CrDt" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Branch">
+    <Key>
+      <PropertyRef Name="BranchID" />
+    </Key>
+    <Property Name="BranchID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="BranchCode" Type="varchar(max)" />
+    <Property Name="BranchName" Type="varchar(max)" />
+    <Property Name="OpenDate" Type="varchar(max)" />
+    <Property Name="BAddress" Type="varchar(max)" />
+    <Property Name="City" Type="varchar(max)" />
+    <Property Name="State" Type="varchar(max)" />
+    <Property Name="PinCode" Type="int" />
+    <Property Name="ManagerID" Type="int" />
+  </EntityType>
+  <EntityType Name="FinGroup">
+    <Key>
+      <PropertyRef Name="GroupID" />
+    </Key>
+    <Property Name="GroupID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="GroupCode" Type="varchar(max)" />
+    <Property Name="BranchCode" Type="varchar(max)" />
+    <Property Name="Village" Type="varchar(max)" />
+    <Property Name="Net_Members" Type="int" />
+    <Property Name="CrDt" Type="varchar(max)" />
+    <Property Name="DOC" Type="varchar(max)" />
+    <Property Name="Distance" Type="int" />
+    <Property Name="GStatus" Type="varchar(max)" />
+    <Property Name="StaffID" Type="int" />
+    <Property Name="FormedBy" Type="varchar(max)" />
+    <Property Name="MeetingPlaceAddress" Type="varchar(max)" />
+    <Property Name="GType" Type="varchar(max)" />
+    <Property Name="GrpName" Type="varchar(max)" />
+    <Property Name="RecoveryDay" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Loan_Cols">
+    <Key>
+      <PropertyRef Name="LoanColId" />
+    </Key>
+    <Property Name="LoanColId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="LoanId" Type="int" />
+    <Property Name="MbrId" Type="int" />
+    <Property Name="Collected_Amount" Type="varchar(max)" />
+    <Property Name="Actual_Balance" Type="varchar(max)" />
+    <Property Name="Prin_Balance" Type="varchar(max)" />
+    <Property Name="Int_Collect" Type="varchar(max)" />
+    <Property Name="Prin_Collected" Type="varchar(max)" />
+    <Property Name="Balance_Installment" Type="int" />
+    <Property Name="Balance_Interest" Type="varchar(max)" />
+    <Property Name="Prin_Due" Type="varchar(max)" />
+    <Property Name="Int_Due" Type="varchar(max)" />
+    <Property Name="Transact_Date" Type="varchar(max)" />
+    <Property Name="Next_Due_Date" Type="varchar(max)" />
+    <Property Name="Upto_Last_Savings" Type="varchar(max)" />
+    <Property Name="ALRSavings" Type="varchar(max)" />
+    <Property Name="As_On" Type="varchar(max)" />
+    <Property Name="Adjustment" Type="varchar(max)" />
+    <Property Name="PaidEMI" Type="varchar(max)" />
+    <Property Name="PrePrinAmt" Type="varchar(max)" />
+    <Property Name="PreInterestAmt" Type="varchar(max)" />
+    <Property Name="Collect_Or_RefoundAmt" Type="varchar(max)" />
+    <Property Name="PostedUserID" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Loans">
+    <Key>
+      <PropertyRef Name="LoanID" />
+    </Key>
+    <Property Name="LoanID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="MbrId" Type="int" />
+    <Property Name="Loan_Amount" Type="varchar(max)" />
+    <Property Name="Balance_Amount" Type="varchar(max)" />
+    <Property Name="RateOfInterest" Type="varchar(max)" />
+    <Property Name="Prin_EMI" Type="varchar(max)" />
+    <Property Name="Int_EMI" Type="varchar(max)" />
+    <Property Name="NoOfDay" Type="int" />
+    <Property Name="Date_Of_Disbursement" Type="varchar(max)" />
+    <Property Name="Expiry_Date" Type="varchar(max)" />
+    <Property Name="ALRSavings" Type="varchar(max)" />
+    <Property Name="GRFAmt" Type="varchar(max)" />
+    <Property Name="Processing_Fee" Type="varchar(max)" />
+    <Property Name="Stationary" Type="int" />
+    <Property Name="Insurance" Type="int" />
+    <Property Name="Other_Income" Type="varchar(max)" />
+    <Property Name="NetSavings" Type="varchar(max)" />
+    <Property Name="GrpCode" Type="varchar(max)" />
+    <Property Name="StaffName" Type="varchar(max)" />
+    <Property Name="NextDueDt" Type="varchar(max)" />
+    <Property Name="Balance_Interest" Type="varchar(max)" />
+    <Property Name="LoanType" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="MbrId" />
+    </Key>
+    <Property Name="MbrId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="MbrName" Type="varchar(max)" />
+    <Property Name="GroupCode" Type="varchar(max)" />
+    <Property Name="Husbandname" Type="varchar(max)" />
+    <Property Name="Age" Type="int" />
+    <Property Name="MbrStatus" Type="varchar" MaxLength="10" />
+    <Property Name="WithdrawDt" Type="varchar(max)" />
+    <Property Name="StaffId" Type="int" />
+    <Property Name="MbrAddress" Type="varchar(max)" />
+    <Property Name="DOJ" Type="varchar(max)" />
+    <Property Name="CantactNo" Type="varchar(max)" />
+    <Property Name="Gender" Type="varchar" MaxLength="10" />
+    <Property Name="GrpName" Type="varchar(max)" />
+    <Property Name="StaffName" Type="varchar(max)" />
+    <Property Name="Nominee" Type="varchar" MaxLength="50" />
+    <Property Name="PhoneNo2" Type="varchar" MaxLength="12" />
+    <Property Name="AdharaCardNum" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="PartnerDetails">
+    <Key>
+      <PropertyRef Name="PrtnrID" />
+    </Key>
+    <Property Name="PrtnrID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PrtnrName" Type="varchar(max)" />
+    <Property Name="Address" Type="varchar(max)" />
+    <Property Name="CatntactNum" Type="varchar(max)" />
+    <Property Name="City" Type="varchar(max)" />
+    <Property Name="Statte" Type="varchar(max)" />
+    <Property Name="ZIP" Type="varchar(max)" />
+    <Property Name="AdharaCardNum" Type="varchar(max)" />
+    <Property Name="CrDate" Type="varchar(max)" />
+    <Property Name="InvestmentAmt" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Staff">
+    <Key>
+      <PropertyRef Name="StaffID" />
+    </Key>
+    <Property Name="StaffID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="StaffName" Type="varchar(max)" />
+    <Property Name="DOB" Type="varchar(max)" />
+    <Property Name="DOJ" Type="varchar(max)" />
+    <Property Name="Status" Type="varchar" MaxLength="6" />
+  </EntityType>
+  <EntityType Name="StaffLogin">
+    <Key>
+      <PropertyRef Name="UsrId" />
+    </Key>
+    <Property Name="UsrId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="StaffId" Type="int" />
+    <Property Name="UserName" Type="varchar(max)" />
+    <Property Name="Password" Type="varchar(max)" />
+    <Property Name="RolePermission" Type="varchar(max)" />
+    <Property Name="IsLocked" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'MicroFinance.dbo.TmpLoanColsBackUpData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="TmpLoanColsBackUpData">
+    <Key>
+      <PropertyRef Name="LoanColId" />
+    </Key>
+    <Property Name="LoanColId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'MicroFinance.dbo.TmpLoansBackUpData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="TmpLoansBackUpData">
+    <Key>
+      <PropertyRef Name="LoanID" />
+    </Key>
+    <Property Name="LoanID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="MbrId" Type="int" />
+    <Property Name="Loan_Amount" Type="varchar(max)" />
+    <Property Name="Balance_Amount" Type="varchar(max)" />
+    <Property Name="RateOfInterest" Type="varchar(max)" />
+    <Property Name="Prin_EMI" Type="varchar(max)" />
+    <Property Name="Int_EMI" Type="varchar(max)" />
+    <Property Name="NoOfDay" Type="int" />
+    <Property Name="Date_Of_Disbursement" Type="varchar(max)" />
+    <Property Name="Expiry_Date" Type="varchar(max)" />
+    <Property Name="ALRSavings" Type="varchar(max)" />
+    <Property Name="GRFAmt" Type="varchar(max)" />
+    <Property Name="Processing_Fee" Type="varchar(max)" />
+    <Property Name="Stationary" Type="int" />
+    <Property Name="Insurance" Type="int" />
+    <Property Name="Other_Income" Type="varchar(max)" />
+    <Property Name="NetSavings" Type="varchar(max)" />
+    <Property Name="GrpCode" Type="varchar(max)" />
+    <Property Name="StaffName" Type="varchar(max)" />
+    <Property Name="NextDueDt" Type="varchar(max)" />
+    <Property Name="Balance_Interest" Type="varchar(max)" />
+    <Property Name="LoanType" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="TmpReceipts">
+    <Key>
+      <PropertyRef Name="SlNo" />
+    </Key>
+    <Property Name="SlNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Receipts" Type="varchar(max)" />
+    <Property Name="Rs" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="TmpSummeryReportData">
+    <Key>
+      <PropertyRef Name="SlNo" />
+    </Key>
+    <Property Name="SlNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Particulars" Type="varchar(max)" />
+    <Property Name="BOR" Type="varchar(max)" />
+    <Property Name="Added" Type="varchar(max)" />
+    <Property Name="Dropped" Type="varchar(max)" />
+    <Property Name="EOR" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="UserLog">
+    <Key>
+      <PropertyRef Name="LogId" />
+    </Key>
+    <Property Name="LogId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="LoginName" Type="varchar(max)" />
+    <Property Name="LogInDateTime" Type="datetime" />
+    <Property Name="LogOutDateTime" Type="datetime" />
+    <Property Name="StaffName" Type="varchar(max)" />
+  </EntityType>
+  <Association Name="FK__ALRAudjus__MbrID__29221CFB">
+    <End Role="Member" Type="MicroFinanceModel.Store.Member" Multiplicity="0..1" />
+    <End Role="ALRAudjustments" Type="MicroFinanceModel.Store.ALRAudjustments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MbrId" />
+      </Principal>
+      <Dependent Role="ALRAudjustments">
+        <PropertyRef Name="MbrID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Loan_Cols__Adjus__6477ECF3">
+    <End Role="Loans" Type="MicroFinanceModel.Store.Loans" Multiplicity="0..1" />
+    <End Role="Loan_Cols" Type="MicroFinanceModel.Store.Loan_Cols" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Loans">
+        <PropertyRef Name="LoanID" />
+      </Principal>
+      <Dependent Role="Loan_Cols">
+        <PropertyRef Name="LoanId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Loan_Cols__MbrId__656C112C">
+    <End Role="Member" Type="MicroFinanceModel.Store.Member" Multiplicity="0..1" />
+    <End Role="Loan_Cols" Type="MicroFinanceModel.Store.Loan_Cols" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MbrId" />
+      </Principal>
+      <Dependent Role="Loan_Cols">
+        <PropertyRef Name="MbrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Loans__Savings__5629CD9C">
+    <End Role="Member" Type="MicroFinanceModel.Store.Member" Multiplicity="0..1" />
+    <End Role="Loans" Type="MicroFinanceModel.Store.Loans" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MbrId" />
+      </Principal>
+      <Dependent Role="Loans">
+        <PropertyRef Name="MbrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__StaffLogi__Staff__06CD04F7">
+    <End Role="Staff" Type="MicroFinanceModel.Store.Staff" Multiplicity="0..1" />
+    <End Role="StaffLogin" Type="MicroFinanceModel.Store.StaffLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="StaffID" />
+      </Principal>
+      <Dependent Role="StaffLogin">
+        <PropertyRef Name="StaffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="spDeleteBackUpTble" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="spDueAndCollectedAmt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="spGetDailyDueReportsData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="GrpName" Type="varchar(max)" Mode="In" />
+    <Parameter Name="StaffName" Type="varchar(max)" Mode="In" />
+  </Function>
+  <Function Name="spGetLoanDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="LoanId" Type="int" Mode="In" />
+    <Parameter Name="MbrId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="spGetLoanMbrsList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="GrpName" Type="varchar(max)" Mode="In" />
+    <Parameter Name="StaffName" Type="varchar(max)" Mode="In" />
+    <Parameter Name="MbrId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="spGetProgressReportData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FrmDt" Type="varchar(max)" Mode="In" />
+    <Parameter Name="ToDt" Type="varchar(max)" Mode="In" />
+  </Function>
+  <Function Name="spGetReceiptsAndPaymentsData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FrmDt" Type="varchar(max)" Mode="In" />
+    <Parameter Name="ToDt" Type="varchar(max)" Mode="In" />
+  </Function>
+  <Function Name="spGetWithDrawMbrsList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="spLoansReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="GrpCode" Type="varchar" Mode="In" />
+    <Parameter Name="StaffName" Type="varchar(max)" Mode="In" />
+  </Function>
+  <Function Name="spTakeBackUpBeforeLoanPost" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="NextDueDt" Type="varchar(max)" Mode="In" />
+  </Function>
+</Schema>

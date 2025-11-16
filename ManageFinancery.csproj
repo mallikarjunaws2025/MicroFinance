@@ -1,0 +1,539 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TestApp</RootNamespace>
+    <AssemblyName>TestApp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DesktopBuildPackageLocation>..\..\..\..\..\Desktop\Rls</DesktopBuildPackageLocation>
+    <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
+    <PackageAsSingleFile>false</PackageAsSingleFile>
+    <PrecompileBeforePublish>true</PrecompileBeforePublish>
+    <PublishDatabaseSettings>
+      <Objects>
+        <ObjectGroup Name="MicroFinanceEntities-Deployment" Order="1">
+          <Destination Path="" />
+          <Object Type="DbFullSql">
+            <PreSource Path="Data Source=%28local%29%3bInitial Catalog=MicroFinance%3bUser ID=sa%3bPassword=Arjun%40409%3bMultipleActiveResultSets=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Debug\AutoScripts\MicroFinanceEntities-Deployment_SchemaOnly.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+      </Objects>
+    </PublishDatabaseSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>obj\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PackageAsSingleFile>false</PackageAsSingleFile>
+    <DesktopBuildPackageLocation>obj\Release</DesktopBuildPackageLocation>
+    <DeployIisAppPath />
+    <DebugSymbols>true</DebugSymbols>
+    <PublishDatabases>false</PublishDatabases>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+    <IncludeIisSettings>true</IncludeIisSettings>
+    <DeployIisAppPhysicalPath>
+    </DeployIisAppPhysicalPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>Refdll\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>Refdll\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>Refdll\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>Refdll\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Web">
+      <HintPath>Refdll\NLog.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Comman\Helper.cs" />
+    <Compile Include="Controllers\ChartsController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Controllers\LoansController.cs" />
+    <Compile Include="Controllers\ManagementController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="DB\ALRAudjustment.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Branch.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\FinGroup.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Loan.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Loan_Cols.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Member.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\MicroFinDB.Context1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MicroFinDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\MicroFinDB.cs" />
+    <Compile Include="DB\MicroFinDB.Designer.cs">
+      <DependentUpon>MicroFinDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DB\MicroFinDB1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\MicroFinDB1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MicroFinDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DB\PartnerDetail.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spDueAndCollectedAmt1_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spDueAndCollectedAmt_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spDueAndCollectedAmt_Result1.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetDailyDueReportsData_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetDailyDueReportsData_Result1.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetDailyDueReportsData_Result2.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetDailyDueReportsData_Result3.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetDailyDueReportsData_Result4.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetDailyDueReportsData_Result5.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetDailyDueReportsData_Result6.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetDailyDueReportsData_Result7.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetDailyDueReportsData_Result8.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanDetails_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList1_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList1_Result1.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList2_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList3_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList4_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList5_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList_Result1.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList_Result2.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList_Result3.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList_Result4.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList_Result5.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetLoanMbrsList_Result6.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetWithDrawMbrsList1_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spGetWithDrawMbrsList_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spLoansReport_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spSelectReceiptsAndPaymentsReportDta_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spSelectReceiptsAndPaymentsReportDta_Result1.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spSelectSummerReportDta_Result.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\spSelectSummerReportDta_Result1.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Staff.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\StaffLogin.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\TmpLoanColsBackUpData.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\TmpLoansBackUpData.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\TmpReceipt.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\TmpSummeryReportData.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\UserLog.cs">
+      <DependentUpon>MicroFinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ChartsData\DataPoint.cs" />
+    <Compile Include="VModels\BranchViewModel.cs" />
+    <Compile Include="VModels\ChangePWD.cs" />
+    <Compile Include="VModels\Group\Groups.cs" />
+    <Compile Include="VModels\Loans\LoanCols.cs" />
+    <Compile Include="VModels\Loans\LoanDisbus.cs" />
+    <Compile Include="VModels\Loans\MbrAndLoanDetails.cs" />
+    <Compile Include="VModels\Management\AddNewPartner.cs" />
+    <Compile Include="VModels\Member\MemberViewModel.cs" />
+    <Compile Include="VModels\NewStaff.cs" />
+    <Compile Include="VModels\Reports\DailyReport.cs" />
+    <Compile Include="VModels\Reports\LoansReport.cs" />
+    <Compile Include="VModels\Reports\SummeryReport.cs" />
+    <Compile Include="VModels\StaffLogin.cs" />
+    <Compile Include="VModels\StaffSignIn.cs" />
+    <Compile Include="VModels\StaffSignUP.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="App_Data\FinServeDB.mdf" />
+    <Content Include="App_Data\FinServeDB_log.ldf">
+      <DependentUpon>FinServeDB.mdf</DependentUpon>
+    </Content>
+    <Content Include="DB\MicroFinDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MicroFinDB.Context1.cs</LastGenOutput>
+    </Content>
+    <Content Include="DB\MicroFinDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MicroFinDB1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Global.asax" />
+    <Content Include="Resource\bck.png" />
+    <Content Include="Resource\chartjs.html" />
+    <Content Include="Resource\loadgif.gif" />
+    <Content Include="Resource\PLogo.png" />
+    <Content Include="Scripts\bootsrtap.min2.js" />
+    <Content Include="Scripts\bootstrap.min.css" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap.min2.css" />
+    <Content Include="NLog.config" />
+    <Content Include="Scripts\custom.min.css" />
+    <Content Include="Scripts\custom.min.js" />
+    <Content Include="Scripts\font-awesome.min.css" />
+    <Content Include="Scripts\grid.locale-en.js" />
+    <Content Include="Scripts\jquery.jqGrid.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <EntityDeploy Include="DB\MicroFinDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MicroFinDB1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DB\MicroFinDB.edmx.diagram">
+      <DependentUpon>MicroFinDB.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\Mallikarjun.pubxml" />
+    <None Include="Properties\PublishProfiles\MicroFin.pubxml" />
+    <None Include="Properties\PublishProfiles\TestMK.pubxml" />
+    <None Include="Properties\PublishProfiles\TestPublish.pubxml" />
+    <None Include="Properties\PublishProfiles\TodayDeploy.pubxml" />
+    <None Include="Scripts\Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Scripts\nprogress.css" />
+    <Content Include="Scripts\nprogress.js" />
+    <Content Include="Scripts\Scripts\Chart.min.js" />
+    <Content Include="Scripts\Scripts\jquery-1.7.1.js" />
+    <Content Include="Scripts\Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\Scripts\jquery-ui-1.8.20.js" />
+    <Content Include="Scripts\Scripts\jquery-ui-1.8.20.min.js" />
+    <None Include="Scripts\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Scripts\jquery.printPage.js" />
+    <Content Include="Scripts\Scripts\jquery.validate.js" />
+    <Content Include="Scripts\Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Scripts\knockout-2.1.0.debug.js" />
+    <Content Include="Scripts\Scripts\knockout-2.1.0.js" />
+    <Content Include="Scripts\Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\Scripts\_references.js" />
+    <Content Include="Scripts\Stylesheet.css" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Loans\LoanPosting.cshtml" />
+    <Content Include="Views\Loans\WithdrawDateScreen.cshtml" />
+    <Content Include="Views\Group\GrpList.cshtml" />
+    <Content Include="Views\Staff\StaffList.cshtml" />
+    <Content Include="Views\Staff\BranchList.cshtml" />
+    <Content Include="Views\Management\InvesterList.cshtml" />
+    <Content Include="Views\Management\CreatePartner.cshtml" />
+    <Content Include="Views\Management\NewPartner.cshtml" />
+    <Content Include="Views\Charts\Index.cshtml" />
+    <Content Include="Views\Staff\NewUserLoginAcc.cshtml" />
+    <Content Include="Views\Loans\LoanLists.cshtml" />
+    <Content Include="Views\Staff\ChangePWDFormLogin.cshtml" />
+    <Content Include="Views\Management\About.cshtml" />
+    <Content Include="Views\Loans\ALRAdjustments.cshtml" />
+    <Content Include="Views\Report\DailyReport.cshtml" />
+    <Content Include="Views\Report\SummeryReport.cshtml" />
+    <Content Include="Views\Loans\Rollback.cshtml" />
+    <Content Include="Views\Report\GetRecoveryReport.cshtml" />
+    <Content Include="Views\Shared\_PostingHistory.cshtml" />
+    <Content Include="Views\Loans\PartialIndex.cshtml" />
+    <Content Include="Views\Shared\_LoanList.cshtml" />
+    <Content Include="Views\Shared\_MemberList.cshtml" />
+    <Content Include="Views\Shared\_LonsListPage.cshtml" />
+    <Content Include="Views\Loans\PostHistry.cshtml" />
+    <Content Include="Views\Shared\P_LayoutPage.cshtml" />
+    <Content Include="Views\Loans\LonsDetailsPartialView.cshtml" />
+    <Content Include="Views\Report\LoansReport.cshtml" />
+    <Content Include="Views\Loans\EditLoan.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\DBScripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_LayoutPage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Staff\StaffLogin.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Staff\StaffSignUp.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-1.11.1.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Staff\ChangePWD.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Staff\CreateBranch.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Group\CreateGroup.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Member\CreateMember.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Staff\CreateStaff.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Staff\HomePage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Staff\Logout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Group\ErrorPage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Member\MemberDetails.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Member\test.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Member\EditMember.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Loans\LoansDisbus.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Loans\LoansCols.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,143 @@
+﻿@model TestApp.VModels.Member.MemberViewModel
+@{
+    ViewBag.Title = "MemberDetails";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        <h3>Member Details</h3>
+    </title>
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Scripts/Stylesheet.css" rel="stylesheet" />
+</head>
+<body>
+    @using (Html.BeginForm("MemberDetails", "Member"))
+    {
+        <div style="float:left;margin: 5%;"> <label >Select Group Code</label>@Html.DropDownListFor(x => Model.GrpCode, new SelectList(Model.GrpNameList, "Value", "Text"), "--All Groups--", htmlAttributes: new { @class = "btn btn-primary",@style="width: 150px;", @id = "GrpCode" })</div>
+        <div class="container">
+            <h2>Member Details</h2>            
+            <b><hr/></b>
+            <div  style="height:400px; overflow:auto;">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+
+                        <th>Sl. No.
+                        </th>
+                        <th>GroupCode
+                        </th>
+                        <th>Member Name
+                        </th>
+                        <th>Husband Name
+                        </th>
+                        <th>Age
+                        </th>
+                        <th>Status
+                        </th>
+                        <th>Withdraw Date
+                        </th>
+                        <th>StaffId
+                        </th>
+                        <th>Address 
+                        </th>
+                        <th>Action 
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="tbody">
+                </tbody>
+            </table>
+                </div><br />
+</div>  
+        
+        
+    }
+      
+</body>
+</html>
+
+<script type="text/javascript">
+    //Load Data in Table when documents is ready
+    $(document).ready(function () {
+        loadData();
+    });
+
+    $("#GrpCode").change(function () {
+        loadData();
+    });
+
+
+    //Load Data function
+    function loadData() {
+        var selectedGrpCode = $("#GrpCode :selected").text();
+        $.ajax({
+            url: '@Url.Action("MemberList","Member")',
+            type: "Get",
+            contentType: "application/json;charset=utf-8",
+            async: true,
+            data: { sGrpCode: selectedGrpCode },
+            catch: false,
+            dataType: "json",
+            success: function (result) {
+
+                var html = '';
+                $.each(result, function (key, item) {
+                    html += '<tr>';
+                    html += '<td>' + item.MbrId + '</td>';
+                    html += '<td>' + item.GroupCode + '</td>';
+                    html += '<td>' + item.MbrName + '</td>';
+                    html += '<td>' + item.Husbandname + '</td>';
+                    html += '<td>' + item.Age + '</td>';
+                    html += '<td>' + item.MbrStatus + '</td>';
+                    html += '<td>' + item.WithdrawDt + '</td>';
+                    html += '<td>' + item.StaffId + '</td>';
+                    html += '<td>' + item.MbrAddress + '</td>';
+                    html += '<td><a href="#" onclick="return getbyID(' + item.MbrId + ')">Edit</a> | <a href="#" onclick="Delele(' + item.MbrId + ')">Delete</a></td>';
+                    html += '</tr>';
+                });
+                $('.tbody').html(html);
+            },
+            error: function (errormessage) {
+
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+
+    //Function for getting the Data Based upon Employee ID
+    function getbyID(EmpID) {
+        var MbrId = EmpID;
+        window.location.href = '@Url.Action("EditMember", "Member", new { iMbrID = "ID"})'.replace("ID", MbrId);
+    }
+
+
+
+    //function for deleting employee's record
+    function Delele(ID) {
+        var ans = confirm("Are you sure you want to delete this Record?");
+        if (ans) {
+            $.ajax({
+                url: '@Url.Action("RemoveMember","Member")',
+                type: "Get",
+                contentType: "application/json;charset=utf-8",
+                async: true,
+                data: { iMbrID: ID },
+                catch: false,
+                success: function (result) {
+                    loadData();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+    }
+</script>
+
+

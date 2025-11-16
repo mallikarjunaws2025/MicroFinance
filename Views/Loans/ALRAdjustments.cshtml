@@ -1,0 +1,158 @@
+﻿@model TestApp.VModels.Member.MemberViewModel
+@{
+    ViewBag.Title = "MemberDetails";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<html>
+<head>
+    <title>
+        <h3>Member Details</h3>
+    </title>
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Scripts/Stylesheet.css" rel="stylesheet" />
+</head>
+<body>
+    @using (Html.BeginForm("ALRAdjustments", "Loans", FormMethod.Post))
+    {        
+        <div class="container">
+            <h3>Member Records</h3>
+            <div style="float: left; margin-top: 1%;">
+                <label>Select Group Name&nbsp</label>@Html.DropDownListFor(x => Model.GrpCode, new SelectList(Model.GrpNameList, "Value", "Text"), "--All Groups--", htmlAttributes: new { @class = "btn btn-primary", @style = "width: 150px;", @id = "GrpCode" })&nbsp
+            <label>Select Staff Name&nbsp</label>@Html.DropDownListFor(x => Model.StaffMbrList, new SelectList(Model.StaffMbrList, "Value", "Text"), "--All Members--", htmlAttributes: new { @class = "btn btn-primary", @style = "width: 150px;", @id = "StaffId" })
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-control" style="height: 400px; overflow: auto;">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr style="background-color: #428bca; color: #1b0a0a;">
+                            <th>Sl. No.
+                            </th>
+                            <th>Group Name
+                            </th>
+                            <th>Member Name
+                            </th>
+                            <th>Staff Name
+                            </th>
+                            <th>Action 
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                    </tbody>
+                </table>
+            </div>
+            <br />
+        </div>  
+        
+        
+    }
+</body>
+</html>
+
+<script type="text/javascript">
+    //Load Data in Table when documents is read
+
+    $(document).ready(function () {
+        loadData();
+    });
+
+    $("#GrpCode").change(function () {
+        loadData();
+    });
+    $("#StaffId").change(function () {
+        loadData();
+    });
+
+
+    //Load Data function
+    function loadData() {
+        var selectedGrpCode = $("#GrpCode :selected").val();
+        var vMbrId = $("#StaffId").val()
+        $.ajax({
+            url: '@Url.Action("MemberList", "Member")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            async: true,
+            data: { sGrpCode: selectedGrpCode, sStaffId: vMbrId },
+            catch: false,
+            dataType: "json",
+            success: function (result) {
+
+                var html = '';
+                $.each(result, function (key, item) {
+                    html += '<tr>';
+                    html += '<td>' + item.MbrId + '</td>';
+                    html += '<td>' + item.GrpName + '</td>';
+                    html += '<td>' + item.MbrName + '</td>';
+                    html += '<td>' + item.StaffName + '</td>';
+                    html += '<td><a href="#" onclick="return ALRSavings(' + item.MbrId + ')">ALR Savings</a> | <a href="#" onclick="return AdvanceALR(' + item.MbrId + ')">Advance ALR</a></td>';
+                    html += '</tr>';
+                });
+                $('.tbody').html(html);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+    //Function for getting the Data Based upon Employee ID
+    function ALRSavings(MbrID) {
+        var vALRAmt = null;
+        var vALRType = "ALRSavings";
+
+        vALRAmt = prompt("Please Enter ALR Savings Amount");
+
+        $.ajax({
+            url: '@Url.Action("ALRAdjust", "Loans")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            data: { iMbrId: MbrID, ALRAmt: vALRAmt, ALRType: vALRType },
+            catch: false,
+            success: function (result) {
+                if (result == "Success") {
+                    alert("Successfully updated ALR details.");
+                }
+                else {
+                    alert("Sorry, unable to process your request");
+                }
+            },
+            error: function (errormessage) {
+                alert("Error while process your request");
+            }
+        });
+    }
+
+    //Function for getting the Data Based upon Employee ID
+    function AdvanceALR(MbrID) {
+        var vALRAmt = null;
+        var vALRType = "AdvanceALR";
+
+        vALRAmt = prompt("Please Enter ALR Amount");
+
+        $.ajax({
+            url: '@Url.Action("ALRAdjust", "Loans")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            data: { iMbrId: MbrID, ALRAmt: vALRAmt, ALRType: vALRType },
+            catch: false,
+            success: function (result) {
+                if (result == "Success") {
+                    alert("Successfully updated ALR details.");
+                }
+                else {
+                    alert("Sorry, unable to process your request");
+                }
+            },
+            error: function (errormessage) {
+                alert("Error while process your request");
+            }
+        });
+    }
+
+</script>
+
+

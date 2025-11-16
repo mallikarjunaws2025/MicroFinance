@@ -1,0 +1,824 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MicroFinanceModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="MicroFinanceEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="StaffLogins" EntityType="MicroFinanceModel.StaffLogin" />
+    <EntitySet Name="UserLogs" EntityType="MicroFinanceModel.UserLog" />
+    <EntitySet Name="Branches" EntityType="MicroFinanceModel.Branch" />
+    <FunctionImport Name="spGetLoanDetails" ReturnType="Collection(MicroFinanceModel.spGetLoanDetails_Result)">
+      <Parameter Name="LoanId" Mode="In" Type="Int32" />
+      <Parameter Name="MbrId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="spGetWithDrawMbrsList" ReturnType="Collection(MicroFinanceModel.spGetWithDrawMbrsList_Result)" />
+    <EntitySet Name="Staffs" EntityType="MicroFinanceModel.Staff" />
+    <AssociationSet Name="FK__StaffLogi__Staff__2E1BDC42" Association="MicroFinanceModel.FK__StaffLogi__Staff__2E1BDC42">
+      <End Role="Staff" EntitySet="Staffs" />
+      <End Role="StaffLogin" EntitySet="StaffLogins" />
+    </AssociationSet>
+    <EntitySet Name="Members" EntityType="MicroFinanceModel.Member" />
+    <EntitySet Name="ALRAudjustments" EntityType="MicroFinanceModel.ALRAudjustment" />
+    <EntitySet Name="Loans" EntityType="MicroFinanceModel.Loan" />
+    <EntitySet Name="PartnerDetails" EntityType="MicroFinanceModel.PartnerDetail" />
+    <AssociationSet Name="FK__ALRAudjus__MbrID__0F624AF8" Association="MicroFinanceModel.FK__ALRAudjus__MbrID__0F624AF8">
+      <End Role="Loan" EntitySet="Loans" />
+      <End Role="ALRAudjustment" EntitySet="ALRAudjustments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Loans__Savings__5629CD9C" Association="MicroFinanceModel.FK__Loans__Savings__5629CD9C">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Loan" EntitySet="Loans" />
+    </AssociationSet>
+    <EntitySet Name="Loan_Cols" EntityType="MicroFinanceModel.Loan_Cols" />
+    <AssociationSet Name="FK__Loan_Cols__Adjus__6477ECF3" Association="MicroFinanceModel.FK__Loan_Cols__Adjus__6477ECF3">
+      <End Role="Loan" EntitySet="Loans" />
+      <End Role="Loan_Cols" EntitySet="Loan_Cols" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Loan_Cols__MbrId__656C112C" Association="MicroFinanceModel.FK__Loan_Cols__MbrId__656C112C">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Loan_Cols" EntitySet="Loan_Cols" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ALRAudjus__MbrID__29221CFB" Association="MicroFinanceModel.FK__ALRAudjus__MbrID__29221CFB">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="ALRAudjustment" EntitySet="ALRAudjustments" />
+    </AssociationSet>
+    <EntitySet Name="TmpLoanColsBackUpDatas" EntityType="MicroFinanceModel.TmpLoanColsBackUpData" />
+    <EntitySet Name="TmpLoansBackUpDatas" EntityType="MicroFinanceModel.TmpLoansBackUpData" />
+    <FunctionImport Name="spDeleteBackUpTble" />
+    <FunctionImport Name="spTakeBackUpBeforeLoanPost">
+      <Parameter Name="NextDueDt" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="TmpReceipts" EntityType="MicroFinanceModel.TmpReceipt" />
+    <EntitySet Name="TmpSummeryReportDatas" EntityType="MicroFinanceModel.TmpSummeryReportData" />
+    <FunctionImport Name="spGetProgressReportData">
+      <Parameter Name="FrmDt" Mode="In" Type="String" />
+      <Parameter Name="ToDt" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="spGetReceiptsAndPaymentsData">
+      <Parameter Name="FrmDt" Mode="In" Type="String" />
+      <Parameter Name="ToDt" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="spGetDailyDueReportsData" ReturnType="Collection(MicroFinanceModel.spGetDailyDueReportsData_Result8)">
+      <Parameter Name="GrpName" Mode="In" Type="String" />
+      <Parameter Name="StaffName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="spDueAndCollectedAmt" ReturnType="Collection(MicroFinanceModel.spDueAndCollectedAmt_Result1)" />
+    <FunctionImport Name="spGetLoanMbrsList" ReturnType="Collection(MicroFinanceModel.spGetLoanMbrsList_Result6)">
+      <Parameter Name="GrpName" Mode="In" Type="String" />
+      <Parameter Name="StaffName" Mode="In" Type="String" />
+      <Parameter Name="MbrId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="FinGroups" EntityType="MicroFinanceModel.FinGroup" />
+    <FunctionImport Name="spLoansReport" ReturnType="Collection(MicroFinanceModel.spLoansReport_Result)">
+      <Parameter Name="GrpCode" Mode="In" Type="String" />
+      <Parameter Name="StaffName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="spGetLoanMbrsList1" ReturnType="Collection(MicroFinanceModel.spGetLoanMbrsList_Result6)">
+      <Parameter Name="GrpName" Mode="In" Type="String" />
+      <Parameter Name="StaffName" Mode="In" Type="String" />
+      <Parameter Name="MbrId" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="StaffLogin">
+    <Key>
+      <PropertyRef Name="UsrId" />
+    </Key>
+    <Property Name="UsrId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="StaffId" Type="Int32" />
+    <Property Name="UserName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Password" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="RolePermission" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="IsLocked" Type="Int32" />
+    <NavigationProperty Name="Staff" Relationship="MicroFinanceModel.FK__StaffLogi__Staff__2E1BDC42" FromRole="StaffLogin" ToRole="Staff" />
+  </EntityType>
+  <EntityType Name="UserLog">
+    <Key>
+      <PropertyRef Name="LogId" />
+    </Key>
+    <Property Name="LogId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="LoginName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="LogInDateTime" Type="DateTime" Precision="3" />
+    <Property Name="LogOutDateTime" Type="DateTime" Precision="3" />
+    <Property Name="StaffName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Branch">
+    <Key>
+      <PropertyRef Name="BranchID" />
+    </Key>
+    <Property Type="Int32" Name="BranchID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="BranchCode" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BranchName" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="OpenDate" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BAddress" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="City" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="State" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="PinCode" />
+    <Property Type="Int32" Name="ManagerID" />
+  </EntityType>
+  <ComplexType Name="spGetLoanDetails_Result">
+    <Property Type="Int32" Name="LoanColId" Nullable="false" />
+    <Property Type="Int32" Name="LoanId" Nullable="true" />
+    <Property Type="Int32" Name="MbrId" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="String" Name="Prin_Balance" Nullable="true" />
+    <Property Type="String" Name="Int_Collect" Nullable="true" />
+    <Property Type="String" Name="Prin_Collected" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="String" Name="Balance_Interest" Nullable="true" />
+    <Property Type="String" Name="Prin_Due" Nullable="true" />
+    <Property Type="String" Name="Int_Due" Nullable="true" />
+    <Property Type="String" Name="Transact_Date" Nullable="true" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="Upto_Last_Savings" Nullable="true" />
+    <Property Type="String" Name="During_Savings" Nullable="true" />
+    <Property Type="String" Name="As_On" Nullable="true" />
+    <Property Type="Int32" Name="Adjustment" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetWithDrawMbrsList_Result">
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GroupCode" Nullable="true" />
+    <Property Type="String" Name="Husbandname" Nullable="true" />
+    <Property Type="Int32" Name="Age" Nullable="true" />
+    <Property Type="String" Name="MbrStatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="WithdrawDt" Nullable="true" />
+    <Property Type="Int32" Name="StaffId" Nullable="true" />
+    <Property Type="String" Name="MbrAddress" Nullable="true" />
+    <Property Type="String" Name="DOJ" Nullable="true" />
+    <Property Type="String" Name="CantactNo" Nullable="true" />
+    <Property Type="String" Name="Gender" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId1" Nullable="true" />
+    <Property Type="String" Name="Loan_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="String" Name="RateOfInterest" Nullable="true" />
+    <Property Type="String" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Int_EMI" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="Date_Of_Disbursement" Nullable="true" />
+    <Property Type="String" Name="Expiry_Date" Nullable="true" />
+    <Property Type="String" Name="ALRAmt" Nullable="true" />
+    <Property Type="String" Name="GRFAmt" Nullable="true" />
+    <Property Type="String" Name="Processing_Fee" Nullable="true" />
+    <Property Type="Int32" Name="Stationary" Nullable="true" />
+    <Property Type="Int32" Name="Insurance" Nullable="true" />
+    <Property Type="String" Name="Other_Income" Nullable="true" />
+    <Property Type="String" Name="Savings" Nullable="true" />
+    <Property Type="String" Name="GrpCode" Nullable="true" />
+    <Property Type="String" Name="StaffName" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetWithDrawMbrsList1_Result">
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GroupCode" Nullable="true" />
+    <Property Type="String" Name="Husbandname" Nullable="true" />
+    <Property Type="Int32" Name="Age" Nullable="true" />
+    <Property Type="String" Name="MbrStatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="WithdrawDt" Nullable="true" />
+    <Property Type="Int32" Name="StaffId" Nullable="true" />
+    <Property Type="String" Name="MbrAddress" Nullable="true" />
+    <Property Type="String" Name="DOJ" Nullable="true" />
+    <Property Type="String" Name="CantactNo" Nullable="true" />
+    <Property Type="String" Name="Gender" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <EntityType Name="Staff">
+    <Key>
+      <PropertyRef Name="StaffID" />
+    </Key>
+    <Property Type="Int32" Name="StaffID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="StaffName" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="DOB" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="DOJ" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Status" MaxLength="6" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="StaffLogins" Relationship="MicroFinanceModel.FK__StaffLogi__Staff__2E1BDC42" FromRole="Staff" ToRole="StaffLogin" />
+  </EntityType>
+  <Association Name="FK__StaffLogi__Staff__2E1BDC42">
+    <End Type="MicroFinanceModel.Staff" Role="Staff" Multiplicity="0..1" />
+    <End Type="MicroFinanceModel.StaffLogin" Role="StaffLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="StaffID" />
+      </Principal>
+      <Dependent Role="StaffLogin">
+        <PropertyRef Name="StaffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="spGetLoanMbrsList_Result">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Loan_Amount" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="During_Savings" Nullable="true" />
+    <Property Type="String" Name="Savings" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spDueAndCollectedAmt_Result">
+    <Property Type="Int32" Name="Total_Due_Amount" Nullable="true" />
+    <Property Type="Int32" Name="CollectedAmount" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="spGetLoanMbrsList1_Result">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="PaidEMI" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="String" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="During_Savings" Nullable="true" />
+    <Property Type="String" Name="Savings" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spDueAndCollectedAmt1_Result">
+    <Property Type="Int32" Name="Total_Due_Amount" Nullable="true" />
+    <Property Type="Int32" Name="CollectedAmount" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="spGetLoanMbrsList_Result1">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="PaidEMI" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="String" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="During_Savings" Nullable="true" />
+    <Property Type="String" Name="Savings" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetLoanMbrsList2_Result">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="PaidEMI" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="Int32" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="During_Savings" Nullable="true" />
+    <Property Type="String" Name="Savings" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetLoanMbrsList3_Result">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="PaidEMI" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="Int32" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="During_Savings" Nullable="true" />
+    <Property Type="String" Name="Savings" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetLoanMbrsList4_Result">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="PaidEMI" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="Int32" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="During_Savings" Nullable="true" />
+    <Property Type="String" Name="Savings" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetLoanMbrsList5_Result">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="PaidEMI" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="Int32" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="During_Savings" Nullable="true" />
+    <Property Type="String" Name="Savings" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetLoanMbrsList1_Result1">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="PaidEMI" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="Int32" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="During_Savings" Nullable="true" />
+    <Property Type="String" Name="Savings" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetLoanMbrsList_Result2">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="PaidEMI" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="Int32" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="During_Savings" Nullable="true" />
+    <Property Type="String" Name="Savings" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="MbrId" />
+    </Key>
+    <Property Type="Int32" Name="MbrId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="MbrName" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="GroupCode" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Husbandname" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Age" />
+    <Property Type="String" Name="MbrStatus" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="WithdrawDt" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="StaffId" />
+    <Property Type="String" Name="MbrAddress" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="DOJ" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CantactNo" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Gender" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="GrpName" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="StaffName" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Loans" Relationship="MicroFinanceModel.FK__Loans__Savings__5629CD9C" FromRole="Member" ToRole="Loan" />
+    <NavigationProperty Name="Loan_Cols" Relationship="MicroFinanceModel.FK__Loan_Cols__MbrId__656C112C" FromRole="Member" ToRole="Loan_Cols" />
+    <NavigationProperty Name="ALRAudjustments" Relationship="MicroFinanceModel.FK__ALRAudjus__MbrID__29221CFB" FromRole="Member" ToRole="ALRAudjustment" />
+    <Property Type="String" Name="Nominee" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PhoneNo2" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="AdharaCardNum" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="spGetLoanMbrsList_Result3">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="PaidEMI" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="Int32" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="During_Savings" Nullable="true" />
+    <Property Type="String" Name="NetSavings" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="ALRAudjustment">
+    <Key>
+      <PropertyRef Name="ALRID" />
+    </Key>
+    <Property Type="Int32" Name="ALRID" Nullable="false" />
+    <Property Type="Int32" Name="MbrID" />
+    <Property Type="String" Name="ALRSavings" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="AdvanceALR" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CrDt" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Loan" Relationship="MicroFinanceModel.FK__ALRAudjus__MbrID__0F624AF8" FromRole="ALRAudjustment" ToRole="Loan" />
+    <NavigationProperty Name="Member" Relationship="MicroFinanceModel.FK__ALRAudjus__MbrID__29221CFB" FromRole="ALRAudjustment" ToRole="Member" />
+  </EntityType>
+  <EntityType Name="Loan">
+    <Key>
+      <PropertyRef Name="LoanID" />
+    </Key>
+    <Property Type="Int32" Name="LoanID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="MbrId" />
+    <Property Type="String" Name="Loan_Amount" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Balance_Amount" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="RateOfInterest" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Prin_EMI" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Int_EMI" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="NoOfDay" />
+    <Property Type="String" Name="Date_Of_Disbursement" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Expiry_Date" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ALRSavings" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="GRFAmt" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Processing_Fee" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Stationary" />
+    <Property Type="Int32" Name="Insurance" />
+    <Property Type="String" Name="Other_Income" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="NetSavings" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="GrpCode" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="StaffName" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="NextDueDt" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Balance_Interest" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="LoanType" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ALRAudjustments" Relationship="MicroFinanceModel.FK__ALRAudjus__MbrID__0F624AF8" FromRole="Loan" ToRole="ALRAudjustment" />
+    <NavigationProperty Name="Member" Relationship="MicroFinanceModel.FK__Loans__Savings__5629CD9C" FromRole="Loan" ToRole="Member" />
+    <NavigationProperty Name="Loan_Cols" Relationship="MicroFinanceModel.FK__Loan_Cols__Adjus__6477ECF3" FromRole="Loan" ToRole="Loan_Cols" />
+  </EntityType>
+  <EntityType Name="PartnerDetail">
+    <Key>
+      <PropertyRef Name="PrtnrID" />
+    </Key>
+    <Property Type="Int32" Name="PrtnrID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="PrtnrName" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Address" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CatntactNum" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="City" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Statte" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ZIP" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="AdharaCardNum" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CrDate" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="InvestmentAmt" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK__ALRAudjus__MbrID__0F624AF8">
+    <End Type="MicroFinanceModel.Loan" Role="Loan" Multiplicity="0..1" />
+    <End Type="MicroFinanceModel.ALRAudjustment" Role="ALRAudjustment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Loan">
+        <PropertyRef Name="LoanID" />
+      </Principal>
+      <Dependent Role="ALRAudjustment">
+        <PropertyRef Name="MbrID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Loans__Savings__5629CD9C">
+    <End Type="MicroFinanceModel.Member" Role="Member" Multiplicity="0..1" />
+    <End Type="MicroFinanceModel.Loan" Role="Loan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MbrId" />
+      </Principal>
+      <Dependent Role="Loan">
+        <PropertyRef Name="MbrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Loan_Cols">
+    <Key>
+      <PropertyRef Name="LoanColId" />
+    </Key>
+    <Property Type="Int32" Name="LoanColId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="LoanId" />
+    <Property Type="Int32" Name="MbrId" />
+    <Property Type="String" Name="Collected_Amount" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Actual_Balance" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Prin_Balance" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Int_Collect" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Prin_Collected" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Balance_Installment" />
+    <Property Type="String" Name="Balance_Interest" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Prin_Due" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Int_Due" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Transact_Date" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Next_Due_Date" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Upto_Last_Savings" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ALRSavings" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="As_On" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Adjustment" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PaidEMI" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PrePrinAmt" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PreInterestAmt" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Collect_Or_RefoundAmt" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Loan" Relationship="MicroFinanceModel.FK__Loan_Cols__Adjus__6477ECF3" FromRole="Loan_Cols" ToRole="Loan" />
+    <NavigationProperty Name="Member" Relationship="MicroFinanceModel.FK__Loan_Cols__MbrId__656C112C" FromRole="Loan_Cols" ToRole="Member" />
+    <Property Type="String" Name="PostedUserID" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK__Loan_Cols__Adjus__6477ECF3">
+    <End Type="MicroFinanceModel.Loan" Role="Loan" Multiplicity="0..1" />
+    <End Type="MicroFinanceModel.Loan_Cols" Role="Loan_Cols" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Loan">
+        <PropertyRef Name="LoanID" />
+      </Principal>
+      <Dependent Role="Loan_Cols">
+        <PropertyRef Name="LoanId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Loan_Cols__MbrId__656C112C">
+    <End Type="MicroFinanceModel.Member" Role="Member" Multiplicity="0..1" />
+    <End Type="MicroFinanceModel.Loan_Cols" Role="Loan_Cols" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MbrId" />
+      </Principal>
+      <Dependent Role="Loan_Cols">
+        <PropertyRef Name="MbrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ALRAudjus__MbrID__29221CFB">
+    <End Type="MicroFinanceModel.Member" Role="Member" Multiplicity="0..1" />
+    <End Type="MicroFinanceModel.ALRAudjustment" Role="ALRAudjustment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MbrId" />
+      </Principal>
+      <Dependent Role="ALRAudjustment">
+        <PropertyRef Name="MbrID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="spGetDailyDueReportsData_Result">
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="Int32" Name="Net_Members" Nullable="true" />
+    <Property Type="String" Name="CrDt" Nullable="true" />
+    <Property Type="String" Name="Expiry_Date" Nullable="true" />
+    <Property Type="String" Name="Loan_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Interest" Nullable="true" />
+    <Property Type="String" Name="T_ALR_Collected" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="Principle" Nullable="true" />
+    <Property Type="String" Name="Interest" Nullable="true" />
+    <Property Type="String" Name="ALR_Coll" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetDailyDueReportsData_Result1">
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="Int32" Name="Net_Members" Nullable="true" />
+    <Property Type="String" Name="CrDt" Nullable="true" />
+    <Property Type="String" Name="Expiry_Date" Nullable="true" />
+    <Property Type="String" Name="Loan_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Interest" Nullable="true" />
+    <Property Type="String" Name="TALRCollected" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="Principle" Nullable="true" />
+    <Property Type="String" Name="Interest" Nullable="true" />
+    <Property Type="String" Name="ALRColl" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetDailyDueReportsData_Result2">
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="Int32" Name="Net_Members" Nullable="true" />
+    <Property Type="String" Name="CrDt" Nullable="true" />
+    <Property Type="String" Name="DOC" Nullable="true" />
+    <Property Type="String" Name="Loan_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Interest" Nullable="true" />
+    <Property Type="String" Name="ALRSavings" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Int_EMI" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetDailyDueReportsData_Result3">
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="Int32" Name="Net_Members" Nullable="true" />
+    <Property Type="String" Name="CrDt" Nullable="true" />
+    <Property Type="String" Name="DOC" Nullable="true" />
+    <Property Type="String" Name="Loan_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Interest" Nullable="true" />
+    <Property Type="String" Name="ALRSavings" Nullable="true" />
+    <Property Type="String" Name="NetSavings" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Int_EMI" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetDailyDueReportsData_Result4">
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="Int32" Name="Net_Members" Nullable="true" />
+    <Property Type="String" Name="CrDt" Nullable="true" />
+    <Property Type="String" Name="DOC" Nullable="true" />
+    <Property Type="String" Name="Loan_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Interest" Nullable="true" />
+    <Property Type="String" Name="ALRSavings" Nullable="true" />
+    <Property Type="String" Name="NetSavings" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Int_EMI" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetDailyDueReportsData_Result5">
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="Int32" Name="Net_Members" Nullable="true" />
+    <Property Type="String" Name="CrDt" Nullable="true" />
+    <Property Type="String" Name="DOC" Nullable="true" />
+    <Property Type="String" Name="Loan_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Interest" Nullable="true" />
+    <Property Type="String" Name="ALRSavings" Nullable="true" />
+    <Property Type="String" Name="NetSavings" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Int_EMI" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="TmpLoanColsBackUpData">
+    <Key>
+      <PropertyRef Name="LoanColId" />
+    </Key>
+    <Property Type="Int32" Name="LoanColId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="TmpLoansBackUpData">
+    <Key>
+      <PropertyRef Name="LoanID" />
+    </Key>
+    <Property Type="Int32" Name="LoanID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="MbrId" />
+    <Property Type="String" Name="Loan_Amount" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Balance_Amount" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="RateOfInterest" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Prin_EMI" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Int_EMI" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="NoOfDay" />
+    <Property Type="String" Name="Date_Of_Disbursement" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Expiry_Date" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ALRSavings" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="GRFAmt" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Processing_Fee" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Stationary" />
+    <Property Type="Int32" Name="Insurance" />
+    <Property Type="String" Name="Other_Income" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="NetSavings" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="GrpCode" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="StaffName" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="NextDueDt" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Balance_Interest" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="LoanType" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="spGetLoanMbrsList_Result4">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="PaidEMI" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="Decimal" Name="Prin_EMI" Nullable="true" Precision="19" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="ALRSavings" Nullable="true" />
+    <Property Type="String" Name="NetSavings" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spSelectReceiptsAndPaymentsReportDta_Result">
+    <Property Type="String" Name="Receipts" Nullable="true" />
+    <Property Type="String" Name="Rs" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spSelectSummerReportDta_Result">
+    <Property Type="String" Name="Particulars" Nullable="true" />
+    <Property Type="String" Name="BOR" Nullable="true" />
+    <Property Type="String" Name="Added" Nullable="true" />
+    <Property Type="String" Name="Dropped" Nullable="true" />
+    <Property Type="String" Name="EOR" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spSelectSummerReportDta_Result1">
+    <Property Type="String" Name="Particulars" Nullable="true" />
+    <Property Type="String" Name="BOR" Nullable="true" />
+    <Property Type="String" Name="Added" Nullable="true" />
+    <Property Type="String" Name="Dropped" Nullable="true" />
+    <Property Type="String" Name="EOR" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spSelectReceiptsAndPaymentsReportDta_Result1">
+    <Property Type="String" Name="Receipts" Nullable="true" />
+    <Property Type="String" Name="Rs" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="TmpReceipt">
+    <Key>
+      <PropertyRef Name="SlNo" />
+    </Key>
+    <Property Type="Int32" Name="SlNo" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Receipts" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Rs" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="TmpSummeryReportData">
+    <Key>
+      <PropertyRef Name="SlNo" />
+    </Key>
+    <Property Type="Int32" Name="SlNo" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Particulars" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BOR" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Added" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Dropped" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="EOR" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="spGetDailyDueReportsData_Result6">
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="Int32" Name="Net_Members" Nullable="true" />
+    <Property Type="String" Name="CrDt" Nullable="true" />
+    <Property Type="String" Name="DOC" Nullable="true" />
+    <Property Type="String" Name="Column1" Nullable="true" />
+    <Property Type="String" Name="Column2" Nullable="true" />
+    <Property Type="String" Name="Column3" Nullable="true" />
+    <Property Type="String" Name="Column4" Nullable="true" />
+    <Property Type="Int32" Name="Column5" Nullable="false" />
+    <Property Type="String" Name="Column6" Nullable="true" />
+    <Property Type="String" Name="Column7" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetDailyDueReportsData_Result7">
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="Int32" Name="Net_Members" Nullable="true" />
+    <Property Type="String" Name="CrDt" Nullable="true" />
+    <Property Type="String" Name="DOC" Nullable="true" />
+    <Property Type="String" Name="Column1" Nullable="true" />
+    <Property Type="String" Name="Column2" Nullable="true" />
+    <Property Type="String" Name="Column3" Nullable="true" />
+    <Property Type="String" Name="Column4" Nullable="true" />
+    <Property Type="Int32" Name="Column5" Nullable="false" />
+    <Property Type="String" Name="Column6" Nullable="true" />
+    <Property Type="String" Name="Column7" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetDailyDueReportsData_Result8">
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="Int32" Name="Net_Members" Nullable="true" />
+    <Property Type="String" Name="CrDt" Nullable="true" />
+    <Property Type="String" Name="DOC" Nullable="true" />
+    <Property Type="String" Name="Loan_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Interest" Nullable="true" />
+    <Property Type="String" Name="ALRSavings" Nullable="true" />
+    <Property Type="String" Name="NetSavings" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="false" />
+    <Property Type="String" Name="Prin_EMI" Nullable="true" />
+    <Property Type="String" Name="Int_EMI" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spDueAndCollectedAmt_Result1">
+    <Property Type="Int32" Name="Total_Due_Amount" Nullable="true" />
+    <Property Type="Int32" Name="CollectedAmount" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="spGetLoanMbrsList_Result5">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Column1" Nullable="true" />
+    <Property Type="Int32" Name="Column2" Nullable="false" />
+    <Property Type="String" Name="Column3" Nullable="true" />
+    <Property Type="String" Name="Column4" Nullable="true" />
+    <Property Type="String" Name="Column5" Nullable="true" />
+    <Property Type="Int32" Name="Column6" Nullable="false" />
+    <Property Type="Decimal" Name="Prin_EMI" Nullable="true" Precision="19" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="Column7" Nullable="true" />
+    <Property Type="String" Name="Column8" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="spGetLoanMbrsList_Result6">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="Actual_Balance" Nullable="true" />
+    <Property Type="Int32" Name="NoOfDay" Nullable="true" />
+    <Property Type="String" Name="PaidEMI" Nullable="true" />
+    <Property Type="String" Name="Collected_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="Int32" Name="Balance_Installment" Nullable="true" />
+    <Property Type="Decimal" Name="Prin_EMI" Nullable="true" Precision="19" />
+    <Property Type="String" Name="Next_Due_Date" Nullable="true" />
+    <Property Type="String" Name="ALRSavings" Nullable="true" />
+    <Property Type="String" Name="NetSavings" Nullable="true" />
+    <Property Type="String" Name="StaffName" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="FinGroup">
+    <Key>
+      <PropertyRef Name="GroupID" />
+    </Key>
+    <Property Type="Int32" Name="GroupID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="GroupCode" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BranchCode" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Village" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Net_Members" />
+    <Property Type="String" Name="CrDt" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="DOC" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Distance" />
+    <Property Type="String" Name="GStatus" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="StaffID" />
+    <Property Type="String" Name="FormedBy" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="MeetingPlaceAddress" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="GType" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="GrpName" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="RecoveryDay" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="spLoansReport_Result">
+    <Property Type="Int32" Name="MbrId" Nullable="false" />
+    <Property Type="String" Name="MbrName" Nullable="true" />
+    <Property Type="String" Name="GrpName" Nullable="true" />
+    <Property Type="String" Name="CantactNo" Nullable="true" />
+    <Property Type="String" Name="MbrAddress" Nullable="true" />
+    <Property Type="String" Name="MbrStatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Husbandname" Nullable="true" />
+    <Property Type="String" Name="StaffName" Nullable="true" />
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="String" Name="Loan_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Amount" Nullable="true" />
+    <Property Type="String" Name="Balance_Interest" Nullable="true" />
+    <Property Type="String" Name="NextDueDt" Nullable="true" />
+    <Property Type="String" Name="Expiry_Date" Nullable="true" />
+    <Property Type="Int32" Name="StaffRowCount" Nullable="false" />
+    <Property Type="Int32" Name="GrpRowCount" Nullable="false" />
+  </ComplexType>
+</Schema>

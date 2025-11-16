@@ -1,0 +1,201 @@
+﻿@model  TestApp.VModels.Loans.LoanCols
+@{
+    ViewBag.Title = "MemberDetails";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<html>
+<head>
+    <title>
+        <h3>Member Details</h3>
+    </title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Scripts/Stylesheet.css" rel="stylesheet" />
+
+@*    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PrintArea/2.4.1/jquery.PrintArea.js" type="text/javascript"></script>
+
+</head>
+<body>
+    @using (Html.BeginForm("GetRecoveryReport", "Loans", FormMethod.Post))
+    {        
+        <div class="container">
+            <div style="float:left;margin-top: 2.5%;"> <label >Select Group Name&nbsp</label>@Html.DropDownListFor(x => Model.GrpCodeList, new SelectList(Model.GrpCodeList, "Text", "Text"), "--All Groups--", htmlAttributes: new { @class = "btn btn-primary",@style="width: 150px;", @id = "GrpCode" })&nbsp
+            <label >Select Staff Name&nbsp</label>@Html.DropDownListFor(x => Model.StaffMbrList, new SelectList(Model.StaffMbrList, "Text", "Text"), "--All Staff--", htmlAttributes: new { @class = "btn btn-primary",@style="width: 150px;", @id = "StaffId" })
+            <input class = "btn btn-primary" style="width:150px;" type="date" id="DueDt">
+            <input type="button" value="Search" id="btnSearch" class="btn btn-primary" />
+
+   <input type="button" value="Print" id="btnPrint" class="btn btn-primary" />
+       </div> <br /> <br /> <br /> 
+            <div  id="dvDailyreportData" style="height:400px;border:none">
+                 <br /><h3>Weekly Recovery Report</h3><br />
+                <p id="pStaffName" style="display:none">
+                Staff Name : <label id="lblStaff"></label><br />
+                Group Name : <label id="lblGrpCode"></label><br />
+                Report Date :  @DateTime.Today.ToString("dd/MM/yyyy")<br />
+                </p>
+            <table id="LoanColstbl" class="table table-bordered table-hover">
+                    <thead>
+                        <tr style="background-color: #428bca; color: #1b0a0a;">
+                            <th style="display: none">Loan ID.
+                            </th>
+                            <th style="display: none">Member Id
+                            </th>
+                            <th>Member Name.
+                            </th>
+                            <th>Group Name.
+                            </th>
+                             <th>Staff Name.
+                            </th>
+                            <th>Loan Amt(+ Interest)
+                            </th>
+                            <th>Tentur
+                            </th>
+                            <th>Paid Installments
+                            </th>
+                            <th>Paid Amount
+                            </th>
+                            <th>Balance Amount
+                            </th>
+                            <th>Balance Installments
+                            </th>
+                            <th>Current Due
+                            </th>
+                           @* <th>ALR Net Savings
+                            </th>
+                            <th>After Adjustment  
+                            </th>
+                            <th>During ALR Savings  
+                            </th>*@
+                            @*<th>Post 
+                            </th>
+                            <th>Pre-Paid 
+                            </th>
+                            <th>Action 
+                            </th>*@
+                        </tr>
+                    </thead>
+                    <tbody id="idDaily" class="tbody">
+                    </tbody>
+                </table><br /><br />
+                <label style="float: left;" id="closingALR">Closing ALR : </label><br />
+              <div>            
+            <br /><label style="float: left; " >CO Signature :___________________</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<label style="text-align: right";> BM Signature :___________________ </label>
+                 <br /><br /><br /><label style="float: left";>Visitor Signature :___________________ </label>
+            </div>
+                </div><br />
+</div>  
+        
+        
+    }      
+</body>
+</html>
+
+<script type="text/javascript">
+    //Load Data in Table when documents is read
+
+    //$(document).ready(function () {
+    //    loadData(); 
+    //});
+
+    $(document).ready(function () {
+      
+        $('#idDaily').html('');
+        $(".btnPrint").printPage();
+        loadData();
+    });
+
+    $("#GrpCode").change(function () {
+        //alert("Before loadData");
+        $("#lblStaff").html($("#StaffId :selected").text());
+        $("#lblGrpCode").html($("#GrpCode :selected").text());
+        $('#idDaily').html('');
+        //loadData();
+        //alert("After loadData");
+    });
+    $("#StaffId").change(function () {
+        // alert("Before loadData");
+        $("#lblStaff").html($("#StaffId :selected").text());
+        $("#lblGrpCode").html($("#GrpCode :selected").text());
+        $('#idDaily').html();
+        //loadData();
+        //alert("After loadData");
+    });
+
+
+    
+
+
+    $("#btnSearch").click(function () {
+        loadData(); 
+    });
+
+    $("#btnPrint").click(function () {
+        $("#lblStaff").html($("#StaffId :selected").text());
+        $("#lblGrpCode").html($("#GrpCode :selected").text());
+        $('#pStaffName').attr("style", "display:normal");
+
+
+        var mode = 'iframe';
+        var close = mode == "popup";
+        var options = { mode: mode, popClose: close };
+        $("#dvDailyreportData").printArea(options);
+    })
+
+
+    //Load Data function
+    function loadData() {
+        var selectedGrpCode = $("#GrpCode :selected").text();
+        var vStaffId = $("#StaffId").val();
+        var vMbrId = $("#MbrIDName").val();
+        var vDueDt = $("#DueDt").val();
+        $.ajax({
+            url: '@Url.Action("LoansList", "Loans")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            async: true,
+            data: { sGrpName: selectedGrpCode, sStaffName: vStaffId, sMbrID: vMbrId, DueDt: vDueDt },
+            catch: false,
+            dataType: "json",
+            success: function (result) {
+
+                var html = '';
+                var vCurrentDue = '';
+                $.each(result, function (key, item) {
+                    html += '<tr id="rw' + item.LoanID + '">';
+                    html += '<td style="display:none" id="tdID' + item.LoanID + '">' + item.LoanID + '</td>';
+                    html += '<td style="display:none">' + item.MbrId + '</td>';
+                    html += '<td>' + item.MbrName + '</td>';
+                    html += '<td>' + item.GrpName + '</td>';
+                    html += '<td>' + item.StaffName + '</td>';
+                    html += '<td id="tdLA' + item.LoanID + '"> ' + item.Actual_Balance + '</td>';
+                    html += '<td>' + item.NoOfDay + '</td>';
+                    html += '<td id="tdPE' + item.LoanID + '">' + item.PaidEMI + '</td>';
+                    html += '<td id="tdCA' + item.LoanID + '">' + parseFloat(parseFloat(item.Collected_Amount) * parseInt(item.PaidEMI)) + '</td>';
+                    html += '<td id="tdBL' + item.LoanID + '">' + item.Balance_Amount + '</td>';
+                    html += '<td>' + item.Balance_Installment + '</td>';
+                    html += '<td id="tdCD' + item.LoanID + '">' + item.Prin_EMI + '</td>';
+                    //html += '<td id="tdNtSvg' + item.LoanID + '">' + item.NetSavings + '</td>';
+                    //html += '<td><input type="text" id="txtAdjst' + item.LoanID + '" disabled="disabled" style="width: 40px;" value="0.00"/></td>';
+                    //html += '<td><input type="text" id="txt' + item.LoanID + '" style="width: 40px;" value="0.00"/></td>';
+
+                    //html += '<td><input type="checkbox" checked=true class="LPost" value="Post,' + item.LoanID + '"/></td>';
+
+                    //html += '<td><input type="checkbox"  id="ck' + item.LoanID + '" class="LPre" onchange="SwapValForPrePaid(ck' + item.LoanID + ')" value="PrePaid,' + item.LoanID + '"/></td>';
+
+                    //html += '<td><a href="#" onclick="return getbyID(' + item.LoanID + ')">Post</a></td>';
+
+                    html += '</tr>';
+                });
+                $('.tbody').html(html);
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+</script>
+
+

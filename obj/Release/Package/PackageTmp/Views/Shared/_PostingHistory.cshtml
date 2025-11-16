@@ -1,0 +1,74 @@
+﻿@model IEnumerable<TestApp.DB.Loan_Cols>
+@{
+    Layout = "~/Views/Shared/P_LayoutPage.cshtml";
+    ViewBag.Title = "PostHistry";
+}
+<head>
+    <title>
+        <h2> Loans Postings History</h2>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Scripts/Stylesheet.css" rel="stylesheet" />
+</head>
+     <h2> Loans Postings History</h2>  
+       <br>  
+<div class="container" ;border-color: "darkgrey";border-width:"2px";">    
+@{
+if(Model != null && Model.Count()>0)
+{
+  
+           <div class="form-control" >                  
+           
+               @foreach(var item in Model)
+                { 
+                   <table class="table table-bordered table-hover">
+                    <thead>
+                         <tr style="background-color:#428bca;color: #ffd800;"><td colspan="2" ><b>For Due Date : @item.Next_Due_Date</b></td> <td colspan="2" ><b>  Posted UserID : @item.PostedUserID</b> </td></tr>
+                   <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">LoanColId</td>   <td style="background-color: #76e465;color: #1b0a0a;">@item.LoanColId</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">LoanId</td>   <td style="background-color: #76e465;color: #1b0a0a;">@item.LoanId</td>
+                         </tr>
+                   <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">MbrId</td>  <td style="background-color: #76e465;color: #1b0a0a;">@item.MbrId</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Collected_Amount </td>      <td style="background-color: #76e465;color: #1b0a0a;">@item.Collected_Amount</td>
+                             </tr>
+                    <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Actual_Balance</td>  <td style="background-color: #76e465;color: #1b0a0a;">@item.Actual_Balance</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Prin_Balance </td>     <td style="background-color: #76e465;color: #1b0a0a;">@item.Prin_Balance</td>
+                                 </tr>
+                    <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Prin Collected</td>    <td style="background-color: #76e465;color: #1b0a0a;">@item.Prin_Collected</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Balance Installment</td>  <td style="background-color: #76e465;color: #1b0a0a;">@item.Balance_Installment</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Balance Interest </td>   <td style="background-color: #76e465;color: #1b0a0a;">@item.Balance_Interest</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Prin Due </td>   <td style="background-color: #76e465;color: #1b0a0a;">@item.Prin_Due</td>
+                    </tr>
+                     <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Int Due  </td>  <td style="background-color: #76e465;color: #1b0a0a;">@item.Int_Due</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Balance Interest </td>    <td style="background-color: #76e465;color: #1b0a0a;">@item.Balance_Interest</td>                        
+                    </tr> 
+
+                         <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Transact_Date</td>    <td style="background-color: #76e465;color: #1b0a0a;">@item.Transact_Date</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Next Due Date</td>  <td style="background-color: #76e465;color: #1b0a0a;">@item.Next_Due_Date</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">PaidEMI </td> <td style="background-color: #76e465;color: #1b0a0a;">@item.PaidEMI</td>                        
+                    </tr>
+               </thead>
+            </table>
+               }
+
+         
+
+            </div><br />
+}
+else{
+    <label>No Data to display!</label>
+}
+}  
+    </div>
+     

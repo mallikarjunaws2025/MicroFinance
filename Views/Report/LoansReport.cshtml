@@ -1,0 +1,237 @@
+﻿@model TestApp.VModels.Member.MemberViewModel
+@{
+    ViewBag.Title = "MemberDetails";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<html>
+<head>
+    <style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding-top: 50%;
+  padding-bottom: 50%;
+  padding-left: 50%;
+  padding-right: 50%;
+}
+</style>
+    <title>
+        <h3>Member Details</h3>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Scripts/Stylesheet.css" rel="stylesheet" />
+
+@*    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PrintArea/2.4.1/jquery.PrintArea.js" type="text/javascript"></script>
+
+</head>
+<body>
+    @using (Html.BeginForm("", "",FormMethod.Post))
+    {        
+        <div class="container">
+            <div style="float:left;margin-top: 2.5%;">
+                <label >Select Staff Name&nbsp</label>@Html.DropDownListFor(x => Model.StaffMbrList, new SelectList(Model.StaffMbrList, "Text", "Text"), "--All Staff--", htmlAttributes: new { @class = "btn btn-primary",@style="width: 150px;", @id = "StaffId" })&nbsp
+                 <label >Select Group Name&nbsp</label>@Html.DropDownListFor(x => Model.GrpNameList, new SelectList(Model.GrpNameList, "Value", "Text"), "--All Groups--", htmlAttributes: new { @class = "btn btn-primary",@style="width: 150px;", @id = "GrpCode" })            
+               <input type="button" value="Print" id="btnPrint" class="btn btn-primary" />
+       </div> <br /> <br /> <br /> 
+            <div  id="dvDailyreportData" style="height:400px;border:none">
+                <br /><h3>Loans Report</h3><br />
+                <p id="pStaffName" style="display:none">
+                Staff Name : <label id="lblStaff"></label><br />
+                Group Name : <label id="lblGrpCode"></label><br />
+                Report Date :  @DateTime.Today.ToString("dd/MM/yyyy")<br />
+                </p>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr style="background-color: #428bca;color: #1b0a0a;">
+                        <th>Staff Name
+                        </th>
+                        <th>Group Name
+                        </th>
+                        <th>Membar Name
+                        </th>
+                        <th>Loan ID
+                        </th>
+                        <th>Loan Amt.
+                        </th>
+                        <th>Phone
+                        </th>
+                        @*<th>T.I
+                        </th>
+                        <th>T.ALR.Coll 
+                        </th>                      
+                        <th>Days
+                        </th>
+                        <th>Principal
+                        </th>
+                        <th>Interest
+                        </th>
+                        <th>ALR Coll
+                        </th>
+                        <th>Total 
+                        </th>*@
+                    </tr>
+                </thead>
+                <tbody id="idDaily" class="tbody">
+                </tbody>
+            </table><br /><br />
+              @*  <label style="float: left;" id="closingALR">Closing ALR : </label><br />*@
+             <div>            
+            <br /><label style="float: left; " >CO Signature :___________________</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<label style="text-align: right";> BM Signature :___________________ </label>
+                 <br /><br /><br /><label style="float: left";>Visitor Signature :___________________ </label>
+            </div>
+                </div><br />
+</div>  
+        
+        
+    }      
+</body>
+</html>
+
+<script type="text/javascript">
+    //Load Data in Table when documents is read
+
+    $(document).ready(function () {
+        loadData(); 
+    });
+
+    $(document).ready(function () {
+        $('#idDaily').html('');
+        $(".btnPrint").printPage();
+        loadData();
+    });
+
+    $("#GrpCode").change(function () {
+        //alert("Before loadData");
+        $("#lblStaff").html($("#StaffId :selected").text());
+        $("#lblGrpCode").html($("#GrpCode :selected").text());
+        $('#idDaily').html('');
+        loadData();
+        //alert("After loadData");
+    });
+    $("#StaffId").change(function () {
+        // alert("Before loadData");
+        $("#lblStaff").html($("#StaffId :selected").text());
+        $("#lblGrpCode").html($("#GrpCode :selected").text());
+        //$('#idDaily').html();
+        loadData();
+        //alert("After loadData");
+    });
+
+    $("#btnPrint").click(function () {
+        $("#lblStaff").html($("#StaffId :selected").text());
+        $("#lblGrpCode").html($("#GrpCode :selected").text());
+        $('#pStaffName').attr("style", "display:normal");
+
+
+        var mode = 'iframe';
+        var close = mode == "popup";
+        var options = { mode: mode, popClose: close };
+        $("#dvDailyreportData").printArea(options);
+    })
+
+
+    //Load Data function
+    function loadData() {
+        var vGrpName = $("#GrpCode :selected").val();
+        var vStaffName = $("#StaffId :selected").val();
+        //alert("Entry loadData");
+        $.ajax({
+            url: '@Url.Action("GetLoansReportData","Report")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            async: true,
+            data: { sGrpName: vGrpName, sStaffName: vStaffName },
+            catch: false,
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                var html = '';
+                var scount = 0;
+                var gcount = 0;
+                if (result != '') {
+                    //alert("in loadData");
+                    $.each(result, function (key, item) {
+                      
+                        if (item.MbrStatus != "End") {
+                            html += '<tr>';
+
+                            if (gcount < item.GrpRowCount) {
+                                gcount++;
+                            }
+                            else {
+                                gcount = 1;
+                            }
+
+                            if (scount < item.StaffRowCount) {
+                                scount++;
+                            }
+                            else {
+                                scount = 1;
+                            }
+                             
+                            if (scount == 1) {                                
+                                html += '<td rowspan=' + item.StaffRowCount + ' style="padding-top:100px;"><b>' + item.StaffName + '</b></td>';
+                            }
+
+                            if (gcount == 1) { 
+                                html += '<td rowspan=' + item.GrpRowCount + ' style="padding-top: 100px"><b>' + item.GrpName + '</b></td>';
+                            }
+
+                            html += '<td>' + item.MbrName + '</td>';
+                            html += '<td>' + item.LoanID + '</td>';
+                            html += '<td>' + item.Loan_Amount + '</td>';
+                            html += '<td>' + item.CantactNo + '</td>';
+                            //html += '<td>' + item.LI + '</td>';
+                            //html += '<td>' + item.TALRCollected + '</td>';
+                            //html += '<td>' + item.Days + '</td>';
+                            //html += '<td>' + item.Principal + '</td>';
+                            //html += '<td>' + item.Interest + '</td>';
+                            //html += '<td>' + item.ALRColl + '</td>';
+                            //html += '<td>' + item.Total + '</td>';
+                            html += '</tr>';
+
+                            
+                            
+
+                            
+                        }
+                        else {
+                            //html += '<tr><td></td><td>Total</td><td>' + item.iTNoOfClts + '</td><td>' + item.dTHLA + '</td><td>' + item.dTHLPA + '</td><td>' + item.dTHLI + '</td><td>' + item.dTHALRColl + '</td><td></td><td>' + item.dTHPrin + '</td><td>' + item.dTHInt + '</td><td>' + item.dHTALRCollCur + '</td><td>' + item.dHTotal + '</td></tr>';
+                           // html += '<tr><td></td><td>Total</td><td>' + item.iTNoOfClts + '</td><td>' + item.dTHLA + '</td><td>' + item.dTHLPA + '</td><td>' + item.dTHLI + '</td><td>' + item.dTHALRColl + '</td><td></td><td>' + item.dTHPrin + '</td><td>' + item.dTHInt + '</td><td>' + item.dHTALRCollCur + '</td><td>' + item.dHTotal + '</td></tr>';
+                            //html += '<tr><td colspan="13" align="Center">Advanced ALR Collected</td><td>' + item.dHAdvanceALRColl + '</td></tr>';
+                            //html += '<tr><td colspan="13" align="Center">Advanced ALR Adjusted</td><td>' + item.dHAdvanceALRAdjusted + '</td></tr>';
+                            html += '<tr><td colspan="4" align="Center">Total Net Cash</td><td>' + item.Balance_Amount + '</td><td></td></tr>';
+                            return;
+                        }
+                        
+                        
+                       });
+                    //});
+                }
+                else {
+                    //html += '<tr><td></td><td>Total</td><td>' + item.iTNoOfClts + '</td><td>' + item.dTHLA + '</td><td>' + item.dTHLPA + '</td><td>' + item.dTHLI + '</td><td>' + item.dTHALRColl + '</td><td></td><td>' + item.dTHPrin + '</td><td>' + item.dTHInt + '</td><td>' + item.dHTALRCollCur + '</td><td>' + item.dHTotal + '</td></tr>';
+                    //html += '<tr><td></td><td>Total</td><td>' + item.iTNoOfClts + '</td><td>' + item.dTHLA + '</td><td>' + item.dTHLPA + '</td><td>' + item.dTHLI + '</td><td>' + item.dTHALRColl + '</td><td></td><td>' + item.dTHPrin + '</td><td>' + item.dTHInt + '</td><td>' + item.dHTALRCollCur + '</td><td>' + item.dHTotal + '</td></tr>';
+                    //html += '<tr><td colspan="13" align="Center">Advanced ALR Collected</td><td>' + item.dHAdvanceALRColl + '</td></tr>';
+                    //html += '<tr><td colspan="13" align="Center">Advanced ALR Adjusted</td><td>' + item.dHAdvanceALRAdjusted + '</td></tr>';
+                    html += '<tr><td colspan="11" align="Center">No Data Found</td></tr>';
+                    return;
+                }
+
+                $('#idDaily').html(html);
+                // alert("After loadData over");
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        //alert("After loadData over");
+    }
+
+</script>
+
+

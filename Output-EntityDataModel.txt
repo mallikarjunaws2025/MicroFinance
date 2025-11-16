@@ -1,0 +1,5 @@
+﻿The model was generated with warnings or errors.
+Please see the Error List for more details. These issues must be fixed before running your application.
+Loading metadata from the database took 00:00:00.3889668.
+Generating the model took 00:00:00.4229333.
+Successfully registered the assembly 'System.Data.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' in the Web.Config file.
