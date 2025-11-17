@@ -165,7 +165,7 @@ namespace TestApp.Controllers
 
                     objStaffLogin.StaffId = Convert.ToInt32(objStaff.StaffID);
                     objStaffLogin.UserName = objStaff.UserID;
-                    objStaffLogin.Password = objStaff.Password;
+                    objStaffLogin.Password = Helper.HashPassword(objStaff.Password);
                     objStaffLogin.RolePermission = objStaff.RolePermission;
                     objStaffLogin.IsLocked = 0;
 
@@ -212,10 +212,9 @@ namespace TestApp.Controllers
 
                     objStaffLogin.StaffId = Convert.ToInt32(objStaff.StaffID);
                     objStaffLogin.UserName = objStaff.UserID;
-                    objStaffLogin.Password = objStaff.Password;
+                    objStaffLogin.Password = Helper.HashPassword(objStaff.Password);
                     objStaffLogin.RolePermission = objStaff.RolePermission;
                     objStaffLogin.IsLocked = 0;
-                    objStaffLogin.RolePermission = objStaff.RolePermission;
 
                     db.StaffLogins.Add(objStaffLogin);
                     db.SaveChanges();
@@ -258,30 +257,56 @@ namespace TestApp.Controllers
                            .Where(p => p.UserName == objUser.UserID)
                            .Select(p => p).ToList();
                 logger.Info("Before validate");
-                if (Data.Count > 0 && Convert.ToString(Data[0].Password) == objUser.Password && Convert.ToString(Data[0].UserName) == objUser.UserID)
+                if (Data.Count > 0 && Data[0].IsLocked == 0)
                 {
-
-                    if (!string.IsNullOrEmpty(Convert.ToString(Data[0].RolePermission)) && Convert.ToString(Data[0].RolePermission).Trim().ToLower() == "admin" )
+                    bool isPasswordValid;
+                    
+                    // Check if password is already hashed (new format) or plain text (legacy)
+                    if (Data[0].Password.Contains("=")) // Base64 encoded hash
                     {
-                        Helper.IsAdmin = true;
-                        ViewBag.IsAdmin = true;
+                        isPasswordValid = Helper.VerifyPassword(objUser.Password, Data[0].Password);
                     }
-
-                    Session["UsrType"] = Convert.ToString(Data[0].RolePermission);
-                    ViewBag.UsrType = Convert.ToString(Data[0].RolePermission);
-                    Session["UserID"] = objUser.UserID;
-                    Session["ValideUsr"] = true;
-                    ViewBag.IsAdmin = false;
-                    //Helper.sGuid = uID;
-                    Helper.bIsValidUser = true;
-                    return RedirectToAction("Index", "Charts");
-                    //return RedirectToAction("HomePage", "Staff");
+                    else
+                    {
+                        // Legacy plain text password - hash it and update
+                        isPasswordValid = Data[0].Password == objUser.Password;
+                        if (isPasswordValid)
+                        {
+                            Data[0].Password = Helper.HashPassword(objUser.Password);
+                            db.SaveChanges();
+                        }
+                    }
+                    
+                    if (isPasswordValid && Data[0].UserName == objUser.UserID)
+                    {
+                        string userRole = Data[0].RolePermission?.Trim();
+                        bool isAdmin = !string.IsNullOrEmpty(userRole) && userRole.Equals("Admin", StringComparison.OrdinalIgnoreCase);
+                        
+                        Helper.IsAdmin = isAdmin;
+                        ViewBag.IsAdmin = isAdmin;
+                        Session["UsrType"] = userRole;
+                        ViewBag.UsrType = userRole;
+                        Session["UserID"] = objUser.UserID;
+                        Session["ValideUsr"] = true;
+                        Session["StaffID"] = Data[0].StaffId;
+                        Helper.bIsValidUser = true;
+                        
+                        // Log successful login
+                        var userLog = new UserLog
+                        {
+                            LoginName = objUser.UserID,
+                            LogInDateTime = DateTime.Now,
+                            StaffName = Data[0].StaffId.ToString()
+                        };
+                        db.UserLogs.Add(userLog);
+                        db.SaveChanges();
+                        
+                        return RedirectToAction("Index", "Charts");
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "In-valid login details");
-                    return View();
-                }
+                
+                ModelState.AddModelError(string.Empty, "Invalid login credentials or account is locked.");
+                return View();
             }
             catch (Exception objEx)
             {
@@ -400,20 +425,42 @@ namespace TestApp.Controllers
 
         public ActionResult Logout()
         {
-            logger.Info("User logged out at the time of : " + DateTime.Now);
+            try
+            {
+                logger.Info("User logged out at the time of : " + DateTime.Now);
+                
+                // Log the logout activity
+                if (Session["UserID"] != null)
+                {
+                    using (var db = new MicroFinanceEntities())
+                    {
+                        var userLog = new UserLog
+                        {
+                            LoginName = Session["UserID"].ToString(),
+                            LogOutDateTime = DateTime.Now,
+                            StaffName = Session["StaffID"]?.ToString() ?? "Unknown"
+                        };
+                        db.UserLogs.Add(userLog);
+                        db.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error logging user logout: " + ex.Message);
+            }
+            
+            // Clear all session data
             Helper.IsAdmin = false;
-
             Session["UsrType"] = string.Empty;
             ViewBag.UsrType = string.Empty;
             Session["UserID"] = string.Empty;
             Session["ValideUsr"] = string.Empty;
             Helper.bIsValidUser = false;
             ViewBag.IsAdmin = false;
-
             ViewBag.ValideUsr = "No";
+            Helper.sGuid = string.Empty;
             
-            
-            Helper.bIsValidUser = false;
             return RedirectToAction("StaffLogin", "Staff");
         }
 

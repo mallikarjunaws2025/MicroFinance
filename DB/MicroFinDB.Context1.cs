@@ -21,11 +21,14 @@ namespace TestApp.DB
         public MicroFinanceEntities()
             : base("name=MicroFinanceEntities")
         {
+            // Disable initializer since we're using Database First
+            Database.SetInitializer<MicroFinanceEntities>(null);
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            throw new UnintentionalCodeFirstException();
+            // For Database First approach, we don't need to configure the model
+            // The EDMX file handles the model configuration
         }
     
         public DbSet<StaffLogin> StaffLogins { get; set; }

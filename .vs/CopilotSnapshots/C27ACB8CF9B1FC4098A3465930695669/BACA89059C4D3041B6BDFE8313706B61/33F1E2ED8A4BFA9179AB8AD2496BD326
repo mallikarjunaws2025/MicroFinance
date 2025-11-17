@@ -9,6 +9,7 @@ using TestApp.Comman;
 using TestApp.DB;
 using TestApp.VModels.Loans;
 using TestApp.VModels.Member;
+using System.Web.Mvc;
 
 namespace TestApp.Controllers
 {
@@ -1817,4 +1818,4 @@ namespace TestApp.Controllers
     }
 }
 //--ALTER TABLE Member
-//--ADD PhoneNo2 varchar(12);//--ADD PhoneNo2 varchar(12);
+//--ADD PhoneNo2 varchar(12);

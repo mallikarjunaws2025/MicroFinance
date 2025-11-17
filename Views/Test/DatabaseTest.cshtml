@@ -1,0 +1,58 @@
+@{
+    ViewBag.Title = "Database Connection Test";
+}
+
+<h2>Database Connection Test</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Direct SQL Connection Test</div>
+            <div class="panel-body">
+                <p>@ViewBag.SqlConnectionTest</p>
+                @if (ViewBag.DirectSqlCount != null)
+                {
+                    <p>@ViewBag.DirectSqlCount</p>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="panel @(ViewBag.EfSuccess == true ? "panel-success" : "panel-danger")">
+            <div class="panel-heading">Entity Framework Test</div>
+            <div class="panel-body">
+                @if (ViewBag.EfSuccess == true)
+                {
+                    <p>@ViewBag.EfConnectionTest</p>
+                    <ul>
+                        <li>@ViewBag.StaffCount</li>
+                        <li>@ViewBag.LoginCount</li>
+                        <li>@ViewBag.AdminFound</li>
+                    </ul>
+                }
+                else
+                {
+                    <p><strong>Error:</strong> @ViewBag.EfError</p>
+                    @if (ViewBag.EfInnerError != null)
+                    {
+                        <p><strong>Inner Error:</strong> @ViewBag.EfInnerError</p>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading">Connection String Information</div>
+    <div class="panel-body">
+        <p><strong>Name:</strong> @ViewBag.ConnectionStringName</p>
+        <p><strong>Provider:</strong> @ViewBag.ProviderName</p>
+        <p><strong>Connection String:</strong></p>
+        <pre style="word-wrap: break-word; white-space: pre-wrap;">@ViewBag.ConnectionString</pre>
+    </div>
+</div>
+
+<a href="@Url.Action("StaffLogin", "Staff")" class="btn btn-primary">Back to Login</a>
+<a href="@Url.Action("DatabaseTest", "Test")" class="btn btn-default">Refresh Test</a>
