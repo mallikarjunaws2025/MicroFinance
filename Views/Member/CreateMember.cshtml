@@ -50,7 +50,10 @@
                     <div class="col-md-3 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-group"></i></span>
-                            @Html.DropDownListFor(x => Model.GrpCode, new SelectList(Model.GrpNameList, "Value", "Text"), "-Group Code-", htmlAttributes: new { @class = "form-control", @id = "dGrpCode" })
+                            @Html.DropDownListFor(x => Model.GrpCode, 
+                                Model.GrpNameList != null ? new SelectList(Model.GrpNameList, "Value", "Text") : new SelectList(new List<object>(), "Value", "Text"), 
+                                "-Group Code-", 
+                                htmlAttributes: new { @class = "form-control", @id = "dGrpCode" })
                         </div>
                     </div>
 

@@ -1,209 +1,509 @@
 ﻿@{
-    ViewBag.Title = "MemberDetails";
+    ViewBag.Title = "Summary Report";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>
-        <h3>Progress Report Report</h3>
-    </title>
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link href="~/Scripts/Stylesheet.css" rel="stylesheet" />
-
-@*    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />*@
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PrintArea/2.4.1/jquery.PrintArea.js" type="text/javascript"></script>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Summary Report</title>
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        .report-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+        }
+        
+        .date-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: none;
+        }
+        
+        .btn-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        
+        .form-control.input-lg {
+            height: 50px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control.input-lg:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .summary-table {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .summary-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .summary-table th, .summary-table td {
+            padding: 1rem;
+            vertical-align: middle;
+            border: 1px solid #e9ecef;
+        }
+        
+        .receipts-payments-section {
+            background: #f8f9fc;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .receipt-table, .payment-table {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .receipt-table thead {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+        
+        .payment-table thead {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            color: white;
+        }
+        
+        .signature-section {
+            background: white;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .btn-modern {
+            border-radius: 25px;
+            padding: 10px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        @@media print {
+            .no-print { display: none !important; }
+            .report-header { background: #667eea !important; }
+            .summary-table thead { background: #667eea !important; }
+            .receipt-table thead { background: #28a745 !important; }
+            .payment-table thead { background: #dc3545 !important; }
+        }
+    </style>
 </head>
 <body>
     @using (Html.BeginForm("SummeryReport","Report",FormMethod.Post))
     {        
-        <div class="container">
-            <div style="float:left;margin-top: 2.5%;"> <label >Select From Date&nbsp</label><input type="date" id="frmdatepicker">
-            <label >Select To Date&nbsp</label><input type="date" id="todatepicker">
-                <input type="button" value="Show Records" id="btnShowData" class="btn btn-primary" />
-               <input type="button" value="Print" id="btnPrint" class="btn btn-primary" />
-       </div> <br /> <br /> <br /> 
-            <div  id="dvLoanTrans" style="display:none; width:850px; height:400px;border:none">
-                <br /><h3>Summery Report</h3><br />
-                <p>Progress Report From : <label id="lblFrmDate"></label> To <label id="lblToDate"></label></p>
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr style="background-color: #428bca;color: #1b0a0a;">
-                        <th style="width:5px">Sl.No
-                        </th>
-                        <th>Particulars
-                        </th>
-                        <th>Beginning of Report
-                        </th>
-                        <th>Added
-                        </th>
-                        <th>Dropped
-                        </th>
-                        <th>End of Reporting
-                        </th>
-                    </tr>                    
-                </thead>
-                <tbody  id="tblProgress" class="tbody">
-                </tbody>
-            </table><br /><br />
-
-                <div class="container" style="width:850px;">
-                <table class="table table-bordered table-hover"  style="width:400px;float:left">
-                <thead>
-                    <tr style="background-color: #428bca;color: #1b0a0a;">
-                        <th style="width:250px">Receipts
-                        </th>
-                        <th style="width:100px">Rupees
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="tblReceipts" class="tbody">
-                </tbody>
-           </table>
-                <table  class="table table-bordered table-hover" style="width:400px; float:right">
-                <thead>
-                    <tr style="background-color: #428bca;color: #1b0a0a;">
-                        <th style="width:250px">Payments
-                        </th>
-                        <th style="width:100px">Rupees
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="tblPayments" class="tbody">
-                </tbody>
-            </table>
+        <div class="container-fluid px-4">
+            <!-- Header Section -->
+            <div class="report-header text-center">
+                <h1 class="display-5 fw-bold mb-0">
+                    <i class="fas fa-chart-line me-3"></i>Summary Progress Report
+                </h1>
+                <p class="lead mb-0 mt-2">Comprehensive Financial Overview</p>
             </div>
 
-             <div>            
-            <br /><label style="float: left; " >CO Signature :___________________</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<label style="text-align: right";> BM Signature :___________________ </label>
-                 <br /><br /><br /><label style="float: left";>Visitor Signature :___________________ </label>
+            <!-- Date Selection Section - Full Width -->
+            <div class="no-print mb-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">
+                        <h4 class="panel-title">
+                            <i class="fas fa-calendar-alt"></i> Select Report Period
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="frmdatepicker" class="control-label"><strong>From Date</strong></label>
+                                    <input type="date" id="frmdatepicker" class="form-control input-lg">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="todatepicker" class="control-label"><strong>To Date</strong></label>
+                                    <input type="date" id="todatepicker" class="form-control input-lg">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">&nbsp;</label>
+                                    <div class="btn-toolbar" style="margin-top: 5px;">
+                                        <button type="button" id="btnShowData" class="btn btn-primary btn-lg btn-modern" style="margin-right: 10px; padding: 12px 40px;">
+                                            <i class="fas fa-search"></i> Generate Report
+                                        </button>
+                                        <button type="button" id="btnPrint" class="btn btn-success btn-lg btn-modern" style="padding: 12px 40px;">
+                                            <i class="fas fa-print"></i> Print Report
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <!-- Main Report Content -->
+            <div id="dvLoanTrans" style="display:none;">
+                <!-- Report Info Header -->
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h3 class="text-primary" style="margin-bottom:0;">
+                                    <i class="fas fa-file-alt"></i> Summary Report
+                                </h3>
+                                <p class="text-muted" style="margin-bottom:0;">
+                                    <i class="fas fa-calendar-check"></i>
+                                    Period: <span id="lblFrmDate" style="font-weight:bold;"></span> to <span id="lblToDate" style="font-weight:bold;"></span>
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <span class="label label-info" style="font-size:14px;">
+                                    <i class="fas fa-clock"></i> Generated: @DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>                <!-- Progress Summary Table -->
+                <div class="panel panel-default" style="margin-bottom: 20px;">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <i class="fas fa-chart-bar"></i> Progress Summary
+                        </h4>
+                    </div>
+                    <div class="panel-body" style="padding:0;">
+                        <div class="table-responsive">
+                            <table class="table table-striped summary-table" style="margin-bottom:0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th style="width:80px">
+                                            <i class="fas fa-hashtag"></i> Sl.No
+                                        </th>
+                                        <th>
+                                            <i class="fas fa-list-ul"></i> Particulars
+                                        </th>
+                                        <th style="width:150px">
+                                            <i class="fas fa-play"></i> Beginning of Report
+                                        </th>
+                                        <th style="width:120px">
+                                            <i class="fas fa-plus-circle"></i> Added
+                                        </th>
+                                        <th style="width:120px">
+                                            <i class="fas fa-minus-circle"></i> Dropped
+                                        </th>
+                                        <th style="width:150px">
+                                            <i class="fas fa-stop"></i> End of Reporting
+                                        </th>
+                                    </tr>                    
+                                </thead>
+                                <tbody id="tblProgress" class="tbody">
+                                    <!-- Dynamic content will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Receipts and Payments Section -->
+                <div class="receipts-payments-section">
+                    <div class="row">
+                        <!-- Receipts Table -->
+                        <div class="col-md-6">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <i class="fas fa-arrow-down"></i> Receipts
+                                    </h4>
+                                </div>
+                                <div class="panel-body" style="padding:0;">
+                                    <div class="table-responsive">
+                                        <table class="table receipt-table" style="margin-bottom:0;">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <i class="fas fa-receipt"></i> Description
+                                                    </th>
+                                                    <th style="width:120px">
+                                                        <i class="fas fa-rupee-sign"></i> Amount
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tblReceipts" class="tbody">
+                                                <!-- Dynamic content will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payments Table -->
+                        <div class="col-md-6">
+                            <div class="panel panel-danger">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <i class="fas fa-arrow-up"></i> Payments
+                                    </h4>
+                                </div>
+                                <div class="panel-body" style="padding:0;">
+                                    <div class="table-responsive">
+                                        <table class="table payment-table" style="margin-bottom:0;">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <i class="fas fa-credit-card"></i> Description
+                                                    </th>
+                                                    <th style="width:120px">
+                                                        <i class="fas fa-rupee-sign"></i> Amount
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tblPayments" class="tbody">
+                                                <!-- Dynamic content will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Signature Section -->
+                <div class="signature-section">
+                    <div class="row text-center">
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="signature-box">
+                                <p style="margin-bottom:5px; font-weight:bold;">CO Signature</p>
+                                <div style="border-bottom: 2px solid #000; width: 200px; margin: 0 auto; height: 40px;"></div>
+                                <small class="text-muted">Credit Officer</small>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="signature-box">
+                                <p style="margin-bottom:5px; font-weight:bold;">BM Signature</p>
+                                <div style="border-bottom: 2px solid #000; width: 200px; margin: 0 auto; height: 40px;"></div>
+                                <small class="text-muted">Branch Manager</small>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="signature-box">
+                                <p style="margin-bottom:5px; font-weight:bold;">Visitor Signature</p>
+                                <div style="border-bottom: 2px solid #000; width: 200px; margin: 0 auto; height: 40px;"></div>
+                                <small class="text-muted">Visitor</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-                </div><br />
-</div>  
-        
-        
-    }      
-</body>
-</html>
+        </div>
+    }
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script type="text/javascript">
-    //Load Data in Table when documents is read
-
-    $("#btnShowData").click(function () {
-
-        if ($('#frmdatepicker').val().length == 0 ||
-             $('#todatepicker').val().length == 0) {
-            return alert("Please select From date and To date.")
+    <script type="text/javascript">
+        // Enhanced date validation and formatting
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
         }
-        else {
+
+        // Show loading state
+        function showLoading() {
+            $('#btnShowData').html('<i class="fas fa-spinner fa-spin"></i> Loading...');
+            $('#btnShowData').prop('disabled', true);
+        }
+
+        function hideLoading() {
+            $('#btnShowData').html('<i class="fas fa-search"></i> Generate Report');
+            $('#btnShowData').prop('disabled', false);
+        }
+
+        // Enhanced Show Data functionality
+        $("#btnShowData").click(function () {
+            if ($('#frmdatepicker').val().length == 0 || $('#todatepicker').val().length == 0) {
+                alert('Please select both From date and To date.');
+                return;
+            }
+
             var today = new Date();
             var frmDt = new Date($('#frmdatepicker').val());
             var toDt = new Date($('#todatepicker').val());
-            if (frmDt.getDate() > today.getDate() && frmDt.getMonth() >= today.getMonth() && frmDt.getFullYear() == today.getFullYear())
-            {
-                return alert("Feture date is not allowed.")
+            
+            if (frmDt > today) {
+                alert('Future date is not allowed for From date.');
+                return;
             }
-            if (toDt.getDate() > today.getDate() && toDt.getMonth() >= today.getMonth() && toDt.getFullYear() == today.getFullYear()) {
-                return alert("Feture date is not allowed.")
+            
+            if (toDt > today) {
+                alert('Future date is not allowed for To date.');
+                return;
             }
+
+            if (frmDt > toDt) {
+                alert('From date cannot be greater than To date.');
+                return;
+            }
+
+            showLoading();
+            $('#dvLoanTrans').fadeIn('slow');
+            $("#lblFrmDate").html(formatDate($("#frmdatepicker").val()));
+            $("#lblToDate").html(formatDate($("#todatepicker").val()));
+            loadData();
+        });
+
+        // Enhanced Print functionality
+        $("#btnPrint").click(function () {
+            if ($('#frmdatepicker').val().length == 0 || $('#todatepicker').val().length == 0) {
+                alert('Please generate the report first before printing.');
+                return;
+            }
+
+            $('#dvLoanTrans').show();
+            $("#lblFrmDate").html(formatDate($("#frmdatepicker").val()));
+            $("#lblToDate").html(formatDate($("#todatepicker").val()));
+            
+            window.print();
+        });
+
+
+        // Enhanced Load Data function with better error handling
+        function loadData() {
+            var vFrmDt = $("#frmdatepicker").val();
+            var vToDt = $("#todatepicker").val();
+            
+            $.ajax({
+                url: '@Url.Action("GetSummeyReportData","Report")',
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                async: true,
+                data: { sFrmDt: vFrmDt, sToDt: vToDt },
+                cache: false,
+                dataType: "json",
+                success: function (result) {
+                    hideLoading();
+                    
+                    var tblProgresshtml = '';
+                    var tblReceipts = '';
+                    var tblPayments = '';
+                    var progressCount = 0;
+                    var receiptCount = 0;
+                    var paymentCount = 0;
+                    
+                    if (result && result.length > 0) {
+                        $.each(result, function (key, item) {
+                            if (item.SlNo != 'Receipts' && item.SlNo != 'Payments') {
+                                if (item.Particulars != 'A.L.R Collected') {
+                                    progressCount++;
+                                    var rowClass = progressCount % 2 === 0 ? 'info' : '';
+                                    tblProgresshtml += '<tr class="' + rowClass + '">';
+                                    tblProgresshtml += '<td class="text-center" style="font-weight:bold;">' + item.SlNo + '</td>';
+                                    tblProgresshtml += '<td>' + item.Particulars + '</td>';
+                                    tblProgresshtml += '<td class="text-center">' + (item.BOR || '0') + '</td>';
+                                    tblProgresshtml += '<td class="text-center text-success">' + (item.Added || '0') + '</td>';
+                                    tblProgresshtml += '<td class="text-center text-danger">' + (item.Dropped || '0') + '</td>';
+                                    tblProgresshtml += '<td class="text-center" style="font-weight:bold;">' + (item.EOR || '0') + '</td>';
+                                    tblProgresshtml += '</tr>';
+                                }
+                            }
+                            else if (item.SlNo == 'Receipts' && item.SlNo != 'Payments') {
+                                receiptCount++;
+                                if (item.Receipts == 'Total Receipts') {
+                                    tblReceipts += '<tr class="success">';
+                                    tblReceipts += '<td style="font-weight:bold;"><i class="fas fa-calculator"></i> ' + item.Receipts + '</td>';
+                                    tblReceipts += '<td class="text-right" style="font-weight:bold;">Rs.' + (item.RRs || '0') + '</td>';
+                                    tblReceipts += '</tr>';
+                                } else {
+                                    if (item.Receipts != 'ALR Collected') {
+                                        var receiptRowClass = receiptCount % 2 === 0 ? 'active' : '';
+                                        tblReceipts += '<tr class="' + receiptRowClass + '">';
+                                        tblReceipts += '<td>' + item.Receipts + '</td>';
+                                        tblReceipts += '<td class="text-right">Rs.' + (item.RRs || '0') + '</td>';
+                                        tblReceipts += '</tr>';
+                                    }
+                                }
+                            }
+                            else if (item.SlNo == 'Payments' && item.SlNo != 'Receipts') {
+                                paymentCount++;
+                                if (item.Payments == 'Total Payments') {
+                                    tblPayments += '<tr class="warning">';
+                                    tblPayments += '<td style="font-weight:bold;"><i class="fas fa-calculator"></i> ' + item.Payments + '</td>';
+                                    tblPayments += '<td class="text-right" style="font-weight:bold;">Rs.' + (item.PRs || '0') + '</td>';
+                                    tblPayments += '</tr>';
+                                } else {
+                                    if (item.Payments != 'ALR Adjustment') {
+                                        var paymentRowClass = paymentCount % 2 === 0 ? 'active' : '';
+                                        tblPayments += '<tr class="' + paymentRowClass + '">';
+                                        tblPayments += '<td>' + item.Payments + '</td>';
+                                        tblPayments += '<td class="text-right">Rs.' + (item.PRs || '0') + '</td>';
+                                        tblPayments += '</tr>';
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        tblProgresshtml = '<tr><td colspan="6" class="text-center text-muted" style="padding:20px;"><i class="fas fa-info-circle"></i> No data found for the selected period</td></tr>';
+                        tblReceipts = '<tr><td colspan="2" class="text-center text-muted" style="padding:20px;"><i class="fas fa-info-circle"></i> No receipts found</td></tr>';
+                        tblPayments = '<tr><td colspan="2" class="text-center text-muted" style="padding:20px;"><i class="fas fa-info-circle"></i> No payments found</td></tr>';
+                    }
+                    
+                    $('#tblProgress').html(tblProgresshtml);
+                    $('#tblReceipts').html(tblReceipts);
+                    $('#tblPayments').html(tblPayments);
+                    
+                    // Show success message
+                    if (result && result.length > 0) {
+                        // Simple success indication without SweetAlert
+                        console.log('Summary report generated successfully');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    hideLoading();
+                    console.error('Error details:', xhr.responseText);
+                    alert('Failed to load report data. Please try again.\nError: ' + error);
+                }
+            });
         }
 
-        $('#dvLoanTrans').attr("style", "display:normal");
-        $("#lblFrmDate").html($("#frmdatepicker").val());
-        $("#lblToDate").html($("#todatepicker").val());
-        loadData();
-    })
-
-    $("#btnPrint").click(function () {
-        $('#dvLoanTrans').attr("style", "display:normal");
-
-        $("#lblFrmDate").html($("#frmdatepicker").val());
-        $("#lblToDate").html($("#todatepicker").val());
-        var mode = 'iframe';
-        var close = mode == "popup";
-        var options = { mode: mode, popClose: close };
-        $("#dvLoanTrans").printArea(options);
-    });
-
-
-    //Load Data function
-    function loadData() {
-        var vFrmDt = $("#frmdatepicker").val();
-        var vToDt = $("#todatepicker").val();
-        $.ajax({
-            url: '@Url.Action("GetSummeyReportData","Report")',
-            type: "GET",
-            contentType: "application/json;charset=utf-8",
-            async: true,
-            data: { sFrmDt: vFrmDt, sToDt: vToDt },
-            catch: false,
-            dataType: "json",
-            success: function (result) {
-
-                var tblProgresshtml = '';
-                var tblReceipts = '';
-                var tblPayments = '';
-                $.each(result, function (key, item) {
-
-                    if (item.SlNo != 'Receipts' && item.SlNo != 'Payments') {
-                        if (item.Particulars != 'A.L.R Collected') {
-                            tblProgresshtml += '<tr>';
-                            tblProgresshtml += '<td>' + item.SlNo + '</td>';
-                            tblProgresshtml += '<td>' + item.Particulars + '</td>';
-                            tblProgresshtml += '<td>' + item.BOR + '</td>';
-                            tblProgresshtml += '<td>' + item.Added + '</td>';
-                            tblProgresshtml += '<td>' + item.Dropped + '</td>';
-                            tblProgresshtml += '<td>' + item.EOR + '</td>';
-                            tblProgresshtml += '</tr>';
-                        }
-                    }
-                    else if (item.SlNo == 'Receipts' && item.SlNo != 'Payments') {
-                        if (item.Receipts == 'Total Receipts') {
-                            tblReceipts += '<tr>';
-                            tblReceipts += '<td><b>' + item.Receipts + '</b></td>';
-                            tblReceipts += '<td><b>' + item.RRs + '</b></td>';
-                            tblReceipts += '</tr>';
-                        }
-                        else {
-                            if (item.Receipts != 'ALR Collected') {
-                                tblReceipts += '<tr>';
-                                tblReceipts += '<td>' + item.Receipts + '</td>';
-                                tblReceipts += '<td>' + item.RRs + '</td>';
-                                tblReceipts += '</tr>';
-                            }
-                        }
-                    }
-                    else if (item.SlNo == 'Payments' && item.SlNo != 'Receipts') {
-                        if (item.Payments == 'Total Payments') {
-                            tblPayments += '<tr>';
-                            tblPayments += '<td><b>' + item.Payments + '</b></td>';
-                            tblPayments += '<td><b>' + item.PRs + '</b></td>';
-                            tblPayments += '</tr>';
-                        }
-                        else {
-                            if (item.Payments != 'ALR Adjustment') {
-                                tblPayments += '<tr>';
-                                tblPayments += '<td>' + item.Payments + '</td>';
-                                tblPayments += '<td>' + item.PRs + '</td>';
-                                tblPayments += '</tr>';
-                            }
-                        }
-                    }
-                });
-                $('#tblProgress').html(tblProgresshtml);
-                $('#tblReceipts').html(tblReceipts);
-                $('#tblPayments').html(tblPayments);
-            },
-
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            }
+        // Set default dates
+        $(document).ready(function() {
+            var today = new Date();
+            var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            
+            $('#frmdatepicker').val(firstDay.toISOString().split('T')[0]);
+            $('#todatepicker').val(today.toISOString().split('T')[0]);
         });
-    }
-
-</script>
-
-
+    </script>
+</body>
+</html>

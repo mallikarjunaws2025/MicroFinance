@@ -1,0 +1,359 @@
+@model TestApp.VModels.Group.Groups
+@{
+    ViewBag.Title = "Create Group";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0 text-primary fw-bold">
+            <i class="fas fa-layer-group me-2"></i>Group Registration
+        </h2>
+            <a href="@Url.Action("GrpList_New", "Group")" class="btn btn-outline-secondary">
+            <i class="fas fa-list me-2"></i>View All Groups
+        </a>
+    </div>
+
+    <!-- Registration Form Card -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-users me-2"></i>Group Information
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    @using (Html.BeginForm("CreateGroup", "Group", FormMethod.Post, new { @class = "needs-validation", @id = "groupRegistrationForm", @novalidate = "novalidate" }))
+                    {
+                        @Html.HiddenFor(model => model.DOC, new { @id = "DOC" })
+                        
+                        <div class="row g-4">
+                            <!-- Group Name -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Group Name <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-layer-group text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.GroupName, new { 
+                                        @class = "form-control", 
+                                        @placeholder = "Enter group name", 
+                                        @required = "required", 
+                                        @id = "GroupName" 
+                                    })
+                                </div>
+                                <div class="invalid-feedback">Please enter a group name.</div>
+                            </div>
+
+                            <!-- Group Type -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Group Type <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-tags text-primary"></i>
+                                    </span>
+                                    <select class="form-select" name="GroupType" id="GroupType" required>
+                                        <option value="">-- Select Group Type --</option>
+                                        <option value="Self Help Group">Self Help Group</option>
+                                        <option value="Joint Liability Group">Joint Liability Group</option>
+                                        <option value="Individual">Individual</option>
+                                        <option value="Community Group">Community Group</option>
+                                    </select>
+                                </div>
+                                <div class="invalid-feedback">Please select a group type.</div>
+                            </div>
+
+                            <!-- Group Code -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Group Code</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-hashtag text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.GroupCode, new { 
+                                        @class = "form-control", 
+                                        @placeholder = "Auto-generated or enter custom code", 
+                                        @id = "GroupCode" 
+                                    })
+                                </div>
+                                <div class="form-text">Leave blank for auto-generation</div>
+                            </div>
+
+                            <!-- Formation Date -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Formation Date <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar text-primary"></i>
+                                    </span>
+                                    <input class="form-control" type="date" id="FormationDate" name="FormationDate" required />
+                                </div>
+                                <div class="invalid-feedback">Please select formation date.</div>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-toggle-on text-primary"></i>
+                                    </span>
+                                    <select class="form-select" name="Status" id="Status" required>
+                                        <option value="">-- Select Status --</option>
+                                        <option value="Active" selected>Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                        <option value="Suspended">Suspended</option>
+                                    </select>
+                                </div>
+                                <div class="invalid-feedback">Please select group status.</div>
+                            </div>
+
+                            <!-- Location/Address -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Location/Address <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                    </span>
+                                    <textarea class="form-control" name="Location" id="Location" 
+                                              rows="3" placeholder="Enter group location/address" required></textarea>
+                                </div>
+                                <div class="invalid-feedback">Please enter group location.</div>
+                            </div>
+
+                            <!-- Meeting Schedule -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Meeting Day</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-clock text-primary"></i>
+                                    </span>
+                                    <select class="form-select" name="MeetingDay" id="MeetingDay">
+                                        <option value="">-- Select Day --</option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                        <option value="Sunday">Sunday</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Meeting Time -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Meeting Time</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-clock text-primary"></i>
+                                    </span>
+                                    <input type="time" class="form-control" name="MeetingTime" id="MeetingTime" />
+                                </div>
+                            </div>
+
+                            <!-- Maximum Members -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Maximum Members</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-users text-primary"></i>
+                                    </span>
+                                    <input type="number" class="form-control" name="MaxMembers" id="MaxMembers" 
+                                           min="5" max="50" placeholder="e.g., 20" />
+                                </div>
+                                <div class="form-text">Recommended: 10-20 members per group</div>
+                            </div>
+
+                            <!-- Contact Person -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Contact Person</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control" name="ContactPerson" id="ContactPerson" 
+                                           placeholder="Group leader/coordinator name" />
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Description</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-info-circle text-primary"></i>
+                                    </span>
+                                    <textarea class="form-control" name="Description" id="Description" 
+                                              rows="3" placeholder="Brief description about the group purpose and activities"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div class="col-12">
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-end gap-3">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="resetForm()">
+                                        <i class="fas fa-undo me-2"></i>Reset Form
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                                        <i class="fas fa-save me-2"></i>Create Group
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="messageContainer" class="mt-3"></div>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Initialize form validation
+    initializeFormValidation();
+    
+    // Set default formation date to today
+    $('#FormationDate').val(new Date().toISOString().split('T')[0]);
+    
+    // Auto-generate group code if empty
+    $('#GroupName').on('blur', function() {
+        generateGroupCode();
+    });
+    
+    // Form submission handling
+    $('#groupRegistrationForm').on('submit', function(e) {
+        e.preventDefault();
+        if (this.checkValidity()) {
+            submitForm();
+        } else {
+            e.stopPropagation();
+            this.classList.add('was-validated');
+        }
+    });
+});
+
+function initializeFormValidation() {
+    // Real-time validation
+    $('.form-control, .form-select').on('input change', function() {
+        if (this.checkValidity()) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        } else {
+            this.classList.remove('is-valid');
+            this.classList.add('is-invalid');
+        }
+    });
+    
+    // Custom validation for group name
+    $('#GroupName').on('input', function() {
+        const value = this.value.trim();
+        if (value.length < 3) {
+            this.setCustomValidity('Group name must be at least 3 characters long');
+        } else if (value.length > 50) {
+            this.setCustomValidity('Group name must not exceed 50 characters');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+}
+
+function generateGroupCode() {
+    const groupName = $('#GroupName').val().trim();
+    if (groupName && !$('#GroupCode').val().trim()) {
+        // Generate code from group name initials and random number
+        const initials = groupName.split(' ')
+            .map(word => word.charAt(0).toUpperCase())
+            .join('')
+            .substring(0, 3);
+        const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+        const groupCode = initials + randomNum;
+        $('#GroupCode').val(groupCode);
+    }
+}
+
+function submitForm() {
+    const button = $('#submitBtn');
+    const originalText = button.html();
+    
+    // Show loading state
+    button.html('<span class="spinner-border spinner-border-sm me-2"></span>Creating Group...');
+    button.prop('disabled', true);
+    
+    // Get form data
+    const formData = new FormData(document.getElementById('groupRegistrationForm'));
+    
+    $.ajax({
+        url: '@Url.Action("CreateGroup_New", "Group")',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(result) {
+            if (result.success) {
+                showMessage('Group created successfully!', 'success');
+                resetForm();
+                
+                // Redirect to group list after 2 seconds
+                setTimeout(function() {
+                    window.location.href = '@Url.Action("GrpList_New", "Group")';
+                }, 2000);
+            } else {
+                showMessage(result.message || 'Error creating group. Please try again.', 'error');
+            }
+        },
+        error: function(xhr, status, error) {
+            showMessage('An error occurred while creating the group. Please try again.', 'error');
+            console.error('Error:', error);
+        },
+        complete: function() {
+            // Restore button state
+            button.html(originalText);
+            button.prop('disabled', false);
+        }
+    });
+}
+
+function resetForm() {
+    document.getElementById('groupRegistrationForm').reset();
+    $('.form-control, .form-select').removeClass('is-valid is-invalid');
+    $('#groupRegistrationForm').removeClass('was-validated');
+    $('#messageContainer').empty();
+    
+    // Reset to defaults
+    $('#FormationDate').val(new Date().toISOString().split('T')[0]);
+    $('#Status').val('Active');
+}
+
+function showMessage(message, type) {
+    const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+    const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle';
+    
+    const alert = `
+        <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+            <i class="${icon} me-2"></i>${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+    
+    $('#messageContainer').html(alert);
+    
+    // Auto-dismiss after 5 seconds for success messages
+    if (type === 'success') {
+        setTimeout(function() {
+            $('.alert').fadeOut();
+        }, 5000);
+    }
+    
+    // Scroll to message
+    $('html, body').animate({
+        scrollTop: $('#messageContainer').offset().top - 100
+    }, 500);
+}
+</script>

@@ -82,8 +82,20 @@ namespace TestApp.Controllers
             catch (Exception ex)
             {
                 logger.Error("Error in LoansDisbus () Get" + ex.InnerException);
+                
+                // Return a default model even in case of error
+                LoanDisbus defaultModel = new LoanDisbus();
+                defaultModel.GrpCodeList = new List<SelectListItem>();
+                defaultModel.MbrList = new List<SelectListItem>();
+                return View(defaultModel);
             }
-            return View();
+            
+            // This should never be reached, but just in case
+            return View(new LoanDisbus() 
+            { 
+                GrpCodeList = new List<SelectListItem>(),
+                MbrList = new List<SelectListItem>()
+            });
 
         }
 
@@ -1812,6 +1824,39 @@ namespace TestApp.Controllers
                 logger.Error("Error in RemoveLoan() Get Method" + ex.InnerException);
                 return Json("-1", JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpGet]
+        public ActionResult LoanLists_New(string GrpCodeID = "")
+        {
+            var result = LoanLists(GrpCodeID);
+            if (result is ViewResult viewResult)
+            {
+                viewResult.ViewName = "LoanLists_New";
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public ActionResult LoansDisbus_New(int iMbrID = 0)
+        {
+            var result = LoansDisbus(iMbrID);
+            if (result is ViewResult viewResult)
+            {
+                viewResult.ViewName = "LoansDisbus_New";
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public ActionResult LoansDisbus_New(LoanDisbus model)
+        {
+            var result = LoansDisbus(model);
+            if (result is ViewResult viewResult)
+            {
+                viewResult.ViewName = "LoansDisbus_New";
+            }
+            return result;
         }
 
     }

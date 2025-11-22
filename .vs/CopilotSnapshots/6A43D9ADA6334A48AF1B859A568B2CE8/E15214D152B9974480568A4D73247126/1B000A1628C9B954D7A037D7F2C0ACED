@@ -1,0 +1,641 @@
+﻿@model TestApp.VModels.LoanDisbursementViewModel
+@{
+    ViewBag.Title = "Loan Disbursement";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0 text-primary fw-bold">
+            <i class="fas fa-hand-holding-usd me-2"></i>Loan Disbursement
+        </h2>
+        <div class="d-flex gap-2">
+            <a href="@Url.Action("LoanLists_New", "Loans")" class="btn btn-outline-secondary">
+                <i class="fas fa-list me-2"></i>Loan List
+            </a>
+            <button type="button" class="btn btn-outline-info" onclick="refreshData()">
+                <i class="fas fa-sync-alt me-2"></i>Refresh
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick Statistics -->
+    <div class="row g-3 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Pending Approvals</h6>
+                            <h4 class="mb-0">@ViewBag.PendingApprovals</h4>
+                        </div>
+                        <i class="fas fa-clock fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Today's Disbursements</h6>
+                            <h4 class="mb-0">@ViewBag.TodayDisbursements</h4>
+                        </div>
+                        <i class="fas fa-hand-holding-usd fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Amount Disbursed</h6>
+                            <h4 class="mb-0">₹@(ViewBag.AmountDisbursed?.ToString("N0") ?? "0")</h4>
+                        </div>
+                        <i class="fas fa-coins fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Total Portfolio</h6>
+                            <h4 class="mb-0">₹@(ViewBag.TotalPortfolio?.ToString("N0") ?? "0")</h4>
+                        </div>
+                        <i class="fas fa-chart-pie fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Disbursement Form -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-plus me-2"></i>New Disbursement
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("ProcessDisbursement", "Loans", FormMethod.Post, new { @class = "needs-validation", @novalidate = "true", @id = "disbursementForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="mb-3">
+                            <label for="GroupSelect" class="form-label required">Select Group</label>
+                            @Html.DropDownList("GroupId", new SelectList(ViewBag.GroupList, "Value", "Text"), 
+                                "-- Select Group --", 
+                                new { @class = "form-select", @id = "GroupSelect", @required = "true" })
+                            <div class="invalid-feedback">Please select a group</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="MemberSelect" class="form-label required">Select Member</label>
+                            <select class="form-select" id="MemberSelect" name="MemberId" required disabled>
+                                <option value="">-- Select Member --</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a member</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="LoanAmount" class="form-label required">Loan Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text">₹</span>
+                                @Html.TextBoxFor(m => m.LoanAmount, new { 
+                                    @class = "form-control", 
+                                    @placeholder = "Enter amount",
+                                    @type = "number",
+                                    @min = "1000",
+                                    @max = "1000000",
+                                    @step = "100",
+                                    @required = "true"
+                                })
+                                <div class="invalid-feedback">Enter a valid loan amount (₹1,000 - ₹10,00,000)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="InterestRate" class="form-label required">Interest Rate (%)</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.InterestRate, new { 
+                                    @class = "form-control", 
+                                    @placeholder = "Enter rate",
+                                    @type = "number",
+                                    @min = "1",
+                                    @max = "50",
+                                    @step = "0.1",
+                                    @required = "true"
+                                })
+                                <span class="input-group-text">%</span>
+                                <div class="invalid-feedback">Enter a valid interest rate (1% - 50%)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="LoanDuration" class="form-label required">Loan Duration</label>
+                            <div class="row g-2">
+                                <div class="col-8">
+                                    @Html.TextBoxFor(m => m.LoanDuration, new { 
+                                        @class = "form-control", 
+                                        @placeholder = "Enter duration",
+                                        @type = "number",
+                                        @min = "1",
+                                        @max = "60",
+                                        @required = "true"
+                                    })
+                                </div>
+                                <div class="col-4">
+                                    @Html.DropDownListFor(m => m.DurationType, new SelectList(new[] {
+                                        new { Value = "Months", Text = "Months" },
+                                        new { Value = "Weeks", Text = "Weeks" }
+                                    }, "Value", "Text", "Months"), new { @class = "form-select" })
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">Enter valid duration (1-60)</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="DisbursementDate" class="form-label required">Disbursement Date</label>
+                            @Html.TextBoxFor(m => m.DisbursementDate, new { 
+                                @class = "form-control", 
+                                @type = "date",
+                                @value = DateTime.Now.ToString("yyyy-MM-dd"),
+                                @required = "true"
+                            })
+                            <div class="invalid-feedback">Please select disbursement date</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="PaymentMode" class="form-label required">Payment Mode</label>
+                            @Html.DropDownListFor(m => m.PaymentMode, new SelectList(new[] {
+                                new { Value = "", Text = "Select Mode" },
+                                new { Value = "Cash", Text = "Cash" },
+                                new { Value = "Bank Transfer", Text = "Bank Transfer" },
+                                new { Value = "Check", Text = "Check" },
+                                new { Value = "Online", Text = "Online Transfer" }
+                            }, "Value", "Text"), new { @class = "form-select", @required = "true" })
+                            <div class="invalid-feedback">Please select payment mode</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="Remarks" class="form-label">Remarks</label>
+                            @Html.TextAreaFor(m => m.Remarks, new { 
+                                @class = "form-control", 
+                                @rows = "3",
+                                @placeholder = "Additional notes or comments"
+                            })
+                        </div>
+                        
+                        <!-- Calculated EMI Display -->
+                        <div class="mb-3" id="emiCalculation" style="display: none;">
+                            <div class="alert alert-info">
+                                <h6 class="alert-heading">EMI Calculation</h6>
+                                <div class="row g-2 text-sm">
+                                    <div class="col-6"><strong>Monthly EMI:</strong></div>
+                                    <div class="col-6 text-end" id="monthlyEMI">₹0</div>
+                                    <div class="col-6"><strong>Total Amount:</strong></div>
+                                    <div class="col-6 text-end" id="totalAmount">₹0</div>
+                                    <div class="col-6"><strong>Total Interest:</strong></div>
+                                    <div class="col-6 text-end" id="totalInterest">₹0</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <i class="fas fa-hand-holding-usd me-2"></i>Disburse Loan
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="resetForm()">
+                                <i class="fas fa-undo me-2"></i>Reset Form
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <!-- Disbursement History -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-history me-2"></i>Recent Disbursements
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <input type="text" class="form-control form-control-sm" id="searchTable" 
+                                   placeholder="Search..." style="width: 200px;">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="exportHistory()">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped mb-0" id="disbursementTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Loan ID</th>
+                                    <th>Member</th>
+                                    <th>Amount</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.RecentDisbursements != null)
+                                {
+                                    foreach (var item in (List<dynamic>)ViewBag.RecentDisbursements)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <small class="text-muted">@item.DisbursementDate?.ToString("dd/MM/yyyy")</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">@item.LoanId</span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar-xs bg-light rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                        <i class="fas fa-user text-primary"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-semibold">@item.MemberName</div>
+                                                        <small class="text-muted">@item.GroupName</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="text-success fw-bold">₹@item.Amount?.ToString("N2")</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-info">@item.Duration @item.DurationType</span>
+                                            </td>
+                                            <td>
+                                                @{
+                                                    var statusClass = item.Status == "Disbursed" ? "bg-success" : 
+                                                                    item.Status == "Pending" ? "bg-warning" : "bg-secondary";
+                                                }
+                                                <span class="badge @statusClass">@item.Status</span>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-sm btn-outline-info" 
+                                                            onclick="viewDetails(@item.LoanId)" title="View Details">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" 
+                                                            onclick="printReceipt(@item.LoanId)" title="Print Receipt">
+                                                        <i class="fas fa-print"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4">
+                                            <div class="text-muted">
+                                                <i class="fas fa-hand-holding-usd fa-3x mb-3 opacity-50"></i>
+                                                <h6>No Recent Disbursements</h6>
+                                                <p>Start by disbursing your first loan.</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="successModalLabel">
+                    <i class="fas fa-check-circle me-2"></i>Disbursement Successful
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <i class="fas fa-check-circle text-success fa-4x mb-3"></i>
+                    <h5>Loan Disbursed Successfully!</h5>
+                    <p class="text-muted">Loan ID: <span id="successLoanId" class="fw-bold"></span></p>
+                    <p class="text-muted">Amount: ₹<span id="successAmount" class="fw-bold"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" onclick="printReceipt()">
+                    <i class="fas fa-print me-2"></i>Print Receipt
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="resetForm()">
+                    <i class="fas fa-plus me-2"></i>New Disbursement
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    initializeForm();
+    initializeTableSearch();
+    
+    @if (ViewBag.ShowSuccess == true)
+    {
+        <text>
+        $('#successLoanId').text('@ViewBag.LoanId');
+        $('#successAmount').text('@ViewBag.Amount');
+        $('#successModal').modal('show');
+        </text>
+    }
+});
+
+function initializeForm() {
+    // Group change event
+    $('#GroupSelect').on('change', function() {
+        loadGroupMembers($(this).val());
+    });
+    
+    // EMI calculation on input change
+    $('#LoanAmount, #InterestRate, #LoanDuration, #DurationType').on('input change', function() {
+        calculateEMI();
+    });
+    
+    // Form validation
+    const form = document.getElementById('disbursementForm');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        if (form.checkValidity()) {
+            submitDisbursement();
+        }
+        
+        form.classList.add('was-validated');
+    });
+    
+    // Real-time validation
+    $('input, select').on('input change', function() {
+        if ($(this).is(':invalid')) {
+            $(this).addClass('is-invalid').removeClass('is-valid');
+        } else {
+            $(this).addClass('is-valid').removeClass('is-invalid');
+        }
+    });
+}
+
+function loadGroupMembers(groupId) {
+    const memberSelect = $('#MemberSelect');
+    
+    if (!groupId) {
+        memberSelect.html('<option value="">-- Select Member --</option>').prop('disabled', true);
+        return;
+    }
+    
+    memberSelect.html('<option value="">Loading...</option>').prop('disabled', true);
+    
+    $.ajax({
+        url: '@Url.Action("GetGroupMembers", "Loans")',
+        type: 'GET',
+        data: { groupId: groupId },
+        success: function(data) {
+            let options = '<option value="">-- Select Member --</option>';
+            $.each(data, function(index, member) {
+                options += `<option value="${member.Value}" data-eligible="${member.IsEligible}">
+                    ${member.Text} ${member.IsEligible ? '' : '(Not Eligible)'}
+                </option>`;
+            });
+            memberSelect.html(options).prop('disabled', false);
+        },
+        error: function() {
+            memberSelect.html('<option value="">Error loading members</option>');
+            showToast('Error loading group members', 'error');
+        }
+    });
+}
+
+function calculateEMI() {
+    const amount = parseFloat($('#LoanAmount').val()) || 0;
+    const rate = parseFloat($('#InterestRate').val()) || 0;
+    const duration = parseInt($('#LoanDuration').val()) || 0;
+    const durationType = $('#DurationType').val();
+    
+    if (amount > 0 && rate > 0 && duration > 0) {
+        let months = durationType === 'Weeks' ? duration / 4.33 : duration;
+        let monthlyRate = rate / (12 * 100);
+        
+        let emi = amount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+        let totalAmount = emi * months;
+        let totalInterest = totalAmount - amount;
+        
+        $('#monthlyEMI').text('₹' + emi.toFixed(2));
+        $('#totalAmount').text('₹' + totalAmount.toFixed(2));
+        $('#totalInterest').text('₹' + totalInterest.toFixed(2));
+        $('#emiCalculation').show();
+    } else {
+        $('#emiCalculation').hide();
+    }
+}
+
+function submitDisbursement() {
+    const submitBtn = $('#submitBtn');
+    const originalText = submitBtn.html();
+    
+    submitBtn.html('<span class="spinner-border spinner-border-sm me-2"></span>Processing...');
+    submitBtn.prop('disabled', true);
+    
+    const formData = new FormData(document.getElementById('disbursementForm'));
+    
+    $.ajax({
+        url: '@Url.Action("ProcessDisbursement", "Loans")',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(result) {
+            if (result.success) {
+                $('#successLoanId').text(result.loanId);
+                $('#successAmount').text(result.amount);
+                $('#successModal').modal('show');
+                refreshData();
+            } else {
+                showToast(result.message || 'Error processing disbursement', 'error');
+            }
+        },
+        error: function() {
+            showToast('Error processing disbursement', 'error');
+        },
+        complete: function() {
+            submitBtn.html(originalText);
+            submitBtn.prop('disabled', false);
+        }
+    });
+}
+
+function resetForm() {
+    $('#disbursementForm')[0].reset();
+    $('#disbursementForm').removeClass('was-validated');
+    $('.is-valid, .is-invalid').removeClass('is-valid is-invalid');
+    $('#MemberSelect').html('<option value="">-- Select Member --</option>').prop('disabled', true);
+    $('#emiCalculation').hide();
+}
+
+function initializeTableSearch() {
+    $('#searchTable').on('keyup', function() {
+        const searchTerm = $(this).val().toLowerCase();
+        
+        $('#disbursementTable tbody tr').each(function() {
+            const row = $(this);
+            if (row.find('td').length === 1) return;
+            
+            const text = row.text().toLowerCase();
+            if (text.includes(searchTerm)) {
+                row.show();
+            } else {
+                row.hide();
+            }
+        });
+    });
+}
+
+function refreshData() {
+    location.reload();
+}
+
+function viewDetails(loanId) {
+    window.location.href = '@Url.Action("LoanDetails", "Loans")' + '?id=' + loanId;
+}
+
+function printReceipt(loanId) {
+    const url = loanId ? 
+        '@Url.Action("PrintDisbursementReceipt", "Loans")' + '?id=' + loanId :
+        '@Url.Action("PrintDisbursementReceipt", "Loans")' + '?id=' + $('#successLoanId').text();
+    
+    window.open(url, '_blank');
+}
+
+function exportHistory() {
+    exportTableToCSV('disbursementTable', 'disbursement-history.csv');
+}
+
+function exportTableToCSV(tableId, filename) {
+    const table = document.getElementById(tableId);
+    const csv = [];
+    const rows = table.querySelectorAll('tr:not(.d-none)');
+    
+    for (let i = 0; i < rows.length; i++) {
+        const row = [];
+        const cols = rows[i].querySelectorAll('td, th');
+        
+        for (let j = 0; j < cols.length - 1; j++) {
+            row.push('"' + cols[j].innerText.replace(/"/g, '""') + '"');
+        }
+        csv.push(row.join(','));
+    }
+    
+    const csvFile = new Blob([csv.join('\\n')], { type: 'text/csv' });
+    const downloadLink = document.createElement('a');
+    downloadLink.download = filename;
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.style.display = 'none';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+}
+
+// Show toast notification
+function showToast(message, type) {
+    type = type || 'info';
+    const bgClass = 'bg-' + (type === 'error' ? 'danger' : type);
+    
+    const toast = $(`
+        <div class="toast align-items-center text-white ${bgClass} border-0 position-fixed" 
+             style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" 
+                        data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `);
+    
+    $('body').append(toast);
+    const bsToast = new bootstrap.Toast(toast[0]);
+    bsToast.show();
+    
+    toast.on('hidden.bs.toast', function() {
+        toast.remove();
+    });
+}
+</script>
+
+<style>
+.required::after {
+    content: " *";
+    color: #dc3545;
+}
+
+.avatar-xs {
+    width: 24px;
+    height: 24px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.table tbody tr:hover {
+    transform: translateX(2px);
+    transition: transform 0.2s ease;
+}
+
+@@media (max-width: 768px) {
+    .container-fluid {
+        padding: 10px;
+    }
+    
+    .d-flex.gap-2 {
+        flex-wrap: wrap;
+    }
+    
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+    
+    .col-lg-4 {
+        margin-bottom: 2rem;
+    }
+}
+</style>

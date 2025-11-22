@@ -1,0 +1,396 @@
+@model TestApp.VModels.Loans.LoanDisbus
+@{
+    ViewBag.Title = "Loan Disbursement";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0 text-primary fw-bold">
+            <i class="fas fa-hand-holding-usd me-2"></i>Loan Disbursement
+        </h2>
+        <div class="d-flex gap-2">
+            <a href="@Url.Action("LoanLists_New", "Loans")" class="btn btn-outline-secondary">
+                <i class="fas fa-list me-2"></i>Loan List
+            </a>
+            <button type="button" class="btn btn-outline-info" onclick="refreshData()">
+                <i class="fas fa-sync-alt me-2"></i>Refresh
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick Statistics -->
+    <div class="row g-3 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Pending Approvals</h6>
+                            <h4 class="mb-0">@(ViewBag.PendingApprovals ?? 0)</h4>
+                        </div>
+                        <i class="fas fa-clock fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Today's Disbursements</h6>
+                            <h4 class="mb-0">@(ViewBag.TodayDisbursements ?? 0)</h4>
+                        </div>
+                        <i class="fas fa-hand-holding-usd fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Amount Disbursed</h6>
+                            <h4 class="mb-0">Rs.@(ViewBag.AmountDisbursed != null ? String.Format("{0:N0}", Convert.ToDecimal(ViewBag.AmountDisbursed)) : "0")</h4>
+                        </div>
+                        <i class="fas fa-coins fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Total Portfolio</h6>
+                            <h4 class="mb-0">Rs.@(ViewBag.TotalPortfolio != null ? String.Format("{0:N0}", Convert.ToDecimal(ViewBag.TotalPortfolio)) : "0")</h4>
+                        </div>
+                        <i class="fas fa-chart-pie fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Information Panel -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Disbursement Guidelines
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="mb-3">Important Notes:</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Ensure all member details are verified before disbursement</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Loan amount must be within approved limits</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Interest rate should be as per policy guidelines</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Member must not have any pending dues</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>All required documents must be collected</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Disbursement Form -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-plus me-2"></i>New Disbursement
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @if (Model != null && !string.IsNullOrEmpty(Model.IsSucess))
+                    {
+                        if (Model.IsSucess == "1")
+                        {
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <strong>Success!</strong> Loan disbursed successfully for member: @(Model != null ? Model.Savings ?? "" : "")
+                            </div>
+                        }
+                        else if (Model.IsSucess == "2")
+                        {
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <strong>Error!</strong> Failed to disburse loan. Please try again.
+                            </div>
+                        }
+                        else if (Model.IsSucess == "L")
+                        {
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <strong>Warning!</strong> This member already has an active loan.
+                            </div>
+                        }
+                    }
+                    
+                    @using (Html.BeginForm("LoansDisbus_New", "Loans", FormMethod.Post, new { @class = "needs-validation", @novalidate = "true", @id = "disbursementForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="mb-3">
+                            <label for="GroupSelect" class="form-label required">Select Group</label>
+                            @Html.DropDownListFor(m => m.SelectedGrpName, 
+                                new SelectList((Model != null ? Model.GrpCodeList : null) ?? new List<SelectListItem>(), "Value", "Text"), 
+                                "-- Select Group --", 
+                                new { @class = "form-select", @id = "GroupSelect", @required = "true" })
+                            <div class="invalid-feedback">Please select a group</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="MemberSelect" class="form-label required">Select Member</label>
+                            @Html.DropDownListFor(m => m.MbrId, 
+                                new SelectList((Model != null ? Model.MbrList : null) ?? new List<SelectListItem>(), "Value", "Text"), 
+                                "-- Select Member --", 
+                                new { @class = "form-select", @id = "MemberSelect", @required = "true", @disabled = "true" })
+                            <div class="invalid-feedback">Please select a member</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="LoanAmount" class="form-label required">Loan Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text">Rs.</span>
+                                @Html.TextBoxFor(m => m.Loan_Amount, new { 
+                                    @class = "form-control", 
+                                    @placeholder = "Enter amount",
+                                    @type = "number",
+                                    @min = "1000",
+                                    @max = "1000000",
+                                    @step = "100",
+                                    @required = "true",
+                                    @id = "Loan_Amount"
+                                })
+                                <div class="invalid-feedback">Enter a valid loan amount (Rs.1,000 - Rs.10,00,000)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="RateOfInterest" class="form-label required">Interest Rate (%)</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.RateOfInterest, new { 
+                                    @class = "form-control", 
+                                    @placeholder = "Enter rate",
+                                    @type = "number",
+                                    @min = "1",
+                                    @max = "50",
+                                    @step = "0.1",
+                                    @required = "true",
+                                    @id = "RateOfInterest"
+                                })
+                                <span class="input-group-text">%</span>
+                                <div class="invalid-feedback">Enter a valid interest rate (1% - 50%)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="NoOfDays" class="form-label required">Loan Duration (Weeks)</label>
+                            @Html.TextBoxFor(m => m.NoOfDays, new { 
+                                @class = "form-control", 
+                                @placeholder = "Enter duration in weeks",
+                                @type = "number",
+                                @min = "1",
+                                @max = "260",
+                                @required = "true",
+                                @id = "NoOfDays"
+                            })
+                            <div class="invalid-feedback">Enter valid duration (1-260 weeks)</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="Date_Of_Disbursement" class="form-label required">Disbursement Date</label>
+                            @Html.TextBoxFor(m => m.Date_Of_Disbursement, new { 
+                                @class = "form-control", 
+                                @type = "date",
+                                @value = DateTime.Now.Year + "-" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "-" + DateTime.Now.Day.ToString().PadLeft(2, '0'),
+                                @required = "true",
+                                @id = "Date_Of_Disbursement"
+                            })
+                            <div class="invalid-feedback">Please select disbursement date</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="LoanType" class="form-label required">Loan Type</label>
+                            @Html.DropDownListFor(m => m.LoanType, new SelectList(new[] {
+                                new { Value = "General", Text = "General" },
+                                new { Value = "Special", Text = "Special" }
+                            }, "Value", "Text"), "-- Select Loan Type --", new { @class = "form-select", @required = "true", @id = "LoanType" })
+                            <div class="invalid-feedback">Please select loan type</div>
+                        </div>
+                        
+                        <!-- Calculated EMI Display -->
+                        <div class="mb-3" id="emiCalculation" style="display: none;">
+                            <div class="alert alert-info">
+                                <h6 class="alert-heading">EMI Calculation</h6>
+                                <div class="row g-2 text-sm">
+                                    <div class="col-6"><strong>Principal EMI:</strong></div>
+                                    <div class="col-6 text-end" id="prinEMI">Rs.0</div>
+                                    <div class="col-6"><strong>Interest EMI:</strong></div>
+                                    <div class="col-6 text-end" id="intEMI">Rs.0</div>
+                                    <div class="col-6"><strong>Total Interest:</strong></div>
+                                    <div class="col-6 text-end" id="totalInterest">Rs.0</div>
+                                    <div class="col-6"><strong>Total Amount:</strong></div>
+                                    <div class="col-6 text-end" id="totalAmount">Rs.0</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        @Html.HiddenFor(m => m.Prin_EMI, new { @id = "Prin_EMI" })
+                        @Html.HiddenFor(m => m.Int_EMI, new { @id = "Int_EMI" })
+                        @Html.HiddenFor(m => m.Expiry_Date, new { @id = "Expiry_Date" })
+                        @Html.HiddenFor(m => m.NextDueDt, new { @id = "NextDueDt" })
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <i class="fas fa-hand-holding-usd me-2"></i>Disburse Loan
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="resetForm()">
+                                <i class="fas fa-undo me-2"></i>Reset Form
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    initializeForm();
+});
+
+function initializeForm() {
+    // Group change event
+    $('#GroupSelect').on('change', function() {
+        loadGroupMembers($(this).val());
+    });
+    
+    // Calculate EMI on input change
+    $('#Loan_Amount, #RateOfInterest, #NoOfDays, #Date_Of_Disbursement').on('input change', function() {
+        calculateEMI();
+    });
+}
+
+function loadGroupMembers(groupCode) {
+    const memberSelect = $('#MemberSelect');
+    
+    if (!groupCode || groupCode === '-- Select Group --') {
+        memberSelect.html('<option value="">-- Select Member --</option>').prop('disabled', true);
+        return;
+    }
+    
+    memberSelect.html('<option value="">Loading...</option>').prop('disabled', true);
+    
+    $.ajax({
+        url: '@Url.Action("GetLoanMemberList", "Loans")',
+        type: 'GET',
+        data: { sGrpCode: groupCode },
+        success: function(data) {
+            let options = '<option value="">-- Select Member --</option>';
+            $.each(data, function(index, member) {
+                options += '<option value="' + member.Value + '">' + member.Text + '</option>';
+            });
+            memberSelect.html(options).prop('disabled', false);
+        },
+        error: function() {
+            memberSelect.html('<option value="">Error loading members</option>');
+            alert('Error loading group members');
+        }
+    });
+}
+
+function calculateEMI() {
+    const amount = parseFloat($('#Loan_Amount').val()) || 0;
+    const rate = parseFloat($('#RateOfInterest').val()) || 0;
+    const weeks = parseInt($('#NoOfDays').val()) || 0;
+    const disbursementDate = $('#Date_Of_Disbursement').val();
+    
+    if (amount > 0 && rate > 0 && weeks > 0 && disbursementDate) {
+        // Calculate Principal EMI
+        const prinEMI = Math.round(amount / weeks);
+        
+        // Calculate Total Interest and Interest EMI
+        const totalInterest = Math.round((amount * rate) / 100);
+        const intEMI = Math.round(totalInterest / weeks);
+        
+        // Calculate Total Amount
+        const totalAmount = amount + totalInterest;
+        
+        // Calculate Expiry Date (disbursement date + weeks * 7 days)
+        const disbDate = new Date(disbursementDate);
+        const expiryDate = new Date(disbDate);
+        expiryDate.setDate(expiryDate.getDate() + (weeks * 7));
+        
+        // Calculate Next Due Date (disbursement date + 7 days)
+        const nextDueDate = new Date(disbDate);
+        nextDueDate.setDate(nextDueDate.getDate() + 7);
+        
+        // Update display
+        $('#prinEMI').text('Rs.' + prinEMI.toLocaleString('en-IN'));
+        $('#intEMI').text('Rs.' + intEMI.toLocaleString('en-IN'));
+        $('#totalInterest').text('Rs.' + totalInterest.toLocaleString('en-IN'));
+        $('#totalAmount').text('Rs.' + totalAmount.toLocaleString('en-IN'));
+        $('#emiCalculation').show();
+        
+        // Update hidden fields
+        $('#Prin_EMI').val(prinEMI);
+        $('#Int_EMI').val(intEMI);
+        $('#Expiry_Date').val(formatDate(expiryDate));
+        $('#NextDueDt').val(formatDate(nextDueDate));
+    } else {
+        $('#emiCalculation').hide();
+    }
+}
+
+function formatDate(date) {
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return month + '/' + day + '/' + year;
+}
+
+function resetForm() {
+    $('#disbursementForm')[0].reset();
+    $('#MemberSelect').html('<option value="">-- Select Member --</option>').prop('disabled', true);
+    $('#emiCalculation').hide();
+}
+
+function refreshData() {
+    location.reload();
+}
+</script>
+
+<style>
+.required::after {
+    content: " *";
+    color: #dc3545;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@@media (max-width: 768px) {
+    .container-fluid {
+        padding: 10px;
+    }
+    
+    .col-lg-4 {
+        margin-bottom: 2rem;
+    }
+}
+</style>

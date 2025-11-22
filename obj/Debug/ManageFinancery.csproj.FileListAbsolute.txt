@@ -60,6 +60,8 @@ C:\Users\Malli\Documents\MK\MK\MicroFinApp\LatestMicroFin\bin\System.Web.WebPage
 C:\Users\Malli\Documents\MK\MK\MicroFinApp\LatestMicroFin\obj\Debug\ManageFinancery.csprojResolveAssemblyReference.cache
 C:\Users\Malli\Documents\MK\MK\MicroFinApp\LatestMicroFin\obj\Debug\TestApp.dll
 C:\Users\Malli\Documents\MK\MK\MicroFinApp\LatestMicroFin\obj\Debug\TestApp.pdb
+C:\Users\Malli\source\repos\MicroFinance\MicroFinance\obj\Debug\ManageFinancery.csproj.AssemblyReference.cache
+C:\Users\Malli\source\repos\MicroFinance\MicroFinance\obj\Debug\ManageFinancery.csproj.CoreCompileInputs.cache
 C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\TestApp.dll.config
 C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\TestApp.dll
 C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\TestApp.pdb
@@ -70,18 +72,6 @@ C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\Newtonsoft.Json.dll
 C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\NLog.dll
 C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\NLog.Web.dll
 C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\Newtonsoft.Json.xml
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\Microsoft.Web.Infrastructure.xml
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\System.Net.Http.Formatting.xml
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\System.Web.Helpers.xml
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\System.Web.Http.xml
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\System.Web.Http.WebHost.xml
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\System.Web.Mvc.xml
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\System.Web.Razor.xml
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\System.Web.WebPages.xml
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\System.Web.WebPages.Deployment.xml
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\bin\System.Web.WebPages.Razor.xml
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\obj\Debug\ManageFinancery.csproj.AssemblyReference.cache
-C:\Users\Malli\source\repos\MicroFinance\MicroFinance\obj\Debug\ManageFinancery.csproj.CoreCompileInputs.cache
 C:\Users\Malli\source\repos\MicroFinance\MicroFinance\obj\Debug\ManageFi.8D086553.Up2Date
 C:\Users\Malli\source\repos\MicroFinance\MicroFinance\obj\Debug\TestApp.dll
 C:\Users\Malli\source\repos\MicroFinance\MicroFinance\obj\Debug\TestApp.pdb

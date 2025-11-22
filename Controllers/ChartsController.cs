@@ -77,7 +77,13 @@ namespace TestApp.Controllers
             {
                 logger.Error("Error in Index() Get" + ex.InnerException);
             }
-            return View();
+            return View("Index_New");
+        }
+
+        [HttpGet]
+        public ActionResult Index_New()
+        {
+            return Index();
         }
 
     }

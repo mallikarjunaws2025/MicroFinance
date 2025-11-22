@@ -1,0 +1,257 @@
+@model TestApp.VModels.BranchViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutPage_New.cshtml";
+    ViewBag.Title = "Create Branch";
+}
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-building-plus me-2"></i>Add New Branch
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @if (Model != null && !string.IsNullOrEmpty(Model.IsSucess))
+                    {
+                        if (Model.IsSucess == "1")
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle me-2"></i>Branch created successfully!
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        }
+                        else if (Model.IsSucess == "2")
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i>Error occurred while creating branch.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        }
+                    }
+                    
+                    @using (Html.BeginForm("CreateBranch_New", "Staff", FormMethod.Post, new { @class = "needs-validation", @novalidate = "novalidate" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="row g-3">
+                            <!-- Branch Code -->
+                            <div class="col-md-6">
+                                <label for="BranchCode" class="form-label required">Branch Code</label>
+                                @Html.TextBoxFor(model => model.BranchCode, new { 
+                                    @class = "form-control", 
+                                    @placeholder = "Enter branch code", 
+                                    @required = "required" 
+                                })
+                                @Html.ValidationMessageFor(model => model.BranchCode, "", new { @class = "invalid-feedback" })
+                            </div>
+                            
+                            <!-- Branch Name -->
+                            <div class="col-md-6">
+                                <label for="BranchName" class="form-label required">Branch Name</label>
+                                @Html.TextBoxFor(model => model.BranchName, new { 
+                                    @class = "form-control", 
+                                    @placeholder = "Enter branch name", 
+                                    @required = "required" 
+                                })
+                                @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "invalid-feedback" })
+                            </div>
+                            
+                            <!-- Branch Open Date -->
+                            <div class="col-md-6">
+                                <label class="form-label">Branch Open Date</label>
+                                <div class="row g-1">
+                                    <div class="col-4">
+                                        @Html.DropDownListFor(x => Model.OpenDateday, 
+                                            Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), 
+                                            "Day", new { @class = "form-select" })
+                                    </div>
+                                    <div class="col-4">
+                                        @Html.DropDownListFor(x => Model.OpenDateMonth, 
+                                            Enumerable.Range(1, 12).Select(i => new SelectListItem { 
+                                                Value = i.ToString(), 
+                                                Text = System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i) 
+                                            }), 
+                                            "Month", new { @class = "form-select" })
+                                    </div>
+                                    <div class="col-4">
+                                        @Html.DropDownListFor(x => Model.OpenDateYear, 
+                                            Enumerable.Range(2015, DateTime.Now.Year - 2014).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), 
+                                            "Year", new { @class = "form-select" })
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Staff Manager ID -->
+                            <div class="col-md-6">
+                                <label for="StaffId" class="form-label">Branch Manager (Staff ID)</label>
+                                @Html.TextBoxFor(model => model.StaffId, new { 
+                                    @class = "form-control", 
+                                    @placeholder = "Enter staff ID for manager",
+                                    @type = "number"
+                                })
+                                @Html.ValidationMessageFor(model => model.StaffId, "", new { @class = "invalid-feedback" })
+                            </div>
+                            
+                            <!-- Branch Address -->
+                            <div class="col-12">
+                                <label for="BranchAddress" class="form-label required">Branch Address</label>
+                                @Html.TextAreaFor(model => model.BranchAddress, new { 
+                                    @class = "form-control", 
+                                    @placeholder = "Enter complete branch address", 
+                                    @rows = "3",
+                                    @required = "required" 
+                                })
+                                @Html.ValidationMessageFor(model => model.BranchAddress, "", new { @class = "invalid-feedback" })
+                            </div>
+                            
+                            <!-- City -->
+                            <div class="col-md-4">
+                                <label for="City" class="form-label required">City</label>
+                                @Html.TextBoxFor(model => model.City, new { 
+                                    @class = "form-control", 
+                                    @placeholder = "Enter city", 
+                                    @required = "required" 
+                                })
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "invalid-feedback" })
+                            </div>
+                            
+                            <!-- State -->
+                            <div class="col-md-4">
+                                <label for="State" class="form-label required">State</label>
+                                @Html.DropDownListFor(x => Model.State, new List<SelectListItem> { 
+                                    new SelectListItem { Value = "", Text = "-- Select State --" },
+                                    new SelectListItem { Value = "Andhra Pradesh", Text = "Andhra Pradesh" },
+                                    new SelectListItem { Value = "Arunachal Pradesh", Text = "Arunachal Pradesh" },
+                                    new SelectListItem { Value = "Assam", Text = "Assam" },
+                                    new SelectListItem { Value = "Bihar", Text = "Bihar" },
+                                    new SelectListItem { Value = "Chhattisgarh", Text = "Chhattisgarh" },
+                                    new SelectListItem { Value = "Goa", Text = "Goa" },
+                                    new SelectListItem { Value = "Gujarat", Text = "Gujarat" },
+                                    new SelectListItem { Value = "Haryana", Text = "Haryana" },
+                                    new SelectListItem { Value = "Himachal Pradesh", Text = "Himachal Pradesh" },
+                                    new SelectListItem { Value = "Jharkhand", Text = "Jharkhand" },
+                                    new SelectListItem { Value = "Karnataka", Text = "Karnataka" },
+                                    new SelectListItem { Value = "Kerala", Text = "Kerala" },
+                                    new SelectListItem { Value = "Madhya Pradesh", Text = "Madhya Pradesh" },
+                                    new SelectListItem { Value = "Maharashtra", Text = "Maharashtra" },
+                                    new SelectListItem { Value = "Manipur", Text = "Manipur" },
+                                    new SelectListItem { Value = "Meghalaya", Text = "Meghalaya" },
+                                    new SelectListItem { Value = "Mizoram", Text = "Mizoram" },
+                                    new SelectListItem { Value = "Nagaland", Text = "Nagaland" },
+                                    new SelectListItem { Value = "Odisha", Text = "Odisha" },
+                                    new SelectListItem { Value = "Punjab", Text = "Punjab" },
+                                    new SelectListItem { Value = "Rajasthan", Text = "Rajasthan" },
+                                    new SelectListItem { Value = "Sikkim", Text = "Sikkim" },
+                                    new SelectListItem { Value = "Tamil Nadu", Text = "Tamil Nadu" },
+                                    new SelectListItem { Value = "Telangana", Text = "Telangana" },
+                                    new SelectListItem { Value = "Tripura", Text = "Tripura" },
+                                    new SelectListItem { Value = "Uttar Pradesh", Text = "Uttar Pradesh" },
+                                    new SelectListItem { Value = "Uttarakhand", Text = "Uttarakhand" },
+                                    new SelectListItem { Value = "West Bengal", Text = "West Bengal" }
+                                }, new { @class = "form-select", @required = "required" })
+                                @Html.ValidationMessageFor(x => x.State, "", new { @class = "invalid-feedback" })
+                            </div>
+                            
+                            <!-- PIN Code -->
+                            <div class="col-md-4">
+                                <label for="PinCode" class="form-label required">PIN Code</label>
+                                @Html.TextBoxFor(model => model.PinCode, new { 
+                                    @class = "form-control", 
+                                    @placeholder = "Enter PIN code",
+                                    @type = "number",
+                                    @maxlength = "6",
+                                    @required = "required" 
+                                })
+                                @Html.ValidationMessageFor(model => model.PinCode, "", new { @class = "invalid-feedback" })
+                            </div>
+                        </div>
+                        
+                        <!-- Form Actions -->
+                        <div class="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
+                            <a href="@Url.Action("BranchList_New", "Staff")" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                            <button type="reset" class="btn btn-outline-primary">
+                                <i class="fas fa-undo me-2"></i>Reset
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Save Branch
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.required::after {
+    content: " *";
+    color: red;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.btn {
+    border-radius: 0.375rem;
+}
+
+@@media (max-width: 768px) {
+    .container-fluid {
+        padding: 10px;
+    }
+    
+    .d-flex.gap-3 {
+        flex-direction: column;
+    }
+    
+    .d-flex.gap-3 .btn {
+        width: 100%;
+    }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+    // Set current date as default for open date
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.getMonth() + 1;
+    var year = today.getFullYear();
+    
+    $('#OpenDateday option[value="' + day + '"]').prop('selected', true);
+    $('#OpenDateMonth option[value="' + month + '"]').prop('selected', true);
+    $('#OpenDateYear option[value="' + year + '"]').prop('selected', true);
+    
+    // Form validation
+    $('form.needs-validation').on('submit', function(e) {
+        if (!this.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        $(this).addClass('was-validated');
+    });
+    
+    // PIN Code validation
+    $('#PinCode').on('input', function() {
+        var value = $(this).val();
+        if (value.length > 6) {
+            $(this).val(value.slice(0, 6));
+        }
+    });
+});
+</script>

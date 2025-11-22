@@ -1,0 +1,459 @@
+@model IEnumerable<TestApp.VModels.StaffWithRoleViewModel>
+
+@{
+    Layout = "~/Views/Shared/_LayoutPage_New.cshtml";
+    ViewBag.Title = "Staff Management";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="fas fa-users me-2"></i>Staff Management
+                        </h4>
+                        <div class="btn-group">
+                            <a href="@Url.Action("CreateStaff_New", "Staff")" class="btn btn-light btn-sm">
+                                <i class="fas fa-plus me-1"></i>Add Staff
+                            </a>
+                            <button type="button" class="btn btn-outline-light btn-sm" onclick="exportData()">
+                                <i class="fas fa-file-excel me-1"></i>Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card bg-primary text-white h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-users fa-2x mb-2"></i>
+                                        <h4>@Model.Count()</h4>
+                                        <p class="mb-0">Total Staff</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-user-check fa-2x mb-2"></i>
+                                        <h4>@Model.Count(s => s.Status == "Active")</h4>
+                                        <p class="mb-0">Active Staff</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-user-times fa-2x mb-2"></i>
+                                        <h4>@Model.Count(s => s.Status != "Active")</h4>
+                                        <p class="mb-0">Inactive Staff</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-info text-white h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-clock fa-2x mb-2"></i>
+                                        <h4>@Model.Count()</h4>
+                                        <p class="mb-0">This Month</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                    <input type="text" class="form-control" id="searchInput" placeholder="Search staff members...">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="statusFilter">
+                                    <option value="">All Status</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-outline-secondary" onclick="clearFilters()">
+                                    <i class="fas fa-times me-1"></i>Clear
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="staffTable">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Staff ID</th>
+                                        <th>Staff Name</th>
+                                        <th>DOB</th>
+                                        <th>DOJ</th>
+                                        <th>Status</th>
+                                        <th>Staff Role</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var staff in Model)
+                                    {
+                                        <tr>
+                                            <td>@staff.StaffID</td>
+                                            <td>
+                                                <div class="fw-bold">@(staff.StaffName != null ? staff.StaffName : "Unknown")</div>
+                                            </td>
+                                            <td>@(staff.DOB != null ? staff.DOB : "Not provided")</td>
+                                            <td>@(staff.DOJ != null ? staff.DOJ : "Not provided")</td>
+                                            <td>
+                                                @if (staff.Status == "Active")
+                                                {
+                                                    <span class="badge bg-success">@staff.Status</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning text-dark">@(staff.Status != null ? staff.Status : "Unknown")</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (staff.HasLogin && !string.IsNullOrEmpty(staff.RolePermission))
+                                                {
+                                                    if (staff.RolePermission == "Admin")
+                                                    {
+                                                        <span class="badge bg-danger">@staff.RolePermission</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-info">@staff.RolePermission</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Not Assigned</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewStaff(@staff.StaffID)" title="View">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="editStaff(@staff.StaffID, '@staff.StaffName', '@staff.DOB', '@staff.DOJ', '@staff.Status')" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteStaff(@staff.StaffID, '@staff.StaffName')" title="Delete">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-users fa-4x text-muted mb-3"></i>
+                            <h5>No Staff Members Found</h5>
+                            <p class="text-muted">No staff data available to display.</p>
+                            <a href="@Url.Action("CreateStaff_New", "Staff")" class="btn btn-primary">
+                                <i class="fas fa-plus me-1"></i>Add First Staff Member
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Staff Modal -->
+<div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="addStaffModalLabel">
+                    <i class="fas fa-user-plus me-2"></i>Add New Staff Member
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addStaffForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="staffName" class="form-label">Staff Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="staffName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-select" id="status" required>
+                                <option value="">Select Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="dob" class="form-label">Date of Birth</label>
+                            <input type="date" class="form-control" id="dob">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="doj" class="form-label">Date of Joining</label>
+                            <input type="date" class="form-control" id="doj">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Cancel
+                </button>
+                <button type="button" class="btn btn-primary" onclick="saveStaff()">
+                    <i class="fas fa-save me-1"></i>Save Staff
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Staff Modal -->
+<div class="modal fade" id="editStaffModal" tabindex="-1" aria-labelledby="editStaffModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="editStaffModalLabel">
+                    <i class="fas fa-user-edit me-2"></i>Edit Staff Member
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editStaffForm">
+                    <input type="hidden" id="editStaffId">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="editStaffName" class="form-label">Staff Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editStaffName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editStatus" class="form-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-select" id="editStatus" required>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editDob" class="form-label">Date of Birth</label>
+                            <input type="date" class="form-control" id="editDob">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editDoj" class="form-label">Date of Joining</label>
+                            <input type="date" class="form-control" id="editDoj">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Cancel
+                </button>
+                <button type="button" class="btn btn-primary" onclick="updateStaff()">
+                    <i class="fas fa-save me-1"></i>Update Staff
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteConfirmModalLabel">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Confirm Delete
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the staff member "<strong id="staffNameToDelete"></strong>"?</p>
+                <div class="alert alert-warning">
+                    <i class="fas fa-warning me-1"></i>
+                    This action cannot be undone.
+                </div>
+                <input type="hidden" id="staffIdToDelete" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Cancel
+                </button>
+                <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                    <i class="fas fa-trash me-1"></i>Delete Staff
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    console.log('Staff List search functionality loaded');
+    
+    // Search functionality
+    $('#searchInput').on('keyup input', function() {
+        var value = $(this).val().toLowerCase();
+        console.log('Searching for:', value);
+        
+        // Add visual feedback
+        if (value.length > 0) {
+            $(this).addClass('border-primary');
+        } else {
+            $(this).removeClass('border-primary');
+        }
+        
+        $('#staffTable tbody tr').filter(function() {
+            var rowText = $(this).text().toLowerCase();
+            var shouldShow = rowText.indexOf(value) > -1;
+            $(this).toggle(shouldShow);
+        });
+        
+        updateVisibleCount();
+    });
+    
+    // Status filter
+    $('#statusFilter').on('change', function() {
+        var value = $(this).val().toLowerCase();
+        console.log('Filtering by status:', value);
+        
+        if (value === '') {
+            $('#staffTable tbody tr').show();
+        } else {
+            $('#staffTable tbody tr').each(function() {
+                // Status is in the 5th column (0-indexed: 4th position, but nth-child is 1-indexed: 5th position)
+                var status = $(this).find('td:nth-child(5)').text().toLowerCase().trim();
+                var shouldShow = status.indexOf(value) > -1;
+                $(this).toggle(shouldShow);
+            });
+        }
+        
+        updateVisibleCount();
+    });
+    
+    function updateVisibleCount() {
+        var visibleRows = $('#staffTable tbody tr:visible').length;
+        console.log('Visible rows:', visibleRows);
+    }
+});
+
+function clearFilters() {
+    $('#searchInput').val('').removeClass('border-primary');
+    $('#statusFilter').val('');
+    $('#staffTable tbody tr').show();
+    console.log('Filters cleared');
+}
+
+function viewStaff(staffId) {
+    window.location.href = '/Staff/ViewStaff?id=' + staffId;
+}
+
+function editStaff(staffId, staffName, dob, doj, status) {
+    $('#editStaffId').val(staffId);
+    $('#editStaffName').val(staffName);
+    $('#editStatus').val(status);
+    $('#editDob').val(dob);
+    $('#editDoj').val(doj);
+    $('#editStaffModal').modal('show');
+}
+
+function deleteStaff(staffId, staffName) {
+    $('#staffIdToDelete').val(staffId);
+    $('#staffNameToDelete').text(staffName);
+    $('#deleteConfirmModal').modal('show');
+}
+
+function saveStaff() {
+    var formData = {
+        StaffName: $('#staffName').val(),
+        DOB: $('#dob').val(),
+        DOJ: $('#doj').val(),
+        Status: $('#status').val()
+    };
+    
+    if (!formData.StaffName || !formData.Status) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    $.ajax({
+        url: '/Staff/CreateStaff_New',
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        success: function(result) {
+            if (result.success) {
+                $('#addStaffModal').modal('hide');
+                alert(result.message);
+                location.reload();
+            } else {
+                alert(result.message || 'Error creating staff member.');
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Error creating staff member: ' + error);
+        }
+    });
+}
+
+function updateStaff() {
+    var staffData = {
+        StaffID: $('#editStaffId').val(),
+        StaffName: $('#editStaffName').val(),
+        DOB: $('#editDob').val(),
+        DOJ: $('#editDoj').val(),
+        Status: $('#editStatus').val()
+    };
+    
+    var userModel = staffData.StaffID + ',' + staffData.StaffName + ',' + 
+                   (staffData.DOB || '') + ',' + (staffData.DOJ || '') + ',' + staffData.Status;
+    
+    $.ajax({
+        url: '/Staff/EditStaff',
+        type: 'GET',
+        data: { UserModel: userModel },
+        success: function(result) {
+            $('#editStaffModal').modal('hide');
+            alert('Staff updated successfully!');
+            location.reload();
+        },
+        error: function() {
+            alert('Error updating staff member.');
+        }
+    });
+}
+
+function confirmDelete() {
+    var staffId = $('#staffIdToDelete').val();
+    
+    $.ajax({
+        url: '/Staff/DeleteStaff',
+        type: "POST",
+        data: { id: staffId },
+        success: function(result) {
+            $('#deleteConfirmModal').modal('hide');
+            alert('Staff deleted successfully!');
+            location.reload();
+        },
+        error: function() {
+            alert('Error deleting staff member.');
+        }
+    });
+}
+
+function exportData() {
+    alert('Export functionality will be implemented soon.');
+}
+</script>

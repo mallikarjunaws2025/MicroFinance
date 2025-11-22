@@ -8,74 +8,228 @@
     {
         Layout = "~/Views/Shared/P_LayoutPage.cshtml";
     }
-    ViewBag.Title = "PostHistry";
+    ViewBag.Title = "Loan Posting History";
 }
-<head>
-    <title>
-        <h2> Loans Postings History</h2>
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <link href="~/Scripts/Stylesheet.css" rel="stylesheet" />
-</head>
-     <h2> Loans Postings History</h2>  
-       <br>  
-<div class="container" ;border-color: "darkgrey";border-width:"2px";">    
-@{
-if(Model != null && Model.Count()>0)
-{
-  
-           <div class="form-control" >                  
-           
-               @foreach(var item in Model)
-                { 
-                   <table class="table table-bordered table-hover">
-                    <thead>
-                         <tr style="background-color:#428bca;color: #ffd800;"><td colspan="2" ><b>For Due Date : @item.Next_Due_Date</b></td> <td colspan="2" ><b>  Posted UserID : @item.PostedUserID</b> </td></tr>
-                   <tr>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">LoanColId</td>   <td style="background-color: #76e465;color: #1b0a0a;">@item.LoanColId</td>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">LoanId</td>   <td style="background-color: #76e465;color: #1b0a0a;">@item.LoanId</td>
-                         </tr>
-                   <tr>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">MbrId</td>  <td style="background-color: #76e465;color: #1b0a0a;">@item.MbrId</td>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">Collected_Amount </td>      <td style="background-color: #76e465;color: #1b0a0a;">@item.Collected_Amount</td>
-                             </tr>
-                    <tr>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">Actual_Balance</td>  <td style="background-color: #76e465;color: #1b0a0a;">@item.Actual_Balance</td>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">Prin_Balance </td>     <td style="background-color: #76e465;color: #1b0a0a;">@item.Prin_Balance</td>
-                                 </tr>
-                    <tr>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">Prin Collected</td>    <td style="background-color: #76e465;color: #1b0a0a;">@item.Prin_Collected</td>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">Balance Installment</td>  <td style="background-color: #76e465;color: #1b0a0a;">@item.Balance_Installment</td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">Balance Interest </td>   <td style="background-color: #76e465;color: #1b0a0a;">@item.Balance_Interest</td>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">Prin Due </td>   <td style="background-color: #76e465;color: #1b0a0a;">@item.Prin_Due</td>
-                    </tr>
-                     <tr>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">Int Due  </td>  <td style="background-color: #76e465;color: #1b0a0a;">@item.Int_Due</td>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">Balance Interest </td>    <td style="background-color: #76e465;color: #1b0a0a;">@item.Balance_Interest</td>                        
-                    </tr> 
 
-                         <tr>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">Transact_Date</td>    <td style="background-color: #76e465;color: #1b0a0a;">@item.Transact_Date</td>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">Next Due Date</td>  <td style="background-color: #76e465;color: #1b0a0a;">@item.Next_Due_Date</td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #78bbe8;color: #1b0a0a;">PaidEMI </td> <td style="background-color: #76e465;color: #1b0a0a;">@item.PaidEMI</td>                        
-                    </tr>
-               </thead>
-            </table>
-               }
+<style>
+    .posting-card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        margin-bottom: 1.5rem;
+    }
+    
+    .posting-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card-header-custom {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-bottom: none;
+        padding: 1rem 1.5rem;
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .info-item {
+        background: #f8f9fa;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.2s ease;
+    }
+    
+    .info-item:hover {
+        background: #e9ecef;
+    }
+    
+    .info-label {
+        font-weight: 600;
+        color: #495057;
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .info-value {
+        font-size: 1.1rem;
+        color: #212529;
+        font-weight: 500;
+    }
+    
+    .currency {
+        color: #28a745;
+        font-weight: 600;
+    }
+    
+    .date-value {
+        color: #6f42c1;
+        font-weight: 600;
+    }
+    
+    .no-data {
+        text-align: center;
+        padding: 3rem;
+        background: #f8f9fa;
+        border-radius: 1rem;
+        border: 2px dashed #dee2e6;
+    }
+    
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-radius: 1rem;
+    }
+    
+    .badge-custom {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-weight: 500;
+    }
+    
+    @@media (max-width: 768px) {
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .page-header h1 {
+            font-size: 1.75rem;
+        }
+    }
+</style>
 
-         
-
-            </div><br />
-}
-else{
-    <label>No Data to display!</label>
-}
-}  
+<div class="container-fluid px-4">
+    <!-- Modern Page Header -->
+    <div class="page-header text-center">
+        <h1 class="mb-0">
+            <i class="fas fa-history me-3"></i>Loan Posting History
+        </h1>
+        <p class="mb-0 mt-2 opacity-75">Track and review loan collection transactions</p>
     </div>
+
+    @{
+        if(Model != null && Model.Count() > 0)
+        {
+            foreach(var item in Model)
+            {
+                <div class="posting-card card">
+                    <!-- Card Header with Key Information -->
+                    <div class="card-header-custom d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            <span class="fw-bold">Due Date: @(string.IsNullOrEmpty(item.Next_Due_Date) ? "N/A" : item.Next_Due_Date)</span>
+                        </div>
+                        <div class="badge-custom">
+                            <i class="fas fa-user me-1"></i>
+                            Posted by: @(item.PostedUserID ?? "System")
+                        </div>
+                    </div>
+                    
+                    <!-- Card Body with Information Grid -->
+                    <div class="card-body p-4">
+                        <!-- ID Section -->
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="info-item">
+                                    <div class="info-label">Collection ID</div>
+                                    <div class="info-value">#@item.LoanColId</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="info-item">
+                                    <div class="info-label">Loan ID</div>
+                                    <div class="info-value">#@item.LoanId</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="info-item">
+                                    <div class="info-label">Member ID</div>
+                                    <div class="info-value">#@item.MbrId</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Financial Information Grid -->
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Collection Amount</div>
+                                <div class="info-value currency">Rs. @(string.IsNullOrEmpty(item.Collected_Amount) ? "0.00" : item.Collected_Amount)</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">Current Balance</div>
+                                <div class="info-value currency">Rs. @(string.IsNullOrEmpty(item.Actual_Balance) ? "0.00" : item.Actual_Balance)</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">Principal Balance</div>
+                                <div class="info-value currency">Rs. @(string.IsNullOrEmpty(item.Prin_Balance) ? "0.00" : item.Prin_Balance)</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">Principal Collected</div>
+                                <div class="info-value currency">Rs. @(string.IsNullOrEmpty(item.Prin_Collected) ? "0.00" : item.Prin_Collected)</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">Interest Balance</div>
+                                <div class="info-value currency">Rs. @(string.IsNullOrEmpty(item.Balance_Interest) ? "0.00" : item.Balance_Interest)</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">Principal Due</div>
+                                <div class="info-value currency">Rs. @(string.IsNullOrEmpty(item.Prin_Due) ? "0.00" : item.Prin_Due)</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">Interest Due</div>
+                                <div class="info-value currency">Rs. @(string.IsNullOrEmpty(item.Int_Due) ? "0.00" : item.Int_Due)</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">Remaining Installments</div>
+                                <div class="info-value">@(item.Balance_Installment ?? 0) installments</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">Transaction Date</div>
+                                <div class="info-value date-value">@(string.IsNullOrEmpty(item.Transact_Date) ? "N/A" : item.Transact_Date)</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">Next Due Date</div>
+                                <div class="info-value date-value">@(string.IsNullOrEmpty(item.Next_Due_Date) ? "N/A" : item.Next_Due_Date)</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">Paid EMI</div>
+                                <div class="info-value">@(item.PaidEMI ?? "0")</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="no-data">
+                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">No Posting History Available</h4>
+                <p class="text-muted">There are no loan posting records to display at this time.</p>
+            </div>
+        }
+    }
+</div>
      

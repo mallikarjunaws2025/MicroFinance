@@ -136,7 +136,6 @@
     <Property Name="PreInterestAmt" Type="varchar(max)" />
     <Property Name="Collect_Or_RefoundAmt" Type="varchar(max)" />
     <Property Name="PostedUserID" Type="varchar" MaxLength="20" />
-    <Property Name="ArrearsInd" Type="int" />
   </EntityType>
   <EntityType Name="Loans">
     <Key>

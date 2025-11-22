@@ -1,0 +1,546 @@
+@model IEnumerable<TestApp.VModels.Reports.DailyReport>
+@{
+    ViewBag.Title = "Daily Reports";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0 text-primary fw-bold">
+            <i class="fas fa-chart-line me-2"></i>Daily Reports
+        </h2>
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-info" onclick="refreshReport()">
+                <i class="fas fa-sync-alt me-2"></i>Refresh
+            </button>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown">
+                    <i class="fas fa-download me-2"></i>Export
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="exportReport('pdf')">
+                        <i class="fas fa-file-pdf me-2"></i>PDF Report
+                    </a></li>
+                    <li><a class="dropdown-item" href="#" onclick="exportReport('excel')">
+                        <i class="fas fa-file-excel me-2"></i>Excel Report
+                    </a></li>
+                    <li><a class="dropdown-item" href="#" onclick="exportReport('csv')">
+                        <i class="fas fa-file-csv me-2"></i>CSV Report
+                    </a></li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="printReport()">
+                <i class="fas fa-print me-2"></i>Print
+            </button>
+        </div>
+    </div>
+
+    <!-- Report Filters -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-filter me-2"></i>Report Filters
+            </h5>
+        </div>
+        <div class="card-body">
+            <form id="reportFiltersForm">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label for="reportDate" class="form-label">Report Date</label>
+                        <input type="date" class="form-control" id="reportDate" 
+                               value="@DateTime.Now.Year-@DateTime.Now.Month.ToString().PadLeft(2, '0')-@DateTime.Now.Day.ToString().PadLeft(2, '0')" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="groupFilter" class="form-label">Select Group</label>
+                        @Html.DropDownList("GroupFilter", new SelectList(ViewBag.GrpNameList, "Value", "Text"), 
+                            "-- All Groups --", 
+                            new { @class = "form-select", @id = "groupFilter" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="reportType" class="form-label">Report Type</label>
+                        <select class="form-select" id="reportType">
+                            <option value="daily">Daily Summary</option>
+                            <option value="collection">Collection Report</option>
+                            <option value="disbursement">Disbursement Report</option>
+                            <option value="due">Due Report</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="button" class="btn btn-primary w-100" onclick="generateReport()">
+                            <i class="fas fa-chart-bar me-2"></i>Generate Report
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Report Summary Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Total Collections</h6>
+                            <h4 class="mb-0" id="totalCollections">Rs. @(ViewBag.TotalCollections ?? "0.00")</h4>
+                            <small class="opacity-75">Today</small>
+                        </div>
+                        <i class="fas fa-arrow-down fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Total Disbursements</h6>
+                            <h4 class="mb-0" id="totalDisbursements">Rs. @(ViewBag.TotalDisbursements ?? "0.00")</h4>
+                            <small class="opacity-75">Today</small>
+                        </div>
+                        <i class="fas fa-arrow-up fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Total Due</h6>
+                            <h4 class="mb-0" id="totalDue">Rs. @(ViewBag.TotalDue ?? "0.00")</h4>
+                            <small class="opacity-75">Outstanding</small>
+                        </div>
+                        <i class="fas fa-exclamation-triangle fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title mb-1">Net Balance</h6>
+                            <h4 class="mb-0" id="netBalance">Rs. @(ViewBag.NetBalance ?? "0.00")</h4>
+                            <small class="opacity-75">Current</small>
+                        </div>
+                        <i class="fas fa-balance-scale fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="row g-3 mb-4">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-area me-2"></i>Daily Trends
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="trendsChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>Collection Distribution
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="distributionChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Table -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-table me-2"></i>Detailed Report
+                <span class="badge bg-primary ms-2" id="recordCount">@(Model != null ? Model.Count() : 0) records</span>
+            </h5>
+            <div class="d-flex gap-2">
+                <input type="text" class="form-control form-control-sm" id="searchTable" 
+                       placeholder="Search in table..." style="width: 200px;">
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0" id="reportTable">
+                    <thead class="table-dark">
+                        <tr>
+                            <th><i class="fas fa-hashtag me-1"></i>Sl. No</th>
+                            <th><i class="fas fa-layer-group me-1"></i>Group</th>
+                            <th><i class="fas fa-user me-1"></i>Member</th>
+                            <th><i class="fas fa-money-bill me-1"></i>Loan ID</th>
+                            <th><i class="fas fa-arrow-down me-1"></i>Collection</th>
+                            <th><i class="fas fa-arrow-up me-1"></i>Disbursement</th>
+                            <th><i class="fas fa-calendar-times me-1"></i>Due Amount</th>
+                            <th><i class="fas fa-clock me-1"></i>Time</th>
+                            <th><i class="fas fa-info-circle me-1"></i>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            var serialNo = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@serialNo</td>
+                                    <td>
+                                        <span class="badge bg-primary">@item.GroupName</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-light rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="fas fa-user text-primary"></i>
+                                            </div>
+                                            @item.GroupName
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="text-primary fw-bold">@item.SlNo</span>
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.TALRCollected))
+                                        {
+                                            <span class="text-success fw-bold">Rs. @item.TALRCollected</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.LA))
+                                        {
+                                            <span class="text-primary fw-bold">Rs. @item.LA</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.LP))
+                                        {
+                                            <span class="text-warning fw-bold">Rs. @item.LP</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-success">Paid</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">@item.StartDt</small>
+                                    </td>
+                                    <td>
+                                        @{
+                                            var statusClass = !string.IsNullOrEmpty(item.TALRCollected) ? "bg-success" : 
+                                                            !string.IsNullOrEmpty(item.LP) ? "bg-warning" : "bg-secondary";
+                                            var statusText = !string.IsNullOrEmpty(item.TALRCollected) ? "Collected" : 
+                                                           !string.IsNullOrEmpty(item.LP) ? "Pending" : "No Data";
+                                        }
+                                        <span class="badge @statusClass">@statusText</span>
+                                    </td>
+                                </tr>
+                                serialNo++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="9" class="text-center py-5">
+                                    <div class="text-muted">
+                                        <i class="fas fa-chart-line fa-3x mb-3 opacity-50"></i>
+                                        <h5>No Data Available</h5>
+                                        <p>Generate a report by selecting filters above.</p>
+                                        <button type="button" class="btn btn-primary" onclick="generateReport()">
+                                            <i class="fas fa-chart-bar me-2"></i>Generate Report
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(document).ready(function() {
+    initializeCharts();
+    initializeTableSearch();
+    
+    // Auto-refresh every 5 minutes
+    setInterval(refreshReport, 300000);
+});
+
+function initializeCharts() {
+    // Trends Chart
+    const trendsCtx = document.getElementById('trendsChart').getContext('2d');
+    new Chart(trendsCtx, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Encode(ViewBag.ChartLabels ?? new string[] { })),
+            datasets: [
+                {
+                    label: 'Collections',
+                    data: @Html.Raw(Json.Encode(ViewBag.CollectionData ?? new decimal[] { })),
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    tension: 0.4
+                },
+                {
+                    label: 'Disbursements',
+                    data: @Html.Raw(Json.Encode(ViewBag.DisbursementData ?? new decimal[] { })),
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Daily Transaction Trends'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'Rs.' + value.toLocaleString();
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Distribution Chart
+    const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+    new Chart(distributionCtx, {
+        type: 'doughnut',
+        data: {
+            labels: @Html.Raw(Json.Encode(ViewBag.DistributionLabels ?? new string[] { })),
+            datasets: [{
+                data: @Html.Raw(Json.Encode(ViewBag.DistributionData ?? new decimal[] { })),
+                backgroundColor: [
+                    '#FF6384',
+                    '#36A2EB',
+                    '#FFCE56',
+                    '#4BC0C0',
+                    '#9966FF'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
+
+function initializeTableSearch() {
+    $('#searchTable').on('keyup', function() {
+        const searchTerm = $(this).val().toLowerCase();
+        let visibleCount = 0;
+        
+        $('#reportTable tbody tr').each(function() {
+            const row = $(this);
+            if (row.find('td').length === 1) return; // Skip "no data" row
+            
+            const text = row.text().toLowerCase();
+            if (text.includes(searchTerm)) {
+                row.show();
+                visibleCount++;
+            } else {
+                row.hide();
+            }
+        });
+        
+        updateRecordCount(visibleCount);
+    });
+}
+
+function generateReport() {
+    const reportDate = $('#reportDate').val();
+    const groupFilter = $('#groupFilter').val();
+    const reportType = $('#reportType').val();
+    
+    if (!reportDate) {
+        showToast('Please select a report date', 'warning');
+        return;
+    }
+    
+    showLoadingState();
+    
+    $.ajax({
+        url: '@Url.Action("GenerateDailyReport", "Report")',
+        type: 'GET',
+        data: {
+            date: reportDate,
+            groupId: groupFilter,
+            reportType: reportType
+        },
+        success: function(data) {
+            if (data.success) {
+                // Update the page content
+                location.reload();
+            } else {
+                hideLoadingState();
+                showToast(data.message || 'Error generating report', 'error');
+            }
+        },
+        error: function() {
+            hideLoadingState();
+            showToast('Error generating report', 'error');
+        }
+    });
+}
+
+function refreshReport() {
+    generateReport();
+}
+
+function exportReport(format) {
+    const reportDate = $('#reportDate').val();
+    const groupFilter = $('#groupFilter').val();
+    const reportType = $('#reportType').val();
+    
+    const params = new URLSearchParams({
+        date: reportDate,
+        groupId: groupFilter || '',
+        reportType: reportType,
+        format: format
+    });
+    
+    window.open(`@Url.Action("ExportDailyReport", "Report")?${params}`, '_blank');
+}
+
+function printReport() {
+    window.print();
+}
+
+function updateRecordCount(count) {
+    const total = @(Model != null ? Model.Count() : 0);
+    const displayCount = count !== undefined ? count : total;
+    const text = displayCount === total ? `${total} records` : `${displayCount} of ${total} records`;
+    $('#recordCount').text(text);
+}
+
+function showLoadingState() {
+    // Add loading overlay
+    const overlay = $(`
+        <div id="loadingOverlay" class="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center" style="z-index: 9999;">
+            <div class="bg-white rounded p-4 text-center">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div>Generating report...</div>
+            </div>
+        </div>
+    `);
+    $('body').append(overlay);
+}
+
+function hideLoadingState() {
+    $('#loadingOverlay').remove();
+}
+
+// Show toast notification
+function showToast(message, type) {
+    type = type || 'info';
+    const bgClass = 'bg-' + (type === 'error' ? 'danger' : type);
+    
+    const toast = $(`
+        <div class="toast align-items-center text-white ${bgClass} border-0 position-fixed" 
+             style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" 
+                        data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `);
+    
+    $('body').append(toast);
+    const bsToast = new bootstrap.Toast(toast[0]);
+    bsToast.show();
+    
+    toast.on('hidden.bs.toast', function() {
+        toast.remove();
+    });
+}
+</script>
+
+<style>
+.avatar-sm {
+    width: 30px;
+    height: 30px;
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+@@media (max-width: 768px) {
+    .container-fluid {
+        padding: 10px;
+    }
+    
+    .d-flex.gap-2 {
+        flex-wrap: wrap;
+    }
+    
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+}
+
+@@media print {
+    .btn, .card-header, #reportFiltersForm {
+        display: none !important;
+    }
+    
+    .container-fluid {
+        padding: 0;
+    }
+    
+    .card {
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+</style>

@@ -1,0 +1,161 @@
+@model TestApp.VModels.NewStaff
+
+@{
+    Layout = "~/Views/Shared/_LayoutPage_New.cshtml";
+    ViewBag.Title = "Create Staff";
+}
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-plus me-2"></i>Add New Staff Member
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @if (Model != null && !string.IsNullOrEmpty(Model.IsSucess))
+                    {
+                        if (Model.IsSucess == "1")
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle me-2"></i>Staff member created successfully!
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        }
+                        else if (Model.IsSucess == "2")
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i>Error occurred while creating staff member.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        }
+                    }
+                    
+                    @using (Html.BeginForm("CreateStaff_New", "Staff", FormMethod.Post, new { @class = "needs-validation", @novalidate = "novalidate" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="row g-3">
+                            <!-- Staff Name -->
+                            <div class="col-md-6">
+                                <label for="StaffName" class="form-label required">Staff Name</label>
+                                @Html.TextBoxFor(model => model.StaffName, new { 
+                                    @class = "form-control", 
+                                    @placeholder = "Enter staff name", 
+                                    @required = "required" 
+                                })
+                                @Html.ValidationMessageFor(model => model.StaffName, "", new { @class = "invalid-feedback" })
+                            </div>
+                            
+                            <!-- Staff Role -->
+                            <div class="col-md-6">
+                                <label for="RolePermission" class="form-label">Staff Role</label>
+                                @Html.DropDownListFor(x => Model.RolePermission, new List<SelectListItem> { 
+                                    new SelectListItem { Value = "", Text = "-- Select Role --" },
+                                    new SelectListItem { Value = "Admin", Text = "Admin" }, 
+                                    new SelectListItem { Value = "User", Text = "User" } 
+                                }, new { @class = "form-select" })
+                                @Html.ValidationMessageFor(x => x.RolePermission, "", new { @class = "invalid-feedback" })
+                            </div>
+                            
+                            <!-- Date of Birth -->
+                            <div class="col-md-6">
+                                <label for="DOB" class="form-label">Date of Birth</label>
+                                @Html.TextBoxFor(model => model.DOB, new { 
+                                    @class = "form-control", 
+                                    @type = "date"
+                                })
+                                @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "invalid-feedback" })
+                            </div>
+                            
+                            <!-- Date of Joining -->
+                            <div class="col-md-6">
+                                <label for="DOJ" class="form-label">Date of Joining</label>
+                                @Html.TextBoxFor(model => model.DOJ, new { 
+                                    @class = "form-control", 
+                                    @type = "date"
+                                })
+                                @Html.ValidationMessageFor(model => model.DOJ, "", new { @class = "invalid-feedback" })
+                            </div>
+                            
+                            <!-- Contact Number -->
+                            <div class="col-md-6">
+                                <label for="CantactNum" class="form-label">Contact Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                    @Html.TextBoxFor(model => model.CantactNum, new { 
+                                        @class = "form-control", 
+                                        @placeholder = "Enter contact number"
+                                    })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.CantactNum, "", new { @class = "invalid-feedback" })
+                            </div>
+                            
+                            <!-- Status -->
+                            <div class="col-md-6">
+                                <label for="Status" class="form-label required">Status</label>
+                                @Html.DropDownListFor(x => Model.Status, new List<SelectListItem> { 
+                                    new SelectListItem { Value = "", Text = "-- Select Status --" },
+                                    new SelectListItem { Value = "Active", Text = "Active" }, 
+                                    new SelectListItem { Value = "Inactive", Text = "Inactive" } 
+                                }, new { @class = "form-select", @required = "required" })
+                                @Html.ValidationMessageFor(x => x.Status, "", new { @class = "invalid-feedback" })
+                            </div>
+                        </div>
+                        
+                        <!-- Form Actions -->
+                        <div class="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
+                            <a href="@Url.Action("StaffList_New", "Staff")" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                            <button type="reset" class="btn btn-outline-primary">
+                                <i class="fas fa-undo me-2"></i>Reset
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Save Staff
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.required::after {
+    content: " *";
+    color: red;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.btn {
+    border-radius: 0.375rem;
+}
+
+@@media (max-width: 768px) {
+    .container-fluid {
+        padding: 10px;
+    }
+    
+    .d-flex.gap-3 {
+        flex-direction: column;
+    }
+    
+    .d-flex.gap-3 .btn {
+        width: 100%;
+    }
+}
+</style>

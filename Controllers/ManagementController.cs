@@ -148,5 +148,64 @@ namespace TestApp.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult ManagemtPage()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(Convert.ToString(Session["UsrType"])) && Convert.ToString(Session["UsrType"]) == "Admin")
+                {
+                    if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
+                    {
+                        // Add your management page logic here
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("StaffLogin", "Staff");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Charts");
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error in ManagemtPage(): " + ex.Message);
+                return RedirectToAction("Index", "Charts");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult InvesterList()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(Convert.ToString(Session["UsrType"])) && Convert.ToString(Session["UsrType"]) == "Admin")
+                {
+                    if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
+                    {
+                        MicroFinanceEntities db = new MicroFinanceEntities();
+                        var investorList = db.PartnerDetails.ToList();
+                        return View(investorList);
+                    }
+                    else
+                    {
+                        return RedirectToAction("StaffLogin", "Staff");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Charts");
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error in InvesterList(): " + ex.Message);
+                return RedirectToAction("Index", "Charts");
+            }
+        }
+
     }
 }

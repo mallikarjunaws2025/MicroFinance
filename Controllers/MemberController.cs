@@ -517,5 +517,24 @@ namespace TestApp.Controllers
             }           
             return sResult;            
         }
+
+        // New action methods for modernized views
+        [HttpGet]
+        public ActionResult CreateMember_New()
+        {
+            return CreateMember();
+        }
+
+        [HttpPost]
+        public ActionResult CreateMember_New(MemberViewModel objMbr)
+        {
+            return CreateMember(objMbr);
+        }
+
+        [HttpGet]
+        public ActionResult MemberDetails_New()
+        {
+            return MemberDetails();
+        }
     }
 }

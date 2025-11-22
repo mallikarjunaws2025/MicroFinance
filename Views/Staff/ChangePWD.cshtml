@@ -1,78 +1,334 @@
 ﻿@model TestApp.VModels.ChangePWD
-<!DOCTYPE html>
-<html>
-    <<head>
-        <title>Change Pasaword</title>
-     
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+@{
+    ViewBag.Title = "Change Password";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-<style>
-   .container{ 
-       margin-top:35px;
-   }
-       body {		
-       background-color:#636363;
-	}
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Change Password</title>
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        .change-pwd-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .change-pwd-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            border: none;
+        }
+        
+        .change-pwd-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .change-pwd-header .icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 24px;
+        }
+        
+        .change-pwd-title {
+            color: #333;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .change-pwd-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .form-group-modern {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .form-control-modern {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        
+        .form-control-modern:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            background: white;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 16px;
+            z-index: 10;
+        }
+        
+        .btn-change-pwd {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn-change-pwd:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .btn-change-pwd:disabled {
+            background: #6c757d;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link a:hover {
+            color: #764ba2;
+            text-decoration: none;
+        }
+        
+        .alert-modern {
+            border-radius: 10px;
+            border: none;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success-modern {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+        
+        .alert-danger-modern {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            color: white;
+        }
+        
+        .password-strength {
+            margin-top: 5px;
+            font-size: 12px;
+        }
+        
+        .strength-weak { color: #dc3545; }
+        .strength-medium { color: #ffc107; }
+        .strength-strong { color: #28a745; }
+    </style>
 </head>
 <body>
-    
+    <div class="change-pwd-container">
+        <div class="change-pwd-card">
+            <div class="change-pwd-header">
+                <div class="icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <h2 class="change-pwd-title">Change Password</h2>
+                <p class="change-pwd-subtitle">Update your account security</p>
+            </div>
 
-<div class="container">
-<div class="card bg-light" style="width:50%;margin-left:25%;border-color: darkgrey;border-width: 2px;">
-<article class="card-body mx-auto" style="max-width: 400px;">
-	<h4 class="card-title mt-3 text-center">Change Password</h4><br />
-	 <label id="lblmgs"></label>
-	 @using (Html.BeginForm("ChangePWD", "Staff", FormMethod.Post))
-    {
-      @Html.ValidationSummary(false, "", new { @id="Errors", @class = "text-danger" })<label id ="lblMsg" style="color:green"></label>
-      
-      	<div class="form-group input-group">
-		<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-		 </div>
-        @Html.TextBoxFor(model => model.UserID, new {@id="username", @class="form-control", @placeholder="UserID", @required="required" })
-    </div> <!-- form-group// -->
-      
-      <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-		</div>
-        @Html.TextBoxFor(model => model.Password, new {@id="password", @type="password", @class="form-control", @placeholder="New Password", @required="required" })
+            <div id="alertContainer"></div>
+
+            @using (Html.BeginForm("ChangePWD", "Staff", FormMethod.Post, new { id = "changePwdForm" }))
+            {
+                @Html.ValidationSummary(false, "", new { @id="Errors", @class = "text-danger" })
+                
+                <div class="form-group-modern">
+                    <i class="fas fa-user input-icon"></i>
+                    @Html.TextBoxFor(model => model.UserID, new {
+                        @id="username", 
+                        @class="form-control form-control-modern", 
+                        @placeholder="Enter User ID", 
+                        @required="required",
+                        @autocomplete="username"
+                    })
+                </div>
+
+                <div class="form-group-modern">
+                    <i class="fas fa-lock input-icon"></i>
+                    @Html.PasswordFor(model => model.Password, new {
+                        @id="password", 
+                        @class="form-control form-control-modern", 
+                        @placeholder="Enter New Password", 
+                        @required="required",
+                        @autocomplete="new-password"
+                    })
+                    <div id="passwordStrength" class="password-strength"></div>
+                </div>
+
+                <div class="form-group-modern">
+                    <i class="fas fa-lock input-icon"></i>
+                    @Html.PasswordFor(model => model.ConfirmPassword, new {
+                        @id="confirmPassword", 
+                        @class="form-control form-control-modern", 
+                        @placeholder="Confirm New Password", 
+                        @required="required",
+                        @autocomplete="new-password"
+                    })
+                    <div id="passwordMatch" class="password-strength"></div>
+                </div>
+
+                <button type="submit" id="btnSubmit" class="btn btn-change-pwd">
+                    <i class="fas fa-key me-2"></i>Change Password
+                </button>
+            }
+
+            <div class="back-link">
+                @Html.ActionLink("← Back to Dashboard", "Index", "Charts", null, new { @class = "back-link-btn" })
+            </div>
+        </div>
     </div>
-      
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-		</div>
-        @Html.TextBoxFor(model => model.ConfirmPassword, new {@id="CnfrmPWD", @type="password", @class="form-control", @placeholder="Confirm Password", @required="required" })
-    </div> 
-       
-    <div class="form-group">
-        <button type="submit" id="btnSubmit" class="btn btn-primary btn-block"> Change Password  </button>
-    </div> <!-- form-group// -->      
-    <p class="text-center"><b> @Html.ActionLink("Log In", "StaffLogin", "Staff") </b></p>                                                                 
-}
-</article>
-</div> <!-- card.// -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Handle success/error messages
+            if ('@Model.IsSucess' == "1") {
+                showAlert('Successfully changed password!', 'success');
+                setTimeout(function() {
+                    window.location.href = '@Url.Action("Index", "Charts")';
+                }, 2000);
+            } else if ('@Model.IsSucess' == "2") {
+                showAlert('Failed to change password. Please try again.', 'danger');
+            }
 
-</div> 
-<!--container end.//-->
-              
+            // Password strength validation
+            $('#password').on('input', function() {
+                var password = $(this).val();
+                var strength = checkPasswordStrength(password);
+                var strengthElement = $('#passwordStrength');
+                
+                if (password.length === 0) {
+                    strengthElement.html('');
+                    return;
+                }
+                
+                if (strength.score < 2) {
+                    strengthElement.html('<span class="strength-weak">Weak password</span>');
+                } else if (strength.score < 3) {
+                    strengthElement.html('<span class="strength-medium">Medium password</span>');
+                } else {
+                    strengthElement.html('<span class="strength-strong">Strong password</span>');
+                }
+            });
+
+            // Password match validation
+            $('#confirmPassword').on('input', function() {
+                var password = $('#password').val();
+                var confirmPassword = $(this).val();
+                var matchElement = $('#passwordMatch');
+                
+                if (confirmPassword.length === 0) {
+                    matchElement.html('');
+                    return;
+                }
+                
+                if (password === confirmPassword) {
+                    matchElement.html('<span class="strength-strong">Passwords match</span>');
+                } else {
+                    matchElement.html('<span class="strength-weak">Passwords do not match</span>');
+                }
+            });
+
+            // Form submission validation
+            $('#changePwdForm').on('submit', function(e) {
+                var password = $('#password').val();
+                var confirmPassword = $('#confirmPassword').val();
+                
+                if (password !== confirmPassword) {
+                    e.preventDefault();
+                    showAlert('Passwords do not match!', 'danger');
+                    return false;
+                }
+                
+                if (password.length < 6) {
+                    e.preventDefault();
+                    showAlert('Password must be at least 6 characters long!', 'danger');
+                    return false;
+                }
+                
+                // Disable submit button to prevent double submission
+                $('#btnSubmit').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Changing Password...');
+            });
+        });
+
+        function checkPasswordStrength(password) {
+            var score = 0;
+            if (password.length >= 8) score++;
+            if (password.match(/[a-z]/)) score++;
+            if (password.match(/[A-Z]/)) score++;
+            if (password.match(/[0-9]/)) score++;
+            if (password.match(/[^a-zA-Z0-9]/)) score++;
+            
+            return { score: score };
+        }
+
+        function showAlert(message, type) {
+            var alertClass = type === 'success' ? 'alert-success-modern' : 'alert-danger-modern';
+            var icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle';
+            
+            var alertHtml = `
+                <div class="alert alert-modern ${alertClass}" role="alert">
+                    <i class="${icon}"></i> ${message}
+                </div>
+            `;
+            
+            $('#alertContainer').html(alertHtml);
+            
+            // Auto-hide after 5 seconds
+            setTimeout(function() {
+                $('#alertContainer').fadeOut();
+            }, 5000);
+        }
+    </script>
 </body>
 </html>
-<script>
-    $(document).ready(function () {
-        if ('@Model.IsSucess' == "1") {
-             $("#lblmgs").html("<h5 style='color: green;'>Successfully changed password.</h5>");
-         }
-         else if ('@Model.IsSucess' == "2") {
-             $("#lblmgs").html("<h5 style='color: red;'>Failed to change password, Please try again.</h5>");
-        }
-     });
-
-</script>

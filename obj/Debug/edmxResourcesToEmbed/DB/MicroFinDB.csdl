@@ -505,7 +505,6 @@
     <NavigationProperty Name="Loan" Relationship="MicroFinanceModel.FK__Loan_Cols__Adjus__6477ECF3" FromRole="Loan_Cols" ToRole="Loan" />
     <NavigationProperty Name="Member" Relationship="MicroFinanceModel.FK__Loan_Cols__MbrId__656C112C" FromRole="Loan_Cols" ToRole="Member" />
     <Property Type="String" Name="PostedUserID" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Type="Int32" Name="ArrearsInd" />
   </EntityType>
   <Association Name="FK__Loan_Cols__Adjus__6477ECF3">
     <End Type="MicroFinanceModel.Loan" Role="Loan" Multiplicity="0..1" />

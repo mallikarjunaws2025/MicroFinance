@@ -37,7 +37,6 @@ namespace TestApp.DB
         public string PreInterestAmt { get; set; }
         public string Collect_Or_RefoundAmt { get; set; }
         public string PostedUserID { get; set; }
-        public Nullable<int> ArrearsInd { get; set; }
     
         public virtual Loan Loan { get; set; }
         public virtual Member Member { get; set; }

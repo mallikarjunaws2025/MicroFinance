@@ -157,7 +157,6 @@
     <EntitySetMapping Name="Loan_Cols">
       <EntityTypeMapping TypeName="MicroFinanceModel.Loan_Cols">
         <MappingFragment StoreEntitySet="Loan_Cols">
-          <ScalarProperty Name="ArrearsInd" ColumnName="ArrearsInd" />
           <ScalarProperty Name="PostedUserID" ColumnName="PostedUserID" />
           <ScalarProperty Name="Collect_Or_RefoundAmt" ColumnName="Collect_Or_RefoundAmt" />
           <ScalarProperty Name="PreInterestAmt" ColumnName="PreInterestAmt" />

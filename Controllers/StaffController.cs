@@ -132,7 +132,7 @@ namespace TestApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Charts");
+                    return RedirectToAction("Index_New", "Charts");
                 }
             }
             catch (Exception ex)
@@ -240,6 +240,23 @@ namespace TestApp.Controllers
         [HttpGet]
         public ActionResult StaffLogin()
         {
+            // Set cache control headers to prevent caching of login page
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+            Response.Cache.SetNoStore();
+            Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
+            Response.Cache.SetValidUntilExpires(false);
+            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
+            
+            // Clear any existing session data
+            if (Session["UserID"] != null)
+            {
+                Session.Clear();
+                Session.Abandon();
+            }
+            
             MicroFinanceEntities db = new MicroFinanceEntities();
             
             return View();
@@ -251,6 +268,26 @@ namespace TestApp.Controllers
             try
             {
                 logger.Info("Logged in User Id : " + objUser.UserID + " at time" + DateTime.Now);
+                logger.Info("Password received: " + (string.IsNullOrEmpty(objUser.Password) ? "NULL/EMPTY" : "HAS VALUE"));
+                
+                // Debug: Check form parameters directly
+                string formUserID = Request.Form["UserID"];
+                string formPassword = Request.Form["Password"];
+                logger.Info("Form UserID: " + formUserID);
+                logger.Info("Form Password: " + (string.IsNullOrEmpty(formPassword) ? "NULL/EMPTY" : "HAS VALUE"));
+                
+                // If model binding failed, use form values directly
+                if (string.IsNullOrEmpty(objUser.Password) && !string.IsNullOrEmpty(formPassword))
+                {
+                    objUser.Password = formPassword;
+                    logger.Info("Used form password instead of model password");
+                }
+                if (string.IsNullOrEmpty(objUser.UserID) && !string.IsNullOrEmpty(formUserID))
+                {
+                    objUser.UserID = formUserID;
+                    logger.Info("Used form UserID instead of model UserID");
+                }
+                
                 //string uID = Convert.ToString(System.Guid.NewGuid());
                 MicroFinanceEntities db = new MicroFinanceEntities();
                 var Data = db.StaffLogins
@@ -301,7 +338,7 @@ namespace TestApp.Controllers
                         db.UserLogs.Add(userLog);
                         db.SaveChanges();
                         
-                        return RedirectToAction("Index", "Charts");
+                        return RedirectToAction("Index_New", "Charts");
                     }
                 }
                 
@@ -423,6 +460,52 @@ namespace TestApp.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult CreateBranch_New()
+        {
+            if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
+            {
+                BranchViewModel objBranchViewModel = new BranchViewModel();
+                objBranchViewModel.IsSucess = "0";
+                return View(objBranchViewModel);
+            }
+            else
+            {
+                return RedirectToAction("StaffLogin_New", "Staff");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CreateBranch_New(BranchViewModel objBranchViewModel)
+        {
+            try
+            {
+                logger.Info(Session["UserID"] + " this user created new Branch at the time of : " + DateTime.Now);
+                MicroFinanceEntities db = new MicroFinanceEntities();
+                Branch objCrBranch = new Branch();
+
+                objCrBranch.BranchCode = objBranchViewModel.BranchCode;
+                objCrBranch.BranchName = objBranchViewModel.BranchName;
+                objCrBranch.BAddress = objBranchViewModel.BranchAddress;
+                objCrBranch.City = objBranchViewModel.City;
+                objCrBranch.State = objBranchViewModel.State;
+                objCrBranch.OpenDate = objBranchViewModel.OpenDateday + "/" + objBranchViewModel.OpenDateMonth + "/" + objBranchViewModel.OpenDateYear;
+                objCrBranch.PinCode = objBranchViewModel.PinCode;
+                objCrBranch.ManagerID = objBranchViewModel.StaffId;
+                db.Branches.Add(objCrBranch);
+                db.SaveChanges();
+                objBranchViewModel.IsSucess = "1";
+                return View(objBranchViewModel);
+            }
+            catch (Exception objEx)
+            {
+                logger.Error("Error occured in CreateBranch_New() Post method" + objEx.InnerException.ToString());
+                ModelState.AddModelError(string.Empty, "Error while creating branch");
+                objBranchViewModel.IsSucess = "2";
+                return View(objBranchViewModel);
+            }
+        }
+
         public ActionResult Logout()
         {
             try
@@ -452,16 +535,38 @@ namespace TestApp.Controllers
             
             // Clear all session data
             Helper.IsAdmin = false;
-            Session["UsrType"] = string.Empty;
-            ViewBag.UsrType = string.Empty;
-            Session["UserID"] = string.Empty;
-            Session["ValideUsr"] = string.Empty;
+            Session["UsrType"] = null;
+            ViewBag.UsrType = null;
+            Session["UserID"] = null;
+            Session["ValideUsr"] = null;
+            Session["StaffID"] = null;
             Helper.bIsValidUser = false;
             ViewBag.IsAdmin = false;
             ViewBag.ValideUsr = "No";
             Helper.sGuid = string.Empty;
             
-            return RedirectToAction("StaffLogin", "Staff");
+            // Completely abandon the session
+            Session.Clear();
+            Session.Abandon();
+            Session.RemoveAll();
+            
+            // Set comprehensive cache control headers
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+            Response.Cache.SetNoStore();
+            Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
+            Response.Cache.SetValidUntilExpires(false);
+            Response.Cache.SetNoServerCaching();
+            
+            // Additional cache control headers
+            Response.Headers.Remove("Cache-Control");
+            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
+            
+            // Create a redirect result with cache busting
+            var redirectUrl = Url.Action("StaffLogin", "Staff") + "?t=" + DateTime.Now.Ticks;
+            return Redirect(redirectUrl);
         }
 
 
@@ -473,11 +578,8 @@ namespace TestApp.Controllers
             {
                 if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
                 {
-                    MicroFinanceEntities db = new MicroFinanceEntities();
-                    List<Staff> objGrp = new List<Staff>();
-                    objGrp = db.Staffs.ToList();
-
-                    return View(objGrp);
+                    // Redirect to the new modernized staff list
+                    return RedirectToAction("StaffList_New", "Staff");
                 }
                 else
                 {
@@ -494,26 +596,8 @@ namespace TestApp.Controllers
         [HttpGet]
         public ActionResult BranchList()
         {
-            try
-            {
-                if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
-                {
-                    MicroFinanceEntities db = new MicroFinanceEntities();
-                    List<Branch> objGrp = new List<Branch>();
-                    objGrp = db.Branches.ToList();
-
-                    return View(objGrp);
-                }
-                else
-                {
-                    return RedirectToAction("StaffLogin", "Staff");
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Error("Error occured in BranchList() Get method" + ex.InnerException.ToString());
-            }
-            return View();
+            // Redirect to the new modern branch list view
+            return RedirectToAction("BranchList_New");
         }
 
         [HttpGet]
@@ -631,6 +715,147 @@ namespace TestApp.Controllers
                 objUserLogin.IsSucess = "2";
                 ModelState.AddModelError(string.Empty, "Please verify user login information");
                 return View(objUserLogin);
+            }
+        }
+        [HttpGet]
+        public ActionResult CreateStaff_New()
+        {
+            // Reuse the existing CreateStaff logic but return the new view
+            var result = CreateStaff();
+            if (result is ViewResult viewResult)
+            {
+                viewResult.ViewName = "CreateStaff_New";
+            }
+            return result;
+        }
+        
+        [HttpPost]
+        public ActionResult CreateStaff_New(NewStaff objStaff)
+        {
+            try
+            {
+                if (this.ModelState.IsValid)
+                {
+                    logger.Info(Session["UserID"] + " creating new staff member at " + DateTime.Now);
+                    
+                    using (var db = new MicroFinanceEntities())
+                    {
+                        // Create Staff record
+                        Staff objNewStaff = new Staff();
+                        objNewStaff.StaffName = objStaff.StaffName;
+                        objNewStaff.DOB = objStaff.DOB;
+                        objNewStaff.DOJ = objStaff.DOJ;
+                        objNewStaff.Status = objStaff.Status;
+
+                        db.Staffs.Add(objNewStaff);
+                        db.SaveChanges();
+
+                        // Create StaffLogin record if RolePermission is provided
+                        if (!string.IsNullOrEmpty(objStaff.RolePermission))
+                        {
+                            TestApp.DB.StaffLogin objStaffLogin = new TestApp.DB.StaffLogin();
+                            objStaffLogin.StaffId = objNewStaff.StaffID;
+                            objStaffLogin.UserName = objStaff.StaffName; // Default username as staff name
+                            objStaffLogin.Password = "password123"; // Default password (should be changed)
+                            objStaffLogin.RolePermission = objStaff.RolePermission;
+                            objStaffLogin.IsLocked = 0;
+
+                            db.StaffLogins.Add(objStaffLogin);
+                            db.SaveChanges();
+                        }
+
+                        objStaff.IsSucess = "1";
+                        logger.Info(Session["UserID"] + " created staff " + objStaff.StaffName + " at " + DateTime.Now);
+                        return View(objStaff);
+                    }
+                }
+                else
+                {
+                    objStaff.IsSucess = "";
+                    return View(objStaff);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error in CreateStaff_New: " + ex.Message);
+                objStaff.IsSucess = "2";
+                return View(objStaff);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult StaffList_New()
+        {
+            if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
+            {
+                MicroFinanceEntities db = new MicroFinanceEntities();
+                
+                // Create a combined view model with staff and their roles
+                var staffWithRoles = (from staff in db.Staffs
+                                    join login in db.StaffLogins on staff.StaffID equals login.StaffId into staffLogins
+                                    from login in staffLogins.DefaultIfEmpty()
+                                    select new TestApp.VModels.StaffWithRoleViewModel
+                                    {
+                                        StaffID = staff.StaffID,
+                                        StaffName = staff.StaffName,
+                                        DOB = staff.DOB,
+                                        DOJ = staff.DOJ,
+                                        Status = staff.Status,
+                                        RolePermission = login != null ? login.RolePermission : "Not Assigned",
+                                        HasLogin = login != null,
+                                        ContactNum = "" // This field is not stored in DB
+                                    }).ToList();
+                
+                return View(staffWithRoles);
+            }
+            else
+            {
+                return RedirectToAction("StaffLogin_New", "Staff");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteStaff(int id)
+        {
+            try
+            {
+                if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
+                {
+                    MicroFinanceEntities db = new MicroFinanceEntities();
+                    var staff = db.Staffs.Find(id);
+                    if (staff != null)
+                    {
+                        db.Staffs.Remove(staff);
+                        db.SaveChanges();
+                        return Json(new { success = true, message = "Staff deleted successfully" });
+                    }
+                    return Json(new { success = false, message = "Staff not found" });
+                }
+                return Json(new { success = false, message = "Unauthorized access" });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Error deleting staff");
+                return Json(new { success = false, message = "An error occurred while deleting staff" });
+            }
+        }
+
+        public ActionResult BranchList_New()
+        {
+            try
+            {
+                if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
+                {
+                    MicroFinanceEntities db = new MicroFinanceEntities();
+                    var branches = db.Branches.ToList();
+                    return View(branches);
+                }
+                return RedirectToAction("StaffLogin_New");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Error loading branch list");
+                return View(new List<Branch>());
             }
         }
     }

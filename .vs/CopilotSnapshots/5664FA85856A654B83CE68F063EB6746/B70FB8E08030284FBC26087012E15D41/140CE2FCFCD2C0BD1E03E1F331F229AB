@@ -1,0 +1,524 @@
+﻿@model  TestApp.VModels.Loans.LoanCols
+@{
+    ViewBag.Title = "Loan Recovery";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    var checkedAnyBox = false;   
+}
+
+<style>
+    .drpdwn {
+        width: 43px;
+        height: 30px;
+    }
+
+    .submit-progress-bg {
+        background-color: lightgray;
+        opacity: .5;
+        pointer-events: none;
+    }
+
+    .submit-progress {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        height: 6em;
+        padding-top: 2.3em;
+        z-index: 1;
+        width: 20em;
+        margin-left: -10em;
+        padding-left: 2.1em;
+        background-color: black;
+        color: white;
+        -webkit-border-radius: 0.4em;
+        -moz-border-radius: 0.4em;
+        border-radius: 0.4em;
+        box-shadow: 0.4em 0.4em rgba(0,0,0,0.6);
+        -webkit-box-shadow: 0.4em 0.4em rgba(0,0,0,0.6);
+        -moz-box-shadow: 0.4em 0.4em rgba(0,0,0,0.6);
+    }
+
+    .submit-progress {
+        padding-top: 2em;
+        width: 23em;
+        margin-left: -11.5em;
+    }
+
+    .submit-progress i {
+        margin-right: 0.5em;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    /* Center content styles */
+    .loans-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .controls-section {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .table-container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .action-buttons {
+        text-align: center;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .control-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .control-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .control-item label {
+        font-weight: 500;
+        color: #555;
+        font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+        .loans-container {
+            padding: 10px;
+        }
+        
+        .control-group {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .control-item {
+            text-align: center;
+        }
+    }
+</style>
+
+@using (Html.BeginForm("LoansCols", "Loans", FormMethod.Post))
+{        
+    @Html.HiddenFor(model => model.PrepaidLoanIds, new { @id = "PrepaidLoanIds" })
+    
+    <div class="loans-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h2><i class="fas fa-money-bill-wave me-2"></i>Loan Recovery Management</h2>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="controls-section">
+            <div class="control-group">
+                <div class="control-item">
+                    <label>Select Group Code</label>
+                    @Html.DropDownListFor(x => Model.GrpCodeList, new SelectList(Model.GrpCodeList, "Value", "Text"), "--All Groups--", htmlAttributes: new { @class = "form-select", @style = "width: 180px;", @id = "GrpCode" })
+                </div>
+                <div class="control-item">
+                    <label>Select Staff Name</label>
+                    @Html.DropDownListFor(x => Model.StaffMbrList, new SelectList(Model.StaffMbrList, "Text", "Text"), "--All Staff--", htmlAttributes: new { @class = "form-select", @style = "width: 180px;", @id = "StaffId" })
+                </div>
+                <div class="control-item">
+                    <label>Enter Member ID/Name</label>
+                    @Html.TextBoxFor(x => Model.SrchQry, htmlAttributes: new { @class = "form-control", @style = "width: 180px;", @id = "MbrIDName", @placeholder = "Search member..." })
+                </div>
+                <div class="control-item">
+                    <label>&nbsp;</label>
+                    <button type="button" id="btnPrint" class="btn btn-info">
+                        <i class="fas fa-print me-1"></i>Print
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Message -->
+        <div class="submit-progress hidden">
+            <i class="fa fa-2x fa-spinner fa-spin"></i>
+            <label>Please wait while Saving Data...</label>
+        </div>
+
+        <!-- Report Info -->
+        <div id="pStaffName" style="display: none" class="alert alert-info text-center">
+            <strong>Staff Name:</strong> <span id="lblStaff"></span><br/>
+            <strong>Report Date:</strong> @DateTime.Today.ToString("dd/MM/yyyy")
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-container">
+            <div id="dvDailyreportData" style="max-height: 500px; overflow-y: auto;">
+                <table id="LoanColstbl" class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th style="display: none">Loan ID</th>
+                            <th style="display: none">Member Id</th>
+                            <th>Member Name</th>
+                            <th>Group Name</th>
+                            <th>Loan Amt(+ Interest)</th>
+                            <th>Tenure</th>
+                            <th>Paid Installments</th>
+                            <th>Paid Amount</th>
+                            <th>Balance Amount</th>
+                            <th>Balance Installments</th>
+                            <th>Current Due</th>
+                            <th>Due Date</th>
+                            <th>Post</th>
+                            <th>Pre-Paid</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                        <tr>
+                            <td colspan="15" class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading loan data...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <div class="d-flex justify-content-center flex-wrap gap-3">
+                <button type="button" id="btnSelectAll" class="btn btn-outline-primary">
+                    <i class="fas fa-check-double me-1"></i>Select All Postings
+                </button>
+                <button type="button" id="btnSelectAllPre" class="btn btn-outline-warning">
+                    <i class="fas fa-money-check-alt me-1"></i>Select All Pre-Paids
+                </button>
+                <button type="button" onclick="LoanPosting()" id="btnPostAll" class="btn btn-success">
+                    <i class="fas fa-paper-plane me-1"></i>Post All Selected
+                </button>
+            </div>
+            <div class="mt-3">
+                <label id="lblTodayDue" class="text-muted"></label>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PrintArea/2.4.1/jquery.PrintArea.js"></script>
+
+<script type="text/javascript">
+    //Load Data in Table when documents is ready
+    var chkCount = 0;
+    $(document).ready(function () {
+        loadData();
+    });
+
+    $("#GrpCode").change(function () {
+        $("#lblStaff").html($("#GrpCode :selected").text());
+        loadData();
+        $("#lblStaff").html($("#StaffId :selected").text());
+    });
+    
+    $("#StaffId").change(function () {
+        loadData();
+        $("#lblStaff").html($("#StaffId :selected").text());
+    });
+
+    $("#MbrIDName").keyup(function () {
+        loadData();
+    });
+
+    //Load Data function
+    function loadData() {
+        var selectedGrpCode = $("#GrpCode :selected").text();
+        var vStaffId = $("#StaffId").val();
+        var vMbrId = $("#MbrIDName").val();
+        
+        // Show loading state
+        $('.tbody').html('<tr><td colspan="15" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div><p class="mt-2">Loading loan data...</p></td></tr>');
+        
+        $.ajax({
+            url: '@Url.Action("LoansList", "Loans")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            async: true,
+            data: { sGrpName: selectedGrpCode, sStaffName: vStaffId, sMbrID: vMbrId },
+            catch: false,
+            dataType: "json",
+            success: function (result) {
+                var html = '';
+                var vCurrentDue = '';
+                
+                if (result && result.length > 0) {
+                    $.each(result, function (key, item) {
+                        html += '<tr id="rw' + item.LoanID + '">';
+                        html += '<td style="display:none" id="tdID' + item.LoanID + '">' + item.LoanID + '</td>';
+                        html += '<td style="display:none">' + item.MbrId + '</td>';
+                        html += '<td><strong>' + item.MbrName + '</strong></td>';
+                        html += '<td><span class="badge bg-info">' + item.GrpName + '</span></td>';
+                        html += '<td id="tdLA' + item.LoanID + '"><strong>₹ ' + parseFloat(item.Actual_Balance).toLocaleString() + '</strong></td>';
+                        html += '<td>' + item.NoOfDay + ' days</td>';
+                        html += '<td id="tdPE' + item.LoanID + '"><span class="badge bg-success">' + item.PaidEMI + '</span></td>';
+                        html += '<td id="tdCA' + item.LoanID + '">₹ ' + parseFloat(parseFloat(item.Collected_Amount) * parseInt(item.PaidEMI)).toLocaleString() + '</td>';
+                        html += '<td id="tdBL' + item.LoanID + '"><strong class="text-danger">₹ ' + parseFloat(item.Balance_Amount).toLocaleString() + '</strong></td>';
+                        html += '<td><span class="badge bg-warning text-dark">' + item.Balance_Installment + '</span></td>';
+                        html += '<td id="tdCD' + item.LoanID + '"><strong class="text-primary">₹ ' + parseFloat(item.Prin_EMI).toLocaleString() + '</strong></td>';
+                        html += '<td><small class="text-muted">' + item.Next_Due_Date + '</small></td>';
+                        html += '<td class="text-center"><input type="checkbox" class="form-check-input LPost" value="Post,' + item.LoanID + '"/></td>';
+                        html += '<td class="text-center"><input type="checkbox" id="ck' + item.LoanID + '" class="form-check-input LPre" onchange="SwapValForPrePaid(ck' + item.LoanID + ')" value="PrePaid,' + item.LoanID + '"/></td>';
+                        html += '<td class="text-center"><button class="btn btn-sm btn-outline-primary SPost" onclick="return getbyID(' + item.LoanID + ')"><i class="fas fa-paper-plane"></i></button></td>';
+                        html += '</tr>';
+                    });
+                } else {
+                    html = '<tr><td colspan="15" class="text-center text-muted"><i class="fas fa-info-circle"></i> No loan data found for the selected criteria.</td></tr>';
+                }
+                
+                $('.tbody').html(html);
+
+                if (chkCount <= 0) {
+                    DisplayProgressMessage('end');
+                }
+            },
+            error: function (errormessage) {
+                $('.tbody').html('<tr><td colspan="15" class="text-center text-danger"><i class="fas fa-exclamation-triangle"></i> Error loading data: ' + errormessage.responseText + '</td></tr>');
+            }
+        });
+    }
+
+    //Function for getting the Data Based upon Employee ID
+    function getbyID(InputData) {
+        if (confirm('Are you sure you want to post this loan?')) {
+            $.ajax({
+                url: '@Url.Action("GetLoanIDFromView", "Loans")',
+                type: "GET",
+                contentType: "application/json",
+                data: { sLoanID: InputData },
+                catch: false,
+                success: function (result) {
+                    if (result.trim() == "1") {
+                        alert("Successfully Posted.")
+                        loadData();
+                    }
+                },
+                error: function (errormessage) {
+                    alert("Error while processing your request");
+                }
+            });
+        }
+        else {
+            return true;
+        }
+    }
+
+    // Check Box Select 
+    $('#btnSelectAll').click(function () {
+        if ($(this).hasClass('allChecked')) {
+            $('input[class="form-check-input LPost"]', '#LoanColstbl').prop('checked', false);
+            $(this).html('<i class="fas fa-check-double me-1"></i>Select All Postings');
+        } else {
+            $('input[class="form-check-input LPost"]', '#LoanColstbl').prop('checked', true);
+            $(this).html('<i class="fas fa-times me-1"></i>Unselect All Postings');
+        }
+        $(this).toggleClass('allChecked');
+
+        var LoanIds = '';
+        $('table [type="checkbox"]').each(function (i, chk) {
+            if (chk.checked) {
+                LoanIds += "/" + $(this).val();
+            }
+        });
+        $("#PrepaidLoanIds").val(LoanIds);
+    });
+
+    $('#btnSelectAllPre').click(function () {
+        if ($(this).hasClass('allChecked')) {
+            $('input[class="form-check-input LPre"]', '#LoanColstbl').prop('checked', false);
+            $(this).html('<i class="fas fa-money-check-alt me-1"></i>Select All Pre-Paids');
+        } else {
+            $('input[class="form-check-input LPre"]', '#LoanColstbl').prop('checked', true);
+            $(this).html('<i class="fas fa-times me-1"></i>Unselect All Pre-Paids');
+        }
+        $(this).toggleClass('allChecked');
+
+        var LoanIds = '';
+        $('table [type="checkbox"]').each(function (i, chk) {
+            if (chk.checked) {
+                LoanIds += "/" + $(this).val();
+                if ($(this).val().trim().split(',')[0] == 'PrePaid') {
+                    $('#tdBL' + $(this).val().split(',')[1]).val($('#tdBL' + $(this).val().split(',')[1]).text())
+                    $('#tdCD' + $(this).val().split(',')[1]).val($('#tdCD' + $(this).val().split(',')[1]).text());
+
+                    $('#tdCD' + $(this).val().split(',')[1]).text($('#tdBL' + $(this).val().split(',')[1]).text());
+                    $('#tdCD' + $(this).val().split(',')[1]).text($('#tdLA' + $(this).val().split(',')[1]).text());
+                    $('#tdBL' + $(this).val().split(',')[1]).text("0.00");
+                }
+            }
+            else if (!chk.checked) {
+                if ($(this).val().trim().split(',')[0] == 'PrePaid') {
+                    $('#tdCD' + $(this).val().split(',')[1]).text($('#tdCD' + $(this).val().split(',')[1]).val());
+                    $('#tdBL' + $(this).val().split(',')[1]).text($('#tdBL' + $(this).val().split(',')[1]).val());
+                }
+            }
+        });
+        $("#PrepaidLoanIds").val(LoanIds);
+    });
+
+    function SwapValForPrePaid(Input) {
+        if (Input.checked) {
+            $('#tdBL' + Input.value.split(',')[1]).val($('#tdBL' + Input.value.split(',')[1]).text())
+            $('#tdCD' + Input.value.split(',')[1]).val($('#tdCD' + Input.value.split(',')[1]).text());
+
+            $('#tdCD' + Input.value.split(',')[1]).text($('#tdBL' + Input.value.split(',')[1]).text());
+            $('#tdCD' + Input.value.split(',')[1]).text($('#tdLA' + Input.value.split(',')[1]).text());
+            $('#tdBL' + Input.value.split(',')[1]).text("0.00");
+
+            var sRemainingBal = Math.round(parseFloat($('#tdCD' + Input.value.split(',')[1]).text()) - parseFloat(0));
+
+            if (parseInt(sRemainingBal) < 0) {
+                alert("You have to refund: ₹" + Math.abs(sRemainingBal).toLocaleString() + " to member.");
+            }
+            else {
+                alert("You have to collect: ₹" + sRemainingBal.toLocaleString() + " from member.");
+            }
+        }
+        else {
+            $('#tdCD' + Input.value.split(',')[1]).text($('#tdCD' + Input.value.split(',')[1]).val());
+            $('#tdBL' + Input.value.split(',')[1]).text($('#tdBL' + Input.value.split(',')[1]).val());
+        }
+    }
+
+    $("#btnPrint").click(function () {
+        $("#lblStaff").html($("#StaffId :selected").text());
+        $('#pStaffName').attr("style", "display:normal");
+
+        var mode = 'iframe';
+        var close = mode == "popup";
+        var options = { mode: mode, popClose: close };
+        $("#dvDailyreportData").printArea(options);
+    })
+
+    function LoanPosting() {       
+        var LoanId = '', MbrId = '',
+        LoanAmount = '',
+        PaidInstallments = '',
+        PaidAmount = '',
+        BalanceAmount = '',
+        BalanceInstallment = '',
+        CurrentDue = '',
+        DuringSavings = '',
+        Savings = '',
+        PrevLoanID = '';
+        sPostType = '';
+        sAdjustment = '';
+
+        var bCheckedanybox = false;
+
+        $('table [type="checkbox"]').each(function (i, chk) {
+            if (chk.checked) {
+                chkCount++;
+                bCheckedanybox = true;
+            }
+        });
+
+        if (!bCheckedanybox) {
+            alert('Please select records to post and try again!');
+            return true;
+        }
+
+        if (confirm('Are you sure you want to post all selected records?')) {
+            DisplayProgressMessage('start');
+            $('table [type="checkbox"]').each(function (i, chk) {
+                if (chk.checked) {
+                    if (chk.value.split(',')[1].trim() != PrevLoanID) {
+                        LoanId = $('#tdID' + $(this).val().trim().split(',')[1]).text();
+                        LoanAmount = $('#tdLA' + $(this).val().trim().split(',')[1]).text();
+                        PaidInstallments = $('#tdPE' + $(this).val().trim().split(',')[1]).text();
+                        PaidAmount = $('#tdCA' + $(this).val().trim().split(',')[1]).text();
+                        BalanceAmount = $('#tdBL' + $(this).val().trim().split(',')[1]).text();
+                        CurrentDue = $('#tdCD' + $(this).val().trim().split(',')[1]).text();
+                        Savings = 0;
+                        sAdjustment = 0;
+
+                        if ($('#ck' + $(this).val().trim().split(',')[1]).is(':checked')) {
+                            sPostType = $('#ck' + $(this).val().trim().split(',')[1]).val().split(',')[0];
+                            CurrentDue = LoanAmount;
+                        }
+
+                        $.ajax({
+                            url: '@Url.Action("LoanPosting", "Loans")',
+                            type: "Get",
+                            contentType: "application/json",
+                            data: {
+                                sPostType: sPostType,
+                                LoanId: LoanId, LoanAmount: LoanAmount,
+                                PaidInstallments: PaidInstallments, PaidAmount: PaidAmount,
+                                BalanceAmount: BalanceAmount, CurrentDue: CurrentDue,
+                                Savings: Savings, sAdjustment: sAdjustment
+                            },
+                            catch: false,
+                            success: function (result) {
+                                if (result.trim() == "NoAdj") {
+                                    alert("No sufficient savings balance in this account");
+                                    loadData();
+                                }
+                                else if (result.trim() == "1") {
+                                    chkCount--;
+                                    loadData();
+                                }
+                            },
+                            error: function (errormessage) {
+                                alert('Error while processing your request');
+                            }
+                        });
+                        PrevLoanID = LoanId;
+                    }
+                }
+            });
+        }
+    }
+
+    function DisplayProgressMessage(from) {
+        if (from == 'start') {
+            $('#btnPostAll').prop("disabled", true);
+            $("body").addClass("submit-progress-bg");
+            $(".submit-progress").removeClass("hidden");
+            return true;
+        }
+        else if (from == 'end') {
+            $('#btnPostAll').prop("disabled", false);
+            $("body").removeClass("submit-progress-bg");
+            $(".submit-progress").addClass("hidden");
+        }
+        else {
+            return true;
+        }
+    }
+</script>
+
+

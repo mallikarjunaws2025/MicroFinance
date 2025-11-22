@@ -121,40 +121,42 @@ namespace TestApp.Controllers
             List<spLoansReport_Result> objListLoansReport = new List<spLoansReport_Result>();
             try
             {
-                Decimal TAmount =0;
-                //if (!string.IsNullOrEmpty(sGrpName) || !string.IsNullOrEmpty(sStaffName))
-                //{
-                objListLoansReport = db.spLoansReport(sGrpName, sStaffName).OrderBy(x => x.StaffName).ToList();
+                Decimal TAmount = 0;
+                
+                objListLoansReport = db.spLoansReport(sGrpName, sStaffName).OrderBy(x => x.StaffName).ThenBy(x => x.GrpName).ToList();
 
-                if (objListLoansReport.Count > 0)
+                if (objListLoansReport != null && objListLoansReport.Count > 0)
                 {
-                    //
+                    // Calculate total amount
                     for (int i = 0; i < objListLoansReport.Count; i++)
                     { 
-                        TAmount += Convert.ToDecimal(objListLoansReport[i].Loan_Amount);
+                        if (!string.IsNullOrEmpty(objListLoansReport[i].Loan_Amount))
+                        {
+                            TAmount += Convert.ToDecimal(objListLoansReport[i].Loan_Amount);
+                        }
                     }
 
+                    // Set row counts for hierarchical display
                     for (int i = 0; i < objListLoansReport.Count; i++)
                     {
                         objListLoansReport[i].GrpRowCount = objListLoansReport.Where(x => x.StaffName == objListLoansReport[i].StaffName && x.GrpName == objListLoansReport[i].GrpName).ToList().Count;
                         objListLoansReport[i].StaffRowCount = objListLoansReport.Where(x => x.StaffName == objListLoansReport[i].StaffName).ToList().Count; 
                     }
 
-
+                    // Add total summary row
                     spLoansReport_Result obj = new spLoansReport_Result();
                     obj.MbrStatus = "End";
                     obj.Balance_Amount = Convert.ToString(TAmount);
                     objListLoansReport.Add(obj);
-
-                    //}
                 }
                 
             }
             catch (Exception ex)
             {
-                logger.Error("Error in MemberList() Get Method" + ex.InnerException);
-                return Json(null, JsonRequestBehavior.AllowGet);
+                logger.Error("Error in GetLoansReportData() Method: " + ex.Message, ex);
+                return Json(new List<spLoansReport_Result>(), JsonRequestBehavior.AllowGet);
             }
+            
             return Json(objListLoansReport, JsonRequestBehavior.AllowGet);
         }
 
@@ -441,6 +443,46 @@ namespace TestApp.Controllers
                 ModelState.AddModelError(string.Empty, "Error while saving member");
                 return View();
             }
+        }
+
+        [HttpGet]
+        public ActionResult DailyReport_New()
+        {
+            MicroFinanceEntities db = new MicroFinanceEntities();
+            try
+            {
+                if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
+                {
+                    // Create empty list for initial load
+                    List<TestApp.VModels.Reports.DailyReport> reportData = new List<TestApp.VModels.Reports.DailyReport>();
+                    
+                    // Set ViewBag data for dropdowns
+                    ViewBag.GrpNameList = (from p in db.FinGroups.AsEnumerable()
+                                          select new SelectListItem
+                                          {
+                                              Text = p.GrpName,
+                                              Value = p.GroupCode
+                                          }).ToList();
+
+                    ViewBag.StaffMbrList = (from p in db.Staffs.AsEnumerable()
+                                           select new SelectListItem
+                                           {
+                                               Text = p.StaffName,
+                                               Value = p.StaffID.ToString()
+                                           }).ToList();
+
+                    return View("DailyReport_New", reportData);
+                }
+                else
+                {
+                    return RedirectToAction("StaffLogin", "Staff");
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error in DailyReport_New() Get: " + ex.Message, ex);
+            }
+            return View("DailyReport_New", new List<TestApp.VModels.Reports.DailyReport>());
         }
     }
 }

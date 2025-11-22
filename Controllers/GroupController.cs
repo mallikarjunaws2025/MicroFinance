@@ -227,5 +227,148 @@ namespace TestApp.Controllers
             }
 
         }
+
+        [HttpGet]
+        public ActionResult CreateGroup_New()
+        {
+            return CreateGroup();
+        }
+        
+        [HttpPost]
+        public ActionResult CreateGroup_New(Groups objGrps)
+        {
+            var result = CreateGroup(objGrps);
+            // If it's a view result, change the view name
+            if (result is ViewResult viewResult)
+            {
+                viewResult.ViewName = "CreateGroup_New";
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public ActionResult GrpList_New()
+        {
+            try
+            {
+                if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
+                {
+                    MicroFinanceEntities db = new MicroFinanceEntities();
+                    List<FinGroup> objGrp = new List<FinGroup>();
+                    objGrp = db.FinGroups.ToList();
+
+                    return View("GrpList_New", objGrp);
+                }
+                else
+                {
+                    return RedirectToAction("StaffLogin", "Staff");
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error in GrpList_New() Get" + ex.InnerException);
+            }
+            return View("GrpList_New");
+        }
+
+        [HttpGet]
+        public ActionResult EditGroup_New(int id)
+        {
+            try
+            {
+                if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
+                {
+                    MicroFinanceEntities db = new MicroFinanceEntities();
+                    FinGroup finGroup = db.FinGroups.FirstOrDefault(g => g.GroupID == id);
+                    
+                    if (finGroup == null)
+                    {
+                        return RedirectToAction("GrpList_New");
+                    }
+                    
+                    // Convert FinGroup to Groups model for the view
+                    Groups groupModel = new Groups
+                    {
+                        GroupCode = finGroup.GroupCode,
+                        GroupName = finGroup.GrpName,
+                        RecoveryDay = finGroup.RecoveryDay,
+                        Village = finGroup.Village,
+                        TotalMember = finGroup.Net_Members ?? 0,
+                        DOC = finGroup.DOC,
+                        Distance = finGroup.Distance ?? 0,
+                        Status = finGroup.GStatus,
+                        StaffID = finGroup.StaffID ?? 0,
+                        FormedBy = finGroup.FormedBy,
+                        MeetingPlaceAddress = finGroup.MeetingPlaceAddress,
+                        GroupType = finGroup.GType
+                    };
+                    
+                    ViewBag.GroupID = finGroup.GroupID; // Pass the ID for updating
+                    return View("EditGroup_New", groupModel);
+                }
+                else
+                {
+                    return RedirectToAction("StaffLogin", "Staff");
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error in EditGroup_New() Get" + ex.InnerException);
+                return RedirectToAction("GrpList_New");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditGroup_New(Groups objGrp)
+        {
+            try
+            {
+                if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
+                {
+                    int groupId = Convert.ToInt32(Request.Form["GroupID"]);
+                    MicroFinanceEntities db = new MicroFinanceEntities();
+                    FinGroup finGroup = db.FinGroups.FirstOrDefault(g => g.GroupID == groupId);
+                    
+                    if (finGroup != null)
+                    {
+                        // Update FinGroup with Groups model data
+                        finGroup.GroupCode = objGrp.GroupCode;
+                        finGroup.GrpName = objGrp.GroupName;
+                        finGroup.RecoveryDay = objGrp.RecoveryDay;
+                        finGroup.Village = objGrp.Village;
+                        finGroup.Net_Members = objGrp.TotalMember;
+                        finGroup.DOC = objGrp.DOC;
+                        finGroup.Distance = objGrp.Distance;
+                        finGroup.GStatus = objGrp.Status;
+                        finGroup.StaffID = objGrp.StaffID;
+                        finGroup.FormedBy = objGrp.FormedBy;
+                        finGroup.MeetingPlaceAddress = objGrp.MeetingPlaceAddress;
+                        finGroup.GType = objGrp.GroupType;
+                        
+                        db.Entry(finGroup).State = EntityState.Modified;
+                        db.SaveChanges();
+                        
+                        TempData["Success"] = "Group updated successfully!";
+                        return RedirectToAction("GrpList_New");
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Group not found.";
+                        return RedirectToAction("GrpList_New");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("StaffLogin", "Staff");
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error in EditGroup_New() Post" + ex.InnerException);
+                TempData["Error"] = "Error updating group. Please try again.";
+                ViewBag.GroupID = Request.Form["GroupID"];
+                return View("EditGroup_New", objGrp);
+            }
+        }
     }
 }

@@ -1,0 +1,455 @@
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0 text-primary fw-bold">
+            <i class="fas fa-chart-pie me-2"></i>Financial Dashboard
+        </h2>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="refreshCharts()">
+                <i class="fas fa-sync-alt me-1"></i>Refresh
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="exportCharts()">
+                <i class="fas fa-download me-1"></i>Export
+            </button>
+        </div>
+    </div>
+
+    <!-- Status Alert -->
+    <div id="statusAlert" class="alert alert-info d-none" role="alert">
+        <i class="fas fa-info-circle me-2"></i>
+        <span id="statusMessage"></span>
+    </div>
+
+    <!-- Key Metrics Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">Collected Amount</h6>
+                            <h4 class="mb-0 text-success" id="collectedAmount">Rs.@Session["CollectedAmount"]</h4>
+                        </div>
+                        <div class="bg-success bg-opacity-10 rounded p-3">
+                            <i class="fas fa-rupee-sign text-success fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <span class="badge bg-success bg-opacity-10 text-success">
+                            <i class="fas fa-arrow-up me-1"></i>Today's Collection
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">Total Due Amount</h6>
+                            <h4 class="mb-0 text-warning" id="dueAmount">Rs.@Session["Total_Due_Amount"]</h4>
+                        </div>
+                        <div class="bg-warning bg-opacity-10 rounded p-3">
+                            <i class="fas fa-clock text-warning fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <span class="badge bg-warning bg-opacity-10 text-warning">
+                            <i class="fas fa-exclamation-triangle me-1"></i>Pending
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">Collection Rate</h6>
+                            <h4 class="mb-0 text-info" id="collectionRate">0%</h4>
+                        </div>
+                        <div class="bg-info bg-opacity-10 rounded p-3">
+                            <i class="fas fa-percentage text-info fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <span class="badge bg-info bg-opacity-10 text-info">
+                            <i class="fas fa-chart-line me-1"></i>Performance
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">Active Loans</h6>
+                            <h4 class="mb-0 text-primary" id="activeLoans">@ViewBag.ActiveLoans</h4>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 rounded p-3">
+                            <i class="fas fa-handshake text-primary fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <span class="badge bg-primary bg-opacity-10 text-primary">
+                            <i class="fas fa-users me-1"></i>Total Count
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row g-4">
+        <!-- Collection vs Due Chart -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>Collection Overview
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative; height: 350px;">
+                        <canvas id="doughnut-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investment Details Chart -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Investment Distribution
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative; height: 350px;">
+                        <canvas id="bar-chart-horizontal"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Trends Chart -->
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-chart-line me-2"></i>Monthly Trends
+                        </h5>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <input type="radio" class="btn-check" name="periodToggle" id="monthly" checked>
+                            <label class="btn btn-outline-primary" for="monthly">Monthly</label>
+                            
+                            <input type="radio" class="btn-check" name="periodToggle" id="weekly">
+                            <label class="btn btn-outline-primary" for="weekly">Weekly</label>
+                            
+                            <input type="radio" class="btn-check" name="periodToggle" id="daily">
+                            <label class="btn btn-outline-primary" for="daily">Daily</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative; height: 400px;">
+                        <canvas id="trend-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<script>
+let doughnutChart, barChart, trendChart;
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCharts();
+    calculateMetrics();
+    displayDayEndStatus();
+});
+
+function initializeCharts() {
+    // Modern Doughnut Chart
+    const doughnutCtx = document.getElementById('doughnut-chart').getContext('2d');
+    doughnutChart = new Chart(doughnutCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Collected Amount', 'Due Amount'],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.Counts)],
+                backgroundColor: [
+                    'rgba(39, 174, 96, 0.8)',
+                    'rgba(231, 76, 60, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(39, 174, 96, 1)',
+                    'rgba(231, 76, 60, 1)'
+                ],
+                borderWidth: 2,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true,
+                        font: {
+                            size: 14,
+                            weight: '500'
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    borderColor: 'rgba(0, 0, 0, 0.1)',
+                    borderWidth: 1,
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.raw / total) * 100).toFixed(1);
+                            return context.label + ': Rs.' + context.raw.toLocaleString() + ' (' + percentage + '%)';
+                        }
+                    }
+                }
+            },
+            cutout: '60%'
+        }
+    });
+
+    // Modern Horizontal Bar Chart
+    const barCtx = document.getElementById('bar-chart-horizontal').getContext('2d');
+    barChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: [@Html.Raw(ViewBag.InvColnames)],
+            datasets: [{
+                label: 'Investment Amount (Rs.)',
+                data: [@Html.Raw(ViewBag.InvCounts)],
+                backgroundColor: [
+                    'rgba(52, 152, 219, 0.8)',
+                    'rgba(155, 89, 182, 0.8)',
+                    'rgba(46, 204, 113, 0.8)',
+                    'rgba(241, 196, 15, 0.8)',
+                    'rgba(231, 76, 60, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(52, 152, 219, 1)',
+                    'rgba(155, 89, 182, 1)',
+                    'rgba(46, 204, 113, 1)',
+                    'rgba(241, 196, 15, 1)',
+                    'rgba(231, 76, 60, 1)'
+                ],
+                borderWidth: 2,
+                borderRadius: 6,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    callbacks: {
+                        label: function(context) {
+                            return 'Amount: Rs.' + context.raw.toLocaleString();
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return 'Rs.' + value.toLocaleString();
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+
+    // Trend Chart (placeholder with sample data)
+    const trendCtx = document.getElementById('trend-chart').getContext('2d');
+    trendChart = new Chart(trendCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Collections',
+                data: [12000, 15000, 13000, 17000, 14000, 18000],
+                borderColor: 'rgba(52, 152, 219, 1)',
+                backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }, {
+                label: 'Due Amounts',
+                data: [8000, 9000, 7000, 11000, 8500, 9500],
+                borderColor: 'rgba(231, 76, 60, 1)',
+                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return 'Rs.' + value.toLocaleString();
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        }
+    });
+}
+
+function calculateMetrics() {
+    const collected = parseFloat('@Session["CollectedAmount"]' || '0');
+    const due = parseFloat('@Session["Total_Due_Amount"]' || '0');
+    
+    if (due > 0) {
+        const rate = ((collected / due) * 100).toFixed(1);
+        document.getElementById('collectionRate').textContent = rate + '%';
+    }
+}
+
+function displayDayEndStatus() {
+    const dayEnd = '@Session["DueColl"]';
+    const statusAlert = document.getElementById('statusAlert');
+    const statusMessage = document.getElementById('statusMessage');
+    
+    if (dayEnd !== '' && dayEnd === '0.00') {
+        statusAlert.className = 'alert alert-danger';
+        statusMessage.innerHTML = `<strong>Day Collection Over!</strong> Day ended with collection: Rs.${dayEnd}`;
+        statusAlert.classList.remove('d-none');
+    } else {
+        const collected = '@Session["CollectedAmount"]';
+        const totalDue = '@Session["Total_Due_Amount"]';
+        statusAlert.className = 'alert alert-info';
+        statusMessage.innerHTML = `<strong>Today's Progress:</strong> Collected Rs.${collected} out of Rs.${totalDue} due amount`;
+        statusAlert.classList.remove('d-none');
+    }
+}
+
+function refreshCharts() {
+    // Add loading spinner
+    const refreshBtn = document.querySelector('[onclick="refreshCharts()"]');
+    const originalHtml = refreshBtn.innerHTML;
+    refreshBtn.innerHTML = '<i class="spinner-border spinner-border-sm me-1"></i>Refreshing...';
+    refreshBtn.disabled = true;
+    
+    // Simulate refresh (you can replace with actual AJAX call)
+    setTimeout(() => {
+        location.reload();
+    }, 1000);
+}
+
+function exportCharts() {
+    // Simple chart export functionality
+    const canvas = document.getElementById('doughnut-chart');
+    const url = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.download = 'dashboard-charts.png';
+    link.href = url;
+    link.click();
+}
+
+// Period toggle functionality
+document.querySelectorAll('input[name="periodToggle"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        // Update trend chart based on selected period
+        updateTrendChart(this.id);
+    });
+});
+
+function updateTrendChart(period) {
+    // Sample data update based on period
+    const datasets = {
+        daily: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            collections: [2000, 2500, 1800, 3000, 2200, 2800, 3200],
+            dues: [1500, 1800, 1200, 2000, 1600, 1900, 2100]
+        },
+        weekly: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            collections: [15000, 18000, 16000, 20000],
+            dues: [12000, 14000, 13000, 15000]
+        },
+        monthly: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            collections: [12000, 15000, 13000, 17000, 14000, 18000],
+            dues: [8000, 9000, 7000, 11000, 8500, 9500]
+        }
+    };
+    
+    const data = datasets[period];
+    trendChart.data.labels = data.labels;
+    trendChart.data.datasets[0].data = data.collections;
+    trendChart.data.datasets[1].data = data.dues;
+    trendChart.update();
+}
+</script>
