@@ -3,48 +3,76 @@
   "WorkspaceRootPath": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\controllers\\staffcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\staffcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\views\\loans\\loanscols.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:views\\loans\\loanscols.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\staffwithroleviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\staffwithroleviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|c:\\users\\malli\\source\\repos\\microfinance\\microfinance\\views\\shared\\_postinghistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:views\\shared\\_postinghistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\controllers\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|c:\\users\\malli\\source\\repos\\microfinance\\microfinance\\controllers\\groupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\groupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Loans\\LoansDisbus_New.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Views\\Loans\\LoansDisbus_New.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\stafflogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\stafflogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Charts\\Index_New.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Views\\Charts\\Index_New.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\views\\shared\\_layoutpage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:views\\shared\\_layoutpage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\views\\loans\\loanscols.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:views\\loans\\loanscols.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\controllers\\staffcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\staffcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\controllers\\chartscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\chartscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\loans\\mbrandloandetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\loans\\mbrandloandetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\reports\\loansreport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\reports\\loansreport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\staffwithroleviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\staffwithroleviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\views\\staff\\createstaff.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:views\\staff\\createstaff.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\controllers\\groupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\groupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\controllers\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\stafflogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\stafflogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\views\\shared\\_postinghistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:views\\shared\\_postinghistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\global.asax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:global.asax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\views\\shared\\_layoutpage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:views\\shared\\_layoutpage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\views\\staff\\stafflogin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -55,44 +83,32 @@
       "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\loans\\loandisbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Charts\\Index_New.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Views\\Charts\\Index_New.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\branchviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\branchviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\group\\groups.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\group\\groups.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\staffsignup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\staffsignup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\loans\\loancols.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\loans\\loancols.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\member\\memberviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\member\\memberviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\newstaff.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\newstaff.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\global.asax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:global.asax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\loans\\loancols.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\loans\\loancols.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\member\\memberviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\member\\memberviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\staffsignup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\staffsignup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\controllers\\membercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\membercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\group\\groups.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\group\\groups.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\vmodels\\branchviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:vmodels\\branchviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\app_start\\webapiconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -103,16 +119,16 @@
       "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\managementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\controllers\\chartscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:controllers\\chartscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\app_start\\routeconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:app_start\\routeconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\app_start\\filterconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8D1A6270-1419-4A80-A19B-D64AF4CD0B5C}|ManageFinancery.csproj|solutionrelative:app_start\\filterconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Models\\UserLog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\UserLog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -122,22 +138,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 21,
+          "SelectedChildIndex": 20,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LoansCols.cshtml",
-              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Loans\\LoansCols.cshtml",
-              "RelativeDocumentMoniker": "Views\\Loans\\LoansCols.cshtml",
-              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Loans\\LoansCols.cshtml",
-              "RelativeToolTip": "Views\\Loans\\LoansCols.cshtml",
-              "ViewState": "AgIAAGQAAAAAAAAAAAAEwHAAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-20T16:32:57.439Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
@@ -204,96 +206,190 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "StaffWithRoleViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\StaffWithRoleViewModel.cs",
-              "RelativeDocumentMoniker": "VModels\\StaffWithRoleViewModel.cs",
-              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\StaffWithRoleViewModel.cs",
-              "RelativeToolTip": "VModels\\StaffWithRoleViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 31,
+              "Title": "UserLog.cs",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Models\\UserLog.cs",
+              "RelativeDocumentMoniker": "Models\\UserLog.cs",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Models\\UserLog.cs",
+              "RelativeToolTip": "Models\\UserLog.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T16:20:53.209Z",
+              "WhenOpened": "2025-11-22T16:27:02.422Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
+              "Title": "TestController.cs",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\TestController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TestController.cs",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\TestController.cs",
+              "RelativeToolTip": "Controllers\\TestController.cs",
+              "ViewState": "AgIAAEQAAAAAAAAAAKBrwAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
+              "WhenOpened": "2025-11-22T16:27:02.431Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "StaffController.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\StaffController.cs",
               "RelativeDocumentMoniker": "Controllers\\StaffController.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\StaffController.cs",
               "RelativeToolTip": "Controllers\\StaffController.cs",
-              "ViewState": "AgIAAGkCAAAAAAAAAAAswHcCAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
+              "WhenOpened": "2025-11-20T16:20:53.234Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ChartsController.cs",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\ChartsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ChartsController.cs",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\ChartsController.cs",
+              "RelativeToolTip": "Controllers\\ChartsController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAApwBsAAABDAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
+              "WhenOpened": "2025-11-20T16:20:53.455Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GroupController.cs",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\GroupController.cs",
+              "RelativeDocumentMoniker": "Controllers\\GroupController.cs",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\GroupController.cs",
+              "RelativeToolTip": "Controllers\\GroupController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAAABUAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T16:20:53.234Z",
+              "WhenOpened": "2025-11-20T16:20:53.436Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoansCols.cshtml",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Loans\\LoansCols.cshtml",
+              "RelativeDocumentMoniker": "Views\\Loans\\LoansCols.cshtml",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Loans\\LoansCols.cshtml",
+              "RelativeToolTip": "Views\\Loans\\LoansCols.cshtml",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAEwHAAAAAFAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKtSURBVDhPzZM9iFxVGIaf90zuXHfI7JBldQqX3Z0ItxFXdPGniD/YaCWKgWBpaaOBVIJYahmD1iKSJlhosLETCYg/iGxIdRnW2bvCsrKsjAk7ufNzXgvnhnEG\u002B7zN4Xzne97zHg4f3O8SwPr6eqdWq23HGDNJp2zftn29KIrdeYBpv6TXJDWBE9td2ztFUfweAEII52y/DDxre1vSVgihOW9UKYSwLGnL9rbtp4FXJL1IlXBzc/Mz20Wapp/meX5Uce12e6nVai2NRqPaZDIJ4/F4aHtwcHBwF4gAWZatDofDS7bP7u3tXQgAtlcA8jw/rlJkWbbSaDTeLMvyaozx\u002BxDCL0mSfJ6m6RtZlq1UfXmeH9sugSWAMK1XawRClmWrZVm\u002BE2N8HvjR9vvAJUk3bD9XluW7WZatTrkIIEmzRve0traWDofDlyQ9CBxLuhNCeNR2x/YjwEPAxnA4fL3dbi/N8wuG0\u002Biv2s5DCF3b67afkPS4pHOS7gC7ts83m83GPLxgmCRJAmzbLmKMp6dJL9p\u002BDziw/UcI4RawORqNavP8guGsJKW2//MsSWmMsSnpdIxxgV8oJEkysV1Iegw4AfYlfQR8bPuU7SclnQeuSxrM8wuG/X5/EEL4Ejhr\u002B2FJue0dSb8B14CvgG9jjFfr9frJPL9geHh4OEiS5GtgD3jAdl3Sbozxlu2btq/1er1PiqL4odvtlvN8ZeiZfczz/ChN0ysxxu\u002BAZ4DLkj6UdAHozPAVg\u002B14bwMMJKXzEzAej78ZjUZvTyaTp4AXgA/q9fqvVQ/TieLfzzqmmuWNjY23pknOAOn08Eqv19uZhSt1Op0t2xenIyvgT0k3er3eFzWAVqv1t6Tbku5KOrK9b/tmv9//a94MYHl5uQGsTC/eDyH8HGP86f/67y/9AwvrTXNWi2u3AAAAAElFTkSuQmCC",
+              "WhenOpened": "2025-11-20T16:32:57.439Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "MbrAndLoanDetails.cs",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Loans\\MbrAndLoanDetails.cs",
+              "RelativeDocumentMoniker": "VModels\\Loans\\MbrAndLoanDetails.cs",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Loans\\MbrAndLoanDetails.cs",
+              "RelativeToolTip": "VModels\\Loans\\MbrAndLoanDetails.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAIBtwAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
+              "WhenOpened": "2025-11-22T16:27:02.449Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "LoansReport.cs",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Reports\\LoansReport.cs",
+              "RelativeDocumentMoniker": "VModels\\Reports\\LoansReport.cs",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Reports\\LoansReport.cs",
+              "RelativeToolTip": "VModels\\Reports\\LoansReport.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAKBwwAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
+              "WhenOpened": "2025-11-22T16:27:02.45Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "StaffWithRoleViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\StaffWithRoleViewModel.cs",
+              "RelativeDocumentMoniker": "VModels\\StaffWithRoleViewModel.cs",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\StaffWithRoleViewModel.cs",
+              "RelativeToolTip": "VModels\\StaffWithRoleViewModel.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAuwAwAAAAnAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
+              "WhenOpened": "2025-11-20T16:20:53.209Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Web.config",
+              "RelativeDocumentMoniker": "Web.config",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Web.config",
+              "RelativeToolTip": "Web.config",
+              "ViewState": "AgIAADMAAAAAAAAAAAAUwEgAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-11-20T16:20:53.447Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CreateStaff.cshtml",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Staff\\CreateStaff.cshtml",
+              "RelativeDocumentMoniker": "Views\\Staff\\CreateStaff.cshtml",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Staff\\CreateStaff.cshtml",
+              "RelativeToolTip": "Views\\Staff\\CreateStaff.cshtml",
+              "ViewState": "AgIAAKMAAAAAAAAAAAAAAD0AAAA1AAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKtSURBVDhPzZM9iFxVGIaf90zuXHfI7JBldQqX3Z0ItxFXdPGniD/YaCWKgWBpaaOBVIJYahmD1iKSJlhosLETCYg/iGxIdRnW2bvCsrKsjAk7ufNzXgvnhnEG\u002B7zN4Xzne97zHg4f3O8SwPr6eqdWq23HGDNJp2zftn29KIrdeYBpv6TXJDWBE9td2ztFUfweAEII52y/DDxre1vSVgihOW9UKYSwLGnL9rbtp4FXJL1IlXBzc/Mz20Wapp/meX5Uce12e6nVai2NRqPaZDIJ4/F4aHtwcHBwF4gAWZatDofDS7bP7u3tXQgAtlcA8jw/rlJkWbbSaDTeLMvyaozx\u002BxDCL0mSfJ6m6RtZlq1UfXmeH9sugSWAMK1XawRClmWrZVm\u002BE2N8HvjR9vvAJUk3bD9XluW7WZatTrkIIEmzRve0traWDofDlyQ9CBxLuhNCeNR2x/YjwEPAxnA4fL3dbi/N8wuG0\u002Biv2s5DCF3b67afkPS4pHOS7gC7ts83m83GPLxgmCRJAmzbLmKMp6dJL9p\u002BDziw/UcI4RawORqNavP8guGsJKW2//MsSWmMsSnpdIxxgV8oJEkysV1Iegw4AfYlfQR8bPuU7SclnQeuSxrM8wuG/X5/EEL4Ejhr\u002B2FJue0dSb8B14CvgG9jjFfr9frJPL9geHh4OEiS5GtgD3jAdl3Sbozxlu2btq/1er1PiqL4odvtlvN8ZeiZfczz/ChN0ysxxu\u002BAZ4DLkj6UdAHozPAVg\u002B14bwMMJKXzEzAej78ZjUZvTyaTp4AXgA/q9fqvVQ/TieLfzzqmmuWNjY23pknOAOn08Eqv19uZhSt1Op0t2xenIyvgT0k3er3eFzWAVqv1t6Tbku5KOrK9b/tmv9//a94MYHl5uQGsTC/eDyH8HGP86f/67y/9AwvrTXNWi2u3AAAAAElFTkSuQmCC",
+              "WhenOpened": "2025-11-20T16:20:53.428Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ReportController.cs",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\ReportController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ReportController.cs",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\ReportController.cs",
+              "RelativeToolTip": "Controllers\\ReportController.cs",
+              "ViewState": "AgIAAN0BAAAAAAAAAKBrwOkBAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
+              "WhenOpened": "2025-11-20T16:20:53.451Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "LoansController.cs",
+              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\LoansController.cs",
+              "RelativeDocumentMoniker": "Controllers\\LoansController.cs",
+              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\LoansController.cs",
+              "RelativeToolTip": "Controllers\\LoansController.cs",
+              "ViewState": "AgIAAMYGAAAAAAAAAABRwMkGAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
+              "WhenOpened": "2025-11-20T16:20:53.43Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "StaffLogin.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\StaffLogin.cs",
               "RelativeDocumentMoniker": "VModels\\StaffLogin.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\StaffLogin.cs",
               "RelativeToolTip": "VModels\\StaffLogin.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.29Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "CreateStaff.cshtml",
-              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Staff\\CreateStaff.cshtml",
-              "RelativeDocumentMoniker": "Views\\Staff\\CreateStaff.cshtml",
-              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Staff\\CreateStaff.cshtml",
-              "RelativeToolTip": "Views\\Staff\\CreateStaff.cshtml",
-              "ViewState": "AgIAACcAAAAAAAAAAAAAADQAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-20T16:20:53.428Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ReportController.cs",
-              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\ReportController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ReportController.cs",
-              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\ReportController.cs",
-              "RelativeToolTip": "Controllers\\ReportController.cs",
-              "ViewState": "AgIAALQBAAAAAAAAAAAQwMkBAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T16:20:53.451Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 15,
               "Title": "_PostingHistory.cshtml",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Shared\\_PostingHistory.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_PostingHistory.cshtml",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Shared\\_PostingHistory.cshtml",
               "RelativeToolTip": "Views\\Shared\\_PostingHistory.cshtml",
               "ViewState": "AgIAAMsAAAAAAAAAAAAtwNwAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-22T07:23:53.339Z",
-              "EditorCaption": ""
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKtSURBVDhPzZM9iFxVGIaf90zuXHfI7JBldQqX3Z0ItxFXdPGniD/YaCWKgWBpaaOBVIJYahmD1iKSJlhosLETCYg/iGxIdRnW2bvCsrKsjAk7ufNzXgvnhnEG\u002B7zN4Xzne97zHg4f3O8SwPr6eqdWq23HGDNJp2zftn29KIrdeYBpv6TXJDWBE9td2ztFUfweAEII52y/DDxre1vSVgihOW9UKYSwLGnL9rbtp4FXJL1IlXBzc/Mz20Wapp/meX5Uce12e6nVai2NRqPaZDIJ4/F4aHtwcHBwF4gAWZatDofDS7bP7u3tXQgAtlcA8jw/rlJkWbbSaDTeLMvyaozx\u002BxDCL0mSfJ6m6RtZlq1UfXmeH9sugSWAMK1XawRClmWrZVm\u002BE2N8HvjR9vvAJUk3bD9XluW7WZatTrkIIEmzRve0traWDofDlyQ9CBxLuhNCeNR2x/YjwEPAxnA4fL3dbi/N8wuG0\u002Biv2s5DCF3b67afkPS4pHOS7gC7ts83m83GPLxgmCRJAmzbLmKMp6dJL9p\u002BDziw/UcI4RawORqNavP8guGsJKW2//MsSWmMsSnpdIxxgV8oJEkysV1Iegw4AfYlfQR8bPuU7SclnQeuSxrM8wuG/X5/EEL4Ejhr\u002B2FJue0dSb8B14CvgG9jjFfr9frJPL9geHh4OEiS5GtgD3jAdl3Sbozxlu2btq/1er1PiqL4odvtlvN8ZeiZfczz/ChN0ysxxu\u002BAZ4DLkj6UdAHozPAVg\u002B14bwMMJKXzEzAej78ZjUZvTyaTp4AXgA/q9fqvVQ/TieLfzzqmmuWNjY23pknOAOn08Eqv19uZhSt1Op0t2xenIyvgT0k3er3eFzWAVqv1t6Tbku5KOrK9b/tmv9//a94MYHl5uQGsTC/eDyH8HGP86f/67y/9AwvrTXNWi2u3AAAAAElFTkSuQmCC",
+              "WhenOpened": "2025-11-22T07:23:53.339Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "LoansController.cs",
-              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\LoansController.cs",
-              "RelativeDocumentMoniker": "Controllers\\LoansController.cs",
-              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\LoansController.cs",
-              "RelativeToolTip": "Controllers\\LoansController.cs",
-              "ViewState": "AgIAAOUGAAAAAAAAAAAiwOsGAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T16:20:53.43Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "LoansDisbus_New.cshtml",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Loans\\LoansDisbus_New.cshtml",
               "RelativeDocumentMoniker": "Views\\Loans\\LoansDisbus_New.cshtml",
@@ -306,31 +402,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 16,
               "Title": "Global.asax.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Global.asax.cs",
               "RelativeDocumentMoniker": "Global.asax.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Global.asax.cs",
               "RelativeToolTip": "Global.asax.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "ViewState": "AgIAAE8AAAAAAAAAAGBnwFkAAAABAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIbSURBVDhP7ZO9a5NRFMZ/596YKLZpYqu10TdNMBRtdenrYKFDXYRCHZ26W9RF2kVw8C9wEgQnccmsOOjgV6EURQsOujhYIzaR0Egiqdp83ONQo29ewaUugj84y/Pc83DuvRwhzPzjARouj9M82PtcP/kxfORP2LDAiTml1doAmUBI9PX26H5Xnk4kEpeSyeTheDxer9VqpXBbB\u002BHCg4tgdoPs2JLUgPSDTgHFyOe1e6nFywVjzA3guXPuoYgsFQqFp\u002BEwAAPmGDCOqL9V\u002BMAYkAT2tvoORoFlYFNVP4jIgIic8jxvzPf9H0P8QsICV15FWV/3oX0e5Q2R6K307dmmMeYFcE5Vm6o6IyIta\u002B3VZDJZWllZaXbaTXcasF7qRdw8IktY8pQm1wLuLmvtMpBX1d52u71QLpdHAn73p3iel\u002Bp7/2RqY8hfVBN/hvla4uZIM5FIRETkgKpOAmeAaRHxgSPW2kfVavVtJ6PrysPDwxMistBoNOaKxWKlo4\u002BOjkbr9fpxa\u002B24c24AQER6VPWsMWZ2dXX1bjDnJ9lsdiaTyRQ9z0uFvTDpdHook8msZbPZ00H99zfcJv8Dt88/FuicawHfIpFIfy6XiwW9ILlcLqaqe4BPqroZ9Lo2JZ1Ojxtj5oF3qtoKeiEMsFNE\u002BlX1WqFQeNkxunZ5cHCw6ZyrAkdF5JCIeCKSChewT0QEuBOLxV5XKpUvwZy/ynfkPrOndzLGIQAAAABJRU5ErkJggg==",
               "WhenOpened": "2025-11-20T16:20:53.43Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 17,
               "Title": "_LayoutPage.cshtml",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Shared\\_LayoutPage.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_LayoutPage.cshtml",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Shared\\_LayoutPage.cshtml",
               "RelativeToolTip": "Views\\Shared\\_LayoutPage.cshtml",
               "ViewState": "AgIAAFUAAAAAAAAAAAAAAF4AAABWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKtSURBVDhPzZM9iFxVGIaf90zuXHfI7JBldQqX3Z0ItxFXdPGniD/YaCWKgWBpaaOBVIJYahmD1iKSJlhosLETCYg/iGxIdRnW2bvCsrKsjAk7ufNzXgvnhnEG\u002B7zN4Xzne97zHg4f3O8SwPr6eqdWq23HGDNJp2zftn29KIrdeYBpv6TXJDWBE9td2ztFUfweAEII52y/DDxre1vSVgihOW9UKYSwLGnL9rbtp4FXJL1IlXBzc/Mz20Wapp/meX5Uce12e6nVai2NRqPaZDIJ4/F4aHtwcHBwF4gAWZatDofDS7bP7u3tXQgAtlcA8jw/rlJkWbbSaDTeLMvyaozx\u002BxDCL0mSfJ6m6RtZlq1UfXmeH9sugSWAMK1XawRClmWrZVm\u002BE2N8HvjR9vvAJUk3bD9XluW7WZatTrkIIEmzRve0traWDofDlyQ9CBxLuhNCeNR2x/YjwEPAxnA4fL3dbi/N8wuG0\u002Biv2s5DCF3b67afkPS4pHOS7gC7ts83m83GPLxgmCRJAmzbLmKMp6dJL9p\u002BDziw/UcI4RawORqNavP8guGsJKW2//MsSWmMsSnpdIxxgV8oJEkysV1Iegw4AfYlfQR8bPuU7SclnQeuSxrM8wuG/X5/EEL4Ejhr\u002B2FJue0dSb8B14CvgG9jjFfr9frJPL9geHh4OEiS5GtgD3jAdl3Sbozxlu2btq/1er1PiqL4odvtlvN8ZeiZfczz/ChN0ysxxu\u002BAZ4DLkj6UdAHozPAVg\u002B14bwMMJKXzEzAej78ZjUZvTyaTp4AXgA/q9fqvVQ/TieLfzzqmmuWNjY23pknOAOn08Eqv19uZhSt1Op0t2xenIyvgT0k3er3eFzWAVqv1t6Tbku5KOrK9b/tmv9//a94MYHl5uQGsTC/eDyH8HGP86f/67y/9AwvrTXNWi2u3AAAAAElFTkSuQmCC",
               "WhenOpened": "2025-11-20T16:20:53.432Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 2,
               "Title": "Index_New.cshtml",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Charts\\Index_New.cshtml",
               "RelativeDocumentMoniker": "Views\\Charts\\Index_New.cshtml",
@@ -338,199 +434,163 @@
               "RelativeToolTip": "Views\\Charts\\Index_New.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-20T16:20:53.146Z"
+              "WhenOpened": "2025-11-20T16:20:53.146Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 18,
               "Title": "StaffLogin.cshtml",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Staff\\StaffLogin.cshtml",
               "RelativeDocumentMoniker": "Views\\Staff\\StaffLogin.cshtml",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Views\\Staff\\StaffLogin.cshtml",
               "RelativeToolTip": "Views\\Staff\\StaffLogin.cshtml",
               "ViewState": "AgIAAOwAAAAAAAAAAAAQwP0AAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKtSURBVDhPzZM9iFxVGIaf90zuXHfI7JBldQqX3Z0ItxFXdPGniD/YaCWKgWBpaaOBVIJYahmD1iKSJlhosLETCYg/iGxIdRnW2bvCsrKsjAk7ufNzXgvnhnEG\u002B7zN4Xzne97zHg4f3O8SwPr6eqdWq23HGDNJp2zftn29KIrdeYBpv6TXJDWBE9td2ztFUfweAEII52y/DDxre1vSVgihOW9UKYSwLGnL9rbtp4FXJL1IlXBzc/Mz20Wapp/meX5Uce12e6nVai2NRqPaZDIJ4/F4aHtwcHBwF4gAWZatDofDS7bP7u3tXQgAtlcA8jw/rlJkWbbSaDTeLMvyaozx\u002BxDCL0mSfJ6m6RtZlq1UfXmeH9sugSWAMK1XawRClmWrZVm\u002BE2N8HvjR9vvAJUk3bD9XluW7WZatTrkIIEmzRve0traWDofDlyQ9CBxLuhNCeNR2x/YjwEPAxnA4fL3dbi/N8wuG0\u002Biv2s5DCF3b67afkPS4pHOS7gC7ts83m83GPLxgmCRJAmzbLmKMp6dJL9p\u002BDziw/UcI4RawORqNavP8guGsJKW2//MsSWmMsSnpdIxxgV8oJEkysV1Iegw4AfYlfQR8bPuU7SclnQeuSxrM8wuG/X5/EEL4Ejhr\u002B2FJue0dSb8B14CvgG9jjFfr9frJPL9geHh4OEiS5GtgD3jAdl3Sbozxlu2btq/1er1PiqL4odvtlvN8ZeiZfczz/ChN0ysxxu\u002BAZ4DLkj6UdAHozPAVg\u002B14bwMMJKXzEzAej78ZjUZvTyaTp4AXgA/q9fqvVQ/TieLfzzqmmuWNjY23pknOAOn08Eqv19uZhSt1Op0t2xenIyvgT0k3er3eFzWAVqv1t6Tbku5KOrK9b/tmv9//a94MYHl5uQGsTC/eDyH8HGP86f/67y/9AwvrTXNWi2u3AAAAAElFTkSuQmCC",
               "WhenOpened": "2025-11-20T16:20:53.434Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 19,
               "Title": "LoanDisbus.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Loans\\LoanDisbus.cs",
               "RelativeDocumentMoniker": "VModels\\Loans\\LoanDisbus.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Loans\\LoanDisbus.cs",
               "RelativeToolTip": "VModels\\Loans\\LoanDisbus.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAAkwCgAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "ViewState": "AgIAAC0AAAAAAAAAAFBzwDgAAAABAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.436Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "GroupController.cs",
-              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\GroupController.cs",
-              "RelativeDocumentMoniker": "Controllers\\GroupController.cs",
-              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\GroupController.cs",
-              "RelativeToolTip": "Controllers\\GroupController.cs",
-              "ViewState": "AgIAANcAAAAAAAAAAAAlwOQAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T16:20:53.436Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 20,
               "Title": "MemberViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Member\\MemberViewModel.cs",
               "RelativeDocumentMoniker": "VModels\\Member\\MemberViewModel.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Member\\MemberViewModel.cs",
               "RelativeToolTip": "VModels\\Member\\MemberViewModel.cs",
               "ViewState": "AgIAADQAAAAAAAAAAAAQwDkAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.438Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "NewStaff.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\NewStaff.cs",
               "RelativeDocumentMoniker": "VModels\\NewStaff.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\NewStaff.cs",
               "RelativeToolTip": "VModels\\NewStaff.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.441Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 22,
               "Title": "LoanCols.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Loans\\LoanCols.cs",
               "RelativeDocumentMoniker": "VModels\\Loans\\LoanCols.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Loans\\LoanCols.cs",
               "RelativeToolTip": "VModels\\Loans\\LoanCols.cs",
               "ViewState": "AgIAACEAAAAAAAAAAAA7wCYAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.442Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 23,
               "Title": "StaffSignUP.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\StaffSignUP.cs",
               "RelativeDocumentMoniker": "VModels\\StaffSignUP.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\StaffSignUP.cs",
               "RelativeToolTip": "VModels\\StaffSignUP.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAowAoAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.444Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "MemberController.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\MemberController.cs",
               "RelativeDocumentMoniker": "Controllers\\MemberController.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\MemberController.cs",
               "RelativeToolTip": "Controllers\\MemberController.cs",
-              "ViewState": "AgIAAOABAAAAAAAAAAAowOkBAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "ViewState": "AgIAABECAAAAAAAAAGBvwB0CAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.444Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Web.config",
-              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Web.config",
-              "RelativeDocumentMoniker": "Web.config",
-              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Web.config",
-              "RelativeToolTip": "Web.config",
-              "ViewState": "AgIAADMAAAAAAAAAAAAUwEMAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-11-20T16:20:53.447Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 25,
               "Title": "Groups.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Group\\Groups.cs",
               "RelativeDocumentMoniker": "VModels\\Group\\Groups.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\Group\\Groups.cs",
               "RelativeToolTip": "VModels\\Group\\Groups.cs",
               "ViewState": "AgIAACsAAAAAAAAAAAA7wDAAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.449Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 26,
               "Title": "BranchViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\BranchViewModel.cs",
               "RelativeDocumentMoniker": "VModels\\BranchViewModel.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\VModels\\BranchViewModel.cs",
               "RelativeToolTip": "VModels\\BranchViewModel.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAYwBoAAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.451Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 27,
               "Title": "WebApiConfig.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\App_Start\\WebApiConfig.cs",
               "RelativeDocumentMoniker": "App_Start\\WebApiConfig.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\App_Start\\WebApiConfig.cs",
               "RelativeToolTip": "App_Start\\WebApiConfig.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.454Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 28,
               "Title": "ManagementController.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\ManagementController.cs",
               "RelativeDocumentMoniker": "Controllers\\ManagementController.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\ManagementController.cs",
               "RelativeToolTip": "Controllers\\ManagementController.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAowC0AAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "ViewState": "AgIAAMsAAAAAAAAAAEBlwEoAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.455Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "ChartsController.cs",
-              "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\ChartsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ChartsController.cs",
-              "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\Controllers\\ChartsController.cs",
-              "RelativeToolTip": "Controllers\\ChartsController.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAArwBQAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T16:20:53.455Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 29,
               "Title": "RouteConfig.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\App_Start\\RouteConfig.cs",
               "RelativeDocumentMoniker": "App_Start\\RouteConfig.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\App_Start\\RouteConfig.cs",
               "RelativeToolTip": "App_Start\\RouteConfig.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.458Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 30,
               "Title": "FilterConfig.cs",
               "DocumentMoniker": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\App_Start\\FilterConfig.cs",
               "RelativeDocumentMoniker": "App_Start\\FilterConfig.cs",
               "ToolTip": "C:\\Users\\Malli\\source\\repos\\MicroFinance\\MicroFinance\\App_Start\\FilterConfig.cs",
               "RelativeToolTip": "App_Start\\FilterConfig.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJSSURBVDhP7dBNSFRRGIfx5z135vox9\u002BqMSoNBuZGC6IOwICWJoKJN7ZLchVBBICW2r6Bt5eAmd9KiMoJCok0brRByITESYRFkkKE0OuPcSZqZe942zTCbVrb0WR5\u002BvPw5sNVmEwBuYJJesqHgFhobHOtshCZsbQryi18pcgtb1SnqqMdymRKKdIxTtxijRB9hhRgAz/daim6hP4o8LoXOu6jKRC7nn2hpwaseAxLqHU4UYrsAOsapy637J1uXG5K1xgBEInpe0S6xOm3QYSuaFvSU0tRTi4FzGOkFyGQ8DxgMy05nLRCAxIj3AFjXUMeyOwoLiW/\u002BISJ6BXgr4j6kXNqjET2myoCILAHTinrAJZQXYGZQm84OBa/N38NxRH5mhwvz9FFcu56fUdVZdWSpWCq61rBNVQ4i0qyq20G7UDkAEkXoVHSvRdurMxMj3mQi5d\u002BsPvyjWtd2t7E9PuJ/j6f8M7WmsvC/VfnDSUTm1q7mqyvjqdgg1i6WQ2cm4kgPhn7gOKo5gQUV6kF6QdNqZU6xU\u002BtDhQkDoCIriDTHR2P7eIKbGPW7ETmKmJ1u1C0ay4qg71HNicgSInNAGrSE8kVEPhjkR3Vh8z3vojGyH8hY1XmBI4j4WF5mh/KTldWJES8FfFy7Ftz3xry2yIY8ItTb2eFgumIMQBjyTNUuqOppI9xRdLcQPjcmP1WBAGp5itU3AK1uEKCMOm74udYYgCAfrEYjjeMlV886oe0OyzLQ1PRranWVoBZnnWB2LVb4BLB4gd\u002Bezb/KJDeWa81Wm\u002B8PGMz/gKgslOAAAAAASUVORK5CYII=",
               "WhenOpened": "2025-11-20T16:20:53.459Z"
             }
           ]
