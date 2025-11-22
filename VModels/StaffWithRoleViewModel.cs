@@ -13,7 +13,7 @@ namespace TestApp.VModels
         public string DOJ { get; set; }
         public string Status { get; set; }
         public string RolePermission { get; set; }
-        public string ContactNum { get; set; } // This will be from the form but not stored in DB
+        public string ContactNum { get; set; } // Contact number from Staff.ContactNumber field
         public bool HasLogin { get; set; }
     }
 }

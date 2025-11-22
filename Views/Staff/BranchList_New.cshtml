@@ -1,4 +1,4 @@
-@model IEnumerable<TestApp.DB.Branch>
+@model IEnumerable<TestApp.VModels.BranchWithManagerViewModel>
 
 @{
     Layout = "~/Views/Shared/_LayoutPage_New.cshtml";
@@ -59,7 +59,7 @@
                                 <div class="card bg-info text-white h-100">
                                     <div class="card-body text-center">
                                         <i class="fas fa-user-tie fa-2x mb-2"></i>
-                                        <h4>@Model.Count(b => b.ManagerID != null)</h4>
+                                        <h4>@Model.Count(b => b.HasManager)</h4>
                                         <p class="mb-0">With Manager</p>
                                     </div>
                                 </div>
@@ -92,7 +92,7 @@
                                         <th>City</th>
                                         <th>State</th>
                                         <th>PIN Code</th>
-                                        <th>Manager ID</th>
+                                        <th>Branch Manager</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -134,13 +134,18 @@
                                                 </code>
                                             </td>
                                             <td>
-                                                @if (branch.ManagerID.HasValue)
+                                                @if (branch.HasManager)
                                                 {
-                                                    <span class="badge bg-success">@branch.ManagerID</span>
+                                                    <span class="badge bg-success">
+                                                        <i class="fas fa-user-tie me-1"></i>@branch.ManagerName
+                                                    </span>
+                                                    <small class="text-muted d-block">(ID: @branch.ManagerID)</small>
                                                 }
                                                 else
                                                 {
-                                                    <span class="badge bg-warning text-dark">Not Assigned</span>
+                                                    <span class="badge bg-warning text-dark">
+                                                        <i class="fas fa-user-slash me-1"></i>No Manager
+                                                    </span>
                                                 }
                                             </td>
                                             <td>

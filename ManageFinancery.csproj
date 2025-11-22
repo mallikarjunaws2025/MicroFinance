@@ -159,6 +159,7 @@
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="DB\ALRAudjustment.cs">
       <DependentUpon>MicroFinDB.tt</DependentUpon>
     </Compile>
@@ -326,6 +327,7 @@
     <Compile Include="VModels\StaffWithRoleViewModel.cs" />
     <Compile Include="ViewModels\ChartsData\DataPoint.cs" />
     <Compile Include="VModels\BranchViewModel.cs" />
+    <Compile Include="VModels\BranchWithManagerViewModel.cs" />
     <Compile Include="VModels\ChangePWD.cs" />
     <Compile Include="VModels\Group\Groups.cs" />
     <Compile Include="VModels\Loans\LoanCols.cs" />
@@ -345,10 +347,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="App_Data\FinServeDB.mdf" />
-    <Content Include="App_Data\FinServeDB_log.ldf">
-      <DependentUpon>FinServeDB.mdf</DependentUpon>
-    </Content>
     <Content Include="DB\MicroFinDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MicroFinDB.Context1.cs</LastGenOutput>

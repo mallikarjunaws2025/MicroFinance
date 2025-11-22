@@ -25,6 +25,20 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
                     @if (Model != null && Model.Any())
                     {
                         <div class="row mb-4">
@@ -93,6 +107,7 @@
                                     <tr>
                                         <th>Staff ID</th>
                                         <th>Staff Name</th>
+                                        <th>Contact Number</th>
                                         <th>DOB</th>
                                         <th>DOJ</th>
                                         <th>Status</th>
@@ -107,6 +122,18 @@
                                             <td>@staff.StaffID</td>
                                             <td>
                                                 <div class="fw-bold">@(staff.StaffName != null ? staff.StaffName : "Unknown")</div>
+                                            </td>
+                                            <td>
+                                                <div class="text-muted">
+                                                    @if (!string.IsNullOrEmpty(staff.ContactNum))
+                                                    {
+                                                        <i class="fas fa-phone me-1"></i>@staff.ContactNum
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">Not provided</span>
+                                                    }
+                                                </div>
                                             </td>
                                             <td>@(staff.DOB != null ? staff.DOB : "Not provided")</td>
                                             <td>@(staff.DOJ != null ? staff.DOJ : "Not provided")</td>
@@ -142,7 +169,7 @@
                                                     <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewStaff(@staff.StaffID)" title="View">
                                                         <i class="fas fa-eye"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="editStaff(@staff.StaffID, '@staff.StaffName', '@staff.DOB', '@staff.DOJ', '@staff.Status')" title="Edit">
+                                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="editStaff(@staff.StaffID, '@staff.StaffName', '@staff.DOB', '@staff.DOJ', '@staff.Status', '@(staff.RolePermission ?? "")', '@(staff.ContactNum ?? "")')" title="Edit">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteStaff(@staff.StaffID, '@staff.StaffName')" title="Delete">
@@ -247,6 +274,21 @@
                             </select>
                         </div>
                         <div class="col-md-6">
+                            <label for="editStaffRole" class="form-label">Staff Role</label>
+                            <select class="form-select" id="editStaffRole">
+                                <option value="">-- Select Role --</option>
+                                <option value="Admin">Admin</option>
+                                <option value="User">User</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editContactNum" class="form-label">Contact Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <input type="text" class="form-control" id="editContactNum" placeholder="Enter contact number">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <label for="editDob" class="form-label">Date of Birth</label>
                             <input type="date" class="form-control" id="editDob">
                         </div>
@@ -260,6 +302,9 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times me-1"></i>Cancel
+                </button>
+                <button type="button" class="btn btn-info" onclick="redirectToEditPage()">
+                    <i class="fas fa-external-link-alt me-1"></i>Full Edit
                 </button>
                 <button type="button" class="btn btn-primary" onclick="updateStaff()">
                     <i class="fas fa-save me-1"></i>Update Staff
@@ -303,6 +348,11 @@
 $(document).ready(function() {
     console.log('Staff List search functionality loaded');
     
+    // Auto-dismiss alerts after 5 seconds
+    setTimeout(function() {
+        $('.alert-success, .alert-danger').fadeOut();
+    }, 5000);
+    
     // Search functionality
     $('#searchInput').on('keyup input', function() {
         var value = $(this).val().toLowerCase();
@@ -333,8 +383,8 @@ $(document).ready(function() {
             $('#staffTable tbody tr').show();
         } else {
             $('#staffTable tbody tr').each(function() {
-                // Status is in the 5th column (0-indexed: 4th position, but nth-child is 1-indexed: 5th position)
-                var status = $(this).find('td:nth-child(5)').text().toLowerCase().trim();
+                // Status is now in the 6th column (0-indexed: 5th position, but nth-child is 1-indexed: 6th position)
+                var status = $(this).find('td:nth-child(6)').text().toLowerCase().trim();
                 var shouldShow = status.indexOf(value) > -1;
                 $(this).toggle(shouldShow);
             });
@@ -360,10 +410,12 @@ function viewStaff(staffId) {
     window.location.href = '/Staff/ViewStaff?id=' + staffId;
 }
 
-function editStaff(staffId, staffName, dob, doj, status) {
+function editStaff(staffId, staffName, dob, doj, status, rolePermission, contactNum) {
     $('#editStaffId').val(staffId);
     $('#editStaffName').val(staffName);
     $('#editStatus').val(status);
+    $('#editStaffRole').val(rolePermission || '');
+    $('#editContactNum').val(contactNum || '');
     $('#editDob').val(dob);
     $('#editDoj').val(doj);
     $('#editStaffModal').modal('show');
@@ -373,6 +425,33 @@ function deleteStaff(staffId, staffName) {
     $('#staffIdToDelete').val(staffId);
     $('#staffNameToDelete').text(staffName);
     $('#deleteConfirmModal').modal('show');
+}
+
+function redirectToEditPage() {
+    var staffId = $('#editStaffId').val();
+    if (staffId) {
+        // Store the current values to pass as query parameters
+        var currentValues = {
+            staffName: $('#editStaffName').val(),
+            status: $('#editStatus').val(),
+            role: $('#editStaffRole').val(),
+            contact: $('#editContactNum').val(),
+            dob: $('#editDob').val(),
+            doj: $('#editDoj').val()
+        };
+        
+        // Build query string with current values
+        var queryString = '?id=' + staffId;
+        if (currentValues.contact) {
+            queryString += '&contact=' + encodeURIComponent(currentValues.contact);
+        }
+        if (currentValues.role) {
+            queryString += '&role=' + encodeURIComponent(currentValues.role);
+        }
+        
+        // Redirect to dedicated edit page
+        window.location.href = '/Staff/EditStaff_New' + queryString;
+    }
 }
 
 function saveStaff() {
@@ -409,28 +488,84 @@ function saveStaff() {
 }
 
 function updateStaff() {
+    // Validate required fields
+    var staffName = $('#editStaffName').val().trim();
+    var status = $('#editStatus').val();
+    
+    if (!staffName) {
+        alert('Please enter staff name.');
+        $('#editStaffName').focus();
+        return;
+    }
+    
+    if (!status) {
+        alert('Please select status.');
+        $('#editStatus').focus();
+        return;
+    }
+    
     var staffData = {
         StaffID: $('#editStaffId').val(),
-        StaffName: $('#editStaffName').val(),
-        DOB: $('#editDob').val(),
-        DOJ: $('#editDoj').val(),
-        Status: $('#editStatus').val()
+        StaffName: staffName,
+        DOB: $('#editDob').val() || '',
+        DOJ: $('#editDoj').val() || '',
+        Status: status,
+        RolePermission: $('#editStaffRole').val() || '',
+        ContactNum: $('#editContactNum').val() || ''
     };
     
+    // Create the UserModel string format expected by the controller
     var userModel = staffData.StaffID + ',' + staffData.StaffName + ',' + 
-                   (staffData.DOB || '') + ',' + (staffData.DOJ || '') + ',' + staffData.Status;
+                   staffData.DOB + ',' + staffData.DOJ + ',' + staffData.Status;
+    
+    // Show loading state
+    var $updateBtn = $('.btn-primary[onclick="updateStaff()"]');
+    var originalText = $updateBtn.html();
+    $updateBtn.html('<i class="fas fa-spinner fa-spin me-1"></i>Updating...').prop('disabled', true);
     
     $.ajax({
         url: '/Staff/EditStaff',
         type: 'GET',
         data: { UserModel: userModel },
+        timeout: 10000, // 10 seconds timeout
         success: function(result) {
-            $('#editStaffModal').modal('hide');
-            alert('Staff updated successfully!');
-            location.reload();
+            if (result === 'Success') {
+                $('#editStaffModal').modal('hide');
+                
+                // Show success message
+                var successHtml = '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                '<i class="fas fa-check-circle me-2"></i>Staff updated successfully!' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                                '</div>';
+                $('.container-fluid .card-body').prepend(successHtml);
+                
+                // Auto dismiss after 3 seconds
+                setTimeout(function() {
+                    $('.alert-success').fadeOut();
+                }, 3000);
+                
+                // Reload the page to show updated data
+                setTimeout(function() {
+                    location.reload();
+                }, 1500);
+            } else {
+                alert('Error updating staff member. Please try again.');
+                console.error('Update failed:', result);
+            }
         },
-        error: function() {
-            alert('Error updating staff member.');
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);
+            console.error('Response:', xhr.responseText);
+            
+            if (status === 'timeout') {
+                alert('Request timed out. Please try again.');
+            } else {
+                alert('Error updating staff member. Please check your connection and try again.');
+            }
+        },
+        complete: function() {
+            // Restore button state
+            $updateBtn.html(originalText).prop('disabled', false);
         }
     });
 }

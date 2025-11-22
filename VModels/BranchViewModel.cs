@@ -28,7 +28,10 @@ namespace TestApp.VModels
         public string State { get; set; }
         [DisplayName("State")]
         public int PinCode { get; set; }
-        public int StaffId { get; set; }       
+        public int StaffId { get; set; }
+        
+        // Staff list for dropdown
+        public List<SelectListItem> StaffList { get; set; }
 
         public int OpenDateday { get; set; }
         public int OpenDateMonth { get; set; }

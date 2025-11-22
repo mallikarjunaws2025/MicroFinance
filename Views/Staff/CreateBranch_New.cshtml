@@ -85,16 +85,21 @@
                                 </div>
                             </div>
                             
-                            <!-- Staff Manager ID -->
+                            <!-- Branch Manager -->
                             <div class="col-md-6">
-                                <label for="StaffId" class="form-label">Branch Manager (Staff ID)</label>
-                                @Html.TextBoxFor(model => model.StaffId, new { 
-                                    @class = "form-control", 
-                                    @placeholder = "Enter staff ID for manager",
-                                    @type = "number"
+                                <label for="StaffId" class="form-label">Branch Manager</label>
+                                @Html.DropDownListFor(model => model.StaffId, Model.StaffList ?? new List<SelectListItem>(), new { 
+                                    @class = "form-select",
+                                    @id = "StaffId"
                                 })
                                 @Html.ValidationMessageFor(model => model.StaffId, "", new { @class = "invalid-feedback" })
-                            </div>
+                                <div class="form-text">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Select an active staff member to be the branch manager
+                                    </small>
+                                </div>
+                            }
                             
                             <!-- Branch Address -->
                             <div class="col-12">
