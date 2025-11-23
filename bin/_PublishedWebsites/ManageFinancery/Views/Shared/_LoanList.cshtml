@@ -1,0 +1,113 @@
+﻿@model TestApp.DB.Loan_Cols
+@{
+    Layout = "~/Views/Shared/P_LayoutPage.cshtml";
+    ViewBag.Title = "PostHistry";
+    var imagePath = ViewBag.ImagePath;
+    var LoanID = 0;
+    
+}
+<body>
+<div class="container" ;border-color: "darkgrey";border-width:"2px";">              
+    
+<div style="width:100%;overflow:auto">    
+     <h2> Member And Loans Details</h2> 
+       <br>             
+</div>  
+ 
+
+     
+
+  
+@{
+    if (Model.Member != null && Model.Loan !=null)
+    {
+        LoanID = Model.Loan.LoanID;
+        <div class="form-control" >
+
+       <table class="table table-bordered table-hover" >
+                <tr style="background-color:#428bca;color: #ffd800;"><td colspan="5" ><b> Member Details </b></td></tr>
+                    <tr>                        
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Mbr Id</td>   <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.MbrId</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Mbr Name</td>   <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.MbrName</td>
+                         </tr>
+                   <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Group Name</td>  <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.GrpName</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Husbandname </td>      <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.Husbandname</td>
+                             </tr>
+                    <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Age</td>  <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.Age</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">MbrStatus </td>     <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.MbrStatus</td>
+                                 </tr>
+                    <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">WithdrawDt</td>    <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.WithdrawDt</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">StaffName</td>  <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.StaffName</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">MbrAddress </td>   <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.MbrAddress</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">DOJ </td>   <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.DOJ</td>
+                    </tr>
+                     <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">CantactNo  </td>  <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.CantactNo</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Nominee </td>    <td style="background-color: #76e465;color: #1b0a0a;">@Model.Member.Nominee</td>
+                        
+                    </tr>  
+                    
+                 <tbody class="tbody">
+                </tbody>
+            </table>
+
+
+            <table class="table table-bordered table-hover" >
+                   <tr style="background-color:#428bca;color: #ffd800;"><td colspan="5"><b> Loan Details </b></td></tr>
+                    <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Loan ID</td>   <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.LoanID</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Mbr Id</td>   <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.MbrId</td>
+                         </tr>
+                   <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Loan Amount</td>  <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.Loan_Amount</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Balance Amount </td>      <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.Balance_Amount</td>
+                             </tr>
+                    <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Prin EMI </td>  <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.Prin_EMI</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Int EMI </td>     <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.Int_EMI</td>
+                                 </tr>
+                    <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">NoOfDay</td>    <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.NoOfDay</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Date Of Disbursement</td>  <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.Date_Of_Disbursement</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">NextDueDt </td>   <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.NextDueDt</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">StaffName </td>   <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.StaffName</td>
+                    </tr>
+                     <tr>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">GrpCode  </td>  <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.GrpCode</td>
+                        <td style="background-color: #78bbe8;color: #1b0a0a;">Balance Interest </td>    <td style="background-color: #76e465;color: #1b0a0a;">@Model.Loan.Balance_Interest</td>
+                        
+                    </tr> 
+                        @*<td><button class="edit-user display-mode" style="background-color: #78bbe8;font-weight: bold" >Edit</button>  
+                                    <button class="save-user edit-mode" style="background-color:lightgreen" >Save</button>  
+                                    <button class="cancel-user edit-mode" style="background-color:orangered">Cancel</button> 
+                        </td>*@
+                    
+                 <tbody class="tbody">
+                </tbody>
+            </table>                           
+          <input type="button" id="btnhist" value="Loan History" />
+            </div>
+    }
+    else
+    {
+    <label>No Data to display!</label>
+    }
+}            
+
+          </div> 
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript">
+
+        $("#btnhist").click(function () {
+            window.open("/Loans/Partialload?TabName=HistList," + '@LoanID', "_blank", "width=1000,height=500");
+        });
+    </script>
+</body>

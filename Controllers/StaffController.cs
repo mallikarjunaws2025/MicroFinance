@@ -3,6 +3,9 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Data.Objects.SqlClient;
 using System.Linq;
 using System.Web;
@@ -467,6 +470,21 @@ namespace TestApp.Controllers
             {
                 BranchViewModel objBranchViewModel = new BranchViewModel();
                 objBranchViewModel.IsSucess = "0";
+                
+                // Populate staff list for the dropdown
+                MicroFinanceEntities db = new MicroFinanceEntities();
+                List<SelectListItem> StaffList = (from p in db.Staffs.AsEnumerable()
+                                                  where p.Status == "Active" || string.IsNullOrEmpty(p.Status)
+                                                  select new SelectListItem
+                                                  {
+                                                      Text = p.StaffName + " (ID: " + p.StaffID + ")",
+                                                      Value = p.StaffID.ToString()
+                                                  }).ToList();
+                
+                // Add default option
+                StaffList.Insert(0, new SelectListItem { Text = "-- Select Manager --", Value = "" });
+                objBranchViewModel.StaffList = StaffList;
+                
                 return View(objBranchViewModel);
             }
             else
@@ -478,31 +496,66 @@ namespace TestApp.Controllers
         [HttpPost]
         public ActionResult CreateBranch_New(BranchViewModel objBranchViewModel)
         {
+            MicroFinanceEntities db = new MicroFinanceEntities();
+
             try
             {
-                logger.Info(Session["UserID"] + " this user created new Branch at the time of : " + DateTime.Now);
-                MicroFinanceEntities db = new MicroFinanceEntities();
-                Branch objCrBranch = new Branch();
+                // Always populate staff list in case we need to return to the view
+                List<SelectListItem> StaffList = (from p in db.Staffs.AsEnumerable()
+                                                  where p.Status == "Active" || string.IsNullOrEmpty(p.Status)
+                                                  select new SelectListItem
+                                                  {
+                                                      Text = p.StaffName + " (ID: " + p.StaffID + ")",
+                                                      Value = p.StaffID.ToString()
+                                                  }).ToList();
 
-                objCrBranch.BranchCode = objBranchViewModel.BranchCode;
-                objCrBranch.BranchName = objBranchViewModel.BranchName;
-                objCrBranch.BAddress = objBranchViewModel.BranchAddress;
-                objCrBranch.City = objBranchViewModel.City;
-                objCrBranch.State = objBranchViewModel.State;
-                objCrBranch.OpenDate = objBranchViewModel.OpenDateday + "/" + objBranchViewModel.OpenDateMonth + "/" + objBranchViewModel.OpenDateYear;
-                objCrBranch.PinCode = objBranchViewModel.PinCode;
-                objCrBranch.ManagerID = objBranchViewModel.StaffId;
-                db.Branches.Add(objCrBranch);
-                db.SaveChanges();
-                objBranchViewModel.IsSucess = "1";
-                return View(objBranchViewModel);
+                StaffList.Insert(0, new SelectListItem { Text = "-- Select Manager --", Value = "" });
+                objBranchViewModel.StaffList = StaffList;
+
+                if (ModelState.IsValid)
+                {
+                    logger.Info(Session["UserID"] + " this user created new Branch at the time of : " + DateTime.Now);
+
+                    Branch objCrBranch = new Branch();
+                    objCrBranch.BranchCode = objBranchViewModel.BranchCode;
+                    objCrBranch.BranchName = objBranchViewModel.BranchName;
+                    objCrBranch.BAddress = objBranchViewModel.BranchAddress;
+                    objCrBranch.City = objBranchViewModel.City;
+                    objCrBranch.State = objBranchViewModel.State;
+                    objCrBranch.OpenDate = objBranchViewModel.OpenDateday + "/" + objBranchViewModel.OpenDateMonth + "/" + objBranchViewModel.OpenDateYear;
+                    objCrBranch.PinCode = objBranchViewModel.PinCode;
+
+                    // Map StaffId to ManagerID - handle case where no manager is selected
+                    objCrBranch.ManagerID = objBranchViewModel.StaffId > 0 ? objBranchViewModel.StaffId : (int?)null;
+
+                    db.Branches.Add(objCrBranch);
+                    db.SaveChanges();
+
+                    objBranchViewModel.IsSucess = "1";
+                    logger.Info("Branch created successfully: " + objBranchViewModel.BranchName);
+                    return View(objBranchViewModel);
+                }
+                else
+                {
+                    objBranchViewModel.IsSucess = "0";
+                    return View(objBranchViewModel);
+                }
             }
             catch (Exception objEx)
             {
-                logger.Error("Error occured in CreateBranch_New() Post method" + objEx.InnerException.ToString());
-                ModelState.AddModelError(string.Empty, "Error while creating branch");
+                logger.Error("Error occurred in CreateBranch_New() Post method: " + objEx.Message);
+                if (objEx.InnerException != null)
+                {
+                    logger.Error("Inner exception: " + objEx.InnerException.Message);
+                }
+
+                ModelState.AddModelError(string.Empty, "Error while creating branch. Please try again.");
                 objBranchViewModel.IsSucess = "2";
                 return View(objBranchViewModel);
+            }
+            finally
+            {
+                db?.Dispose();
             }
         }
 
@@ -603,77 +656,337 @@ namespace TestApp.Controllers
         [HttpGet]
         public JsonResult EditStaff(string UserModel)
         {
+            MicroFinanceEntities db = null;
             try
             {
-                if (!string.IsNullOrEmpty(UserModel))
+                if (string.IsNullOrEmpty(UserModel))
                 {
-                    MicroFinanceEntities db = new MicroFinanceEntities();
-                    Staff objNewStaff = new Staff();
-                    objNewStaff.StaffID = Convert.ToInt32(UserModel.Split(',')[0]);
-                    objNewStaff.StaffName = UserModel.Split(',')[1];
-                    objNewStaff.DOB = UserModel.Split(',')[2];
-                    objNewStaff.DOJ = UserModel.Split(',')[3];
-                    objNewStaff.Status = UserModel.Split(',')[4];
+                    logger.Error("UserModel is null or empty in EditStaff method");
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
 
+                db = new MicroFinanceEntities();
+                
+                // Parse the UserModel string with validation
+                var parts = UserModel.Split(',');
+                if (parts.Length < 5)
+                {
+                    logger.Error("Invalid UserModel format. Expected 5 parts but got " + parts.Length);
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
+                
+                // Validate and parse staff ID
+                if (!int.TryParse(parts[0], out int staffID))
+                {
+                    logger.Error("Invalid staff ID format: " + parts[0]);
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
+                
+                // Fetch the existing staff from database
+                Staff objNewStaff = db.Staffs.Find(staffID);
+                
+                if (objNewStaff == null)
+                {
+                    logger.Error("Staff not found with ID: " + staffID);
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
+                
+                // Validate input data before updating
+                string staffName = parts[1]?.Trim();
+                string dob = parts[2]?.Trim();
+                string doj = parts[3]?.Trim();
+                string status = parts[4]?.Trim();
+                
+                // Enhanced validation
+                if (string.IsNullOrEmpty(staffName))
+                {
+                    logger.Error("Staff name cannot be empty");
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
+                
+                // Check string length limits to prevent validation errors
+                if (staffName.Length > 50) // Assuming max length based on typical database constraints
+                {
+                    logger.Error("Staff name too long: " + staffName.Length + " characters");
+                    return Json("Error: Staff name is too long (max 50 characters)", JsonRequestBehavior.AllowGet);
+                }
+                
+                if (!string.IsNullOrEmpty(dob) && dob.Length > 20)
+                {
+                    logger.Error("DOB field too long: " + dob.Length + " characters");
+                    return Json("Error: Date of birth format is too long", JsonRequestBehavior.AllowGet);
+                }
+                
+                if (!string.IsNullOrEmpty(doj) && doj.Length > 20)
+                {
+                    logger.Error("DOJ field too long: " + doj.Length + " characters");
+                    return Json("Error: Date of joining format is too long", JsonRequestBehavior.AllowGet);
+                }
+                
+                if (!string.IsNullOrEmpty(status) && status.Length > 20)
+                {
+                    logger.Error("Status field too long: " + status.Length + " characters");
+                    return Json("Error: Status value is too long", JsonRequestBehavior.AllowGet);
+                }
+                
+                // Update the properties only if they're different to avoid unnecessary updates
+                if (objNewStaff.StaffName != staffName)
+                    objNewStaff.StaffName = staffName;
+                    
+                if (objNewStaff.DOB != dob)
+                    objNewStaff.DOB = dob;
+                    
+                if (objNewStaff.DOJ != doj)
+                    objNewStaff.DOJ = doj;
+                    
+                if (objNewStaff.Status != status)
+                    objNewStaff.Status = status;
 
-                    db.Entry(objNewStaff).State = EntityState.Modified;
-                    db.SaveChanges();
-                    logger.Info(Session["UserID"] + "this user changed " + objNewStaff.StaffName + " staff details at the time" + DateTime.Now);
+                // Validate the entity before saving
+                var validationErrors = db.Entry(objNewStaff).GetValidationResult();
+                if (!validationErrors.IsValid)
+                {
+                    foreach (var error in validationErrors.ValidationErrors)
+                    {
+                        logger.Error($"Validation Error - Property: {error.PropertyName}, Error: {error.ErrorMessage}");
+                    }
+                    return Json("Validation Error: Invalid data provided", JsonRequestBehavior.AllowGet);
+                }
+
+                // Save changes with better error handling
+                db.Entry(objNewStaff).State = EntityState.Modified;
+                int changesCount = db.SaveChanges();
+                
+                if (changesCount > 0)
+                {
+                    logger.Info(Session["UserID"] + " changed " + objNewStaff.StaffName + " staff details at " + DateTime.Now);
                     return Json("Success", JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    return Json("No", JsonRequestBehavior.AllowGet);
+                    logger.Info("No changes were made to staff ID: " + staffID);
+                    return Json("Success", JsonRequestBehavior.AllowGet);
                 }
-
-
+            }
+            catch (DbEntityValidationException dbValEx)
+            {
+                logger.Error("Entity validation error in EditStaff(): " + dbValEx.Message);
+                
+                // Log detailed validation errors
+                foreach (var validationErrors in dbValEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        logger.Error(string.Format("Property: {0} Error: {1}", 
+                            validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
+                
+                return Json("Validation Error: Please check the data format and try again", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                logger.Error("Database update error in EditStaff(): " + dbEx.Message);
+                if (dbEx.InnerException != null)
+                {
+                    logger.Error("Database inner exception: " + dbEx.InnerException.Message);
+                }
+                return Json("Database Error: Unable to save staff changes", JsonRequestBehavior.AllowGet);
+            }
+            catch (InvalidOperationException invEx)
+            {
+                logger.Error("Invalid operation error in EditStaff(): " + invEx.Message);
+                return Json("Operation Error: " + invEx.Message, JsonRequestBehavior.AllowGet);
+            }
+            catch (FormatException fEx)
+            {
+                logger.Error("Format error in EditStaff(): " + fEx.Message);
+                return Json("Format Error: Invalid data format", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                logger.Error("Error occured in EditStaff() Get method" + ex.InnerException.ToString());
-                return Json("No", JsonRequestBehavior.AllowGet);
+                logger.Error("Error occurred in EditStaff() method: " + ex.Message);
+                if (ex.InnerException != null)
+                {
+                    logger.Error("Inner exception: " + ex.InnerException.Message);
+                }
+                return Json("Error: Unable to update staff details", JsonRequestBehavior.AllowGet);
             }
-
+            finally
+            {
+                // Ensure proper disposal of DbContext
+                db?.Dispose();
+            }
         }
 
         [HttpGet]
         public JsonResult EditBranch(string UserModel)
         {
+            MicroFinanceEntities db = null;
             try
             {
-                if (!string.IsNullOrEmpty(UserModel))
+                if (string.IsNullOrEmpty(UserModel))
                 {
-                    MicroFinanceEntities db = new MicroFinanceEntities();
-                    Branch objNewBranch = new Branch();
+                    logger.Error("UserModel is null or empty in EditBranch method");
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
 
-                    objNewBranch.BranchID = Convert.ToInt32(UserModel.Split(',')[0]);
-                    objNewBranch.BranchCode = UserModel.Split(',')[1];
-                    objNewBranch.BranchName = UserModel.Split(',')[2];
-                    objNewBranch.OpenDate = UserModel.Split(',')[3];
-                    objNewBranch.BAddress = UserModel.Split(',')[4];
-                    objNewBranch.City = UserModel.Split(',')[5];
-                    objNewBranch.State = UserModel.Split(',')[6];
-                    objNewBranch.PinCode = Convert.ToInt32(UserModel.Split(',')[7]);
-                    objNewBranch.ManagerID = Convert.ToInt32(UserModel.Split(',')[8]);
+                db = new MicroFinanceEntities();
+                
+                // Parse the UserModel string with validation
+                var parts = UserModel.Split(',');
+                if (parts.Length < 9)
+                {
+                    logger.Error("Invalid UserModel format. Expected 9 parts but got " + parts.Length);
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
+                
+                // Validate and parse branch ID
+                if (!int.TryParse(parts[0], out int branchID))
+                {
+                    logger.Error("Invalid branch ID format: " + parts[0]);
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
+                
+                // Fetch the existing branch from database
+                Branch objNewBranch = db.Branches.Find(branchID);
+                
+                if (objNewBranch == null)
+                {
+                    logger.Error("Branch not found with ID: " + branchID);
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
+                
+                // Validate input data before updating
+                string branchCode = parts[1]?.Trim();
+                string branchName = parts[2]?.Trim();
+                string openDate = parts[3]?.Trim();
+                string address = parts[4]?.Trim();
+                string city = parts[5]?.Trim();
+                string state = parts[6]?.Trim();
+                
+                if (string.IsNullOrEmpty(branchCode))
+                {
+                    logger.Error("Branch code cannot be empty");
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
+                
+                if (string.IsNullOrEmpty(branchName))
+                {
+                    logger.Error("Branch name cannot be empty");
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
+                
+                // Validate and parse numeric fields
+                if (!int.TryParse(parts[7], out int pinCode))
+                {
+                    logger.Error("Invalid pin code format: " + parts[7]);
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
+                
+                if (!int.TryParse(parts[8], out int managerID))
+                {
+                    logger.Error("Invalid manager ID format: " + parts[8]);
+                    return Json("No", JsonRequestBehavior.AllowGet);
+                }
 
-                    db.Entry(objNewBranch).State = EntityState.Modified;
-                    db.SaveChanges();
-                    logger.Info(Session["UserID"] + "this user changed " + objNewBranch.BranchName + "branch details at the time" + DateTime.Now);
+                // Update the properties only if they're different
+                if (objNewBranch.BranchCode != branchCode)
+                    objNewBranch.BranchCode = branchCode;
+                    
+                if (objNewBranch.BranchName != branchName)
+                    objNewBranch.BranchName = branchName;
+                    
+                if (objNewBranch.OpenDate != openDate)
+                    objNewBranch.OpenDate = openDate;
+                    
+                if (objNewBranch.BAddress != address)
+                    objNewBranch.BAddress = address;
+                    
+                if (objNewBranch.City != city)
+                    objNewBranch.City = city;
+                    
+                if (objNewBranch.State != state)
+                    objNewBranch.State = state;
+                    
+                if (objNewBranch.PinCode != pinCode)
+                    objNewBranch.PinCode = pinCode;
+                    
+                if (objNewBranch.ManagerID != managerID)
+                    objNewBranch.ManagerID = managerID;
+
+                // Validate the entity before saving
+                var validationErrors = db.Entry(objNewBranch).GetValidationResult();
+                if (!validationErrors.IsValid)
+                {
+                    foreach (var error in validationErrors.ValidationErrors)
+                    {
+                        logger.Error($"Validation Error - Property: {error.PropertyName}, Error: {error.ErrorMessage}");
+                    }
+                    return Json("Validation Error: Invalid data provided", JsonRequestBehavior.AllowGet);
+                }
+
+                // Save changes
+                int changesCount = db.SaveChanges();
+                
+                if (changesCount > 0)
+                {
+                    logger.Info(Session["UserID"] + " changed " + objNewBranch.BranchName + " branch details at " + DateTime.Now);
                     return Json("Success", JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    return Json("No", JsonRequestBehavior.AllowGet);
+                    logger.Info("No changes were made to branch ID: " + branchID);
+                    return Json("Success", JsonRequestBehavior.AllowGet);
                 }
-
-
+            }
+            catch (DbEntityValidationException dbValEx)
+            {
+                logger.Error("Entity validation error in EditBranch(): " + dbValEx.Message);
+                
+                foreach (var validationErrors in dbValEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        logger.Error(string.Format("Property: {0} Error: {1}", 
+                            validationError.PropertyName, validationError.ErrorMessage));
+                    }
+                }
+                
+                return Json("Validation Error: Please check the data format and try again", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                logger.Error("Database update error in EditBranch(): " + dbEx.Message);
+                if (dbEx.InnerException != null)
+                {
+                    logger.Error("Database inner exception: " + dbEx.InnerException.Message);
+                }
+                return Json("Database Error: Unable to save branch changes", JsonRequestBehavior.AllowGet);
+            }
+            catch (InvalidOperationException invEx)
+            {
+                logger.Error("Invalid operation error in EditBranch(): " + invEx.Message);
+                return Json("Operation Error: " + invEx.Message, JsonRequestBehavior.AllowGet);
+            }
+            catch (FormatException fEx)
+            {
+                logger.Error("Format error in EditBranch(): " + fEx.Message);
+                return Json("Format Error: Invalid data format", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                logger.Error("Error occured in EditStaff() Get method" + ex.InnerException.ToString());
-                return Json("No", JsonRequestBehavior.AllowGet);
+                logger.Error("Error occurred in EditBranch() method: " + ex.Message);
+                if (ex.InnerException != null)
+                {
+                    logger.Error("Inner exception: " + ex.InnerException.Message);
+                }
+                return Json("Error: Unable to update branch details", JsonRequestBehavior.AllowGet);
             }
-
+            finally
+            {
+                db?.Dispose();
+            }
         }
 
         [HttpGet]
@@ -847,15 +1160,92 @@ namespace TestApp.Controllers
                 if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
                 {
                     MicroFinanceEntities db = new MicroFinanceEntities();
-                    var branches = db.Branches.ToList();
-                    return View(branches);
+                    
+                    // Get branches with manager information
+                    var branchViewModels = (from branch in db.Branches
+                                          join staff in db.Staffs on branch.ManagerID equals staff.StaffID into staffGroup
+                                          from manager in staffGroup.DefaultIfEmpty()
+                                          select new BranchWithManagerViewModel
+                                          {
+                                              BranchID = branch.BranchID,
+                                              BranchCode = branch.BranchCode,
+                                              BranchName = branch.BranchName,
+                                              OpenDate = branch.OpenDate,
+                                              BAddress = branch.BAddress,
+                                              City = branch.City,
+                                              State = branch.State,
+                                              PinCode = branch.PinCode,
+                                              ManagerID = branch.ManagerID,
+                                              ManagerName = manager != null ? manager.StaffName : null
+                                          }).ToList();
+                    
+                    return View(branchViewModels);
                 }
                 return RedirectToAction("StaffLogin_New");
             }
             catch (Exception ex)
             {
                 logger.Error(ex, "Error loading branch list");
-                return View(new List<Branch>());
+                return View(new List<BranchWithManagerViewModel>());
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GetStaffList()
+        {
+            try
+            {
+                MicroFinanceEntities db = new MicroFinanceEntities();
+                var staffList = (from p in db.Staffs.AsEnumerable()
+                                where p.Status == "Active" || string.IsNullOrEmpty(p.Status)
+                                select new SelectListItem
+                                {
+                                    Text = p.StaffName + " (ID: " + p.StaffID + ")",
+                                    Value = p.StaffID.ToString()
+                                }).ToList();
+
+                return Json(staffList, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error loading staff list: " + ex.Message);
+                return Json(new List<SelectListItem>(), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GetBranch(int id)
+        {
+            try
+            {
+                MicroFinanceEntities db = new MicroFinanceEntities();
+                var branch = db.Branches.FirstOrDefault(b => b.BranchID == id);
+                
+                if (branch == null)
+                {
+                    return Json(new { success = false, message = "Branch not found" }, JsonRequestBehavior.AllowGet);
+                }
+                
+                var branchData = new
+                {
+                    success = true,
+                    BranchID = branch.BranchID,
+                    BranchCode = branch.BranchCode ?? "",
+                    BranchName = branch.BranchName ?? "",
+                    OpenDate = branch.OpenDate ?? "",
+                    BAddress = branch.BAddress ?? "",
+                    City = branch.City ?? "",
+                    State = branch.State ?? "",
+                    PinCode = branch.PinCode ?? 0,
+                    ManagerID = branch.ManagerID ?? 0
+                };
+                
+                return Json(branchData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error loading branch details: " + ex.Message);
+                return Json(new { success = false, message = "Error loading branch details" }, JsonRequestBehavior.AllowGet);
             }
         }
     }

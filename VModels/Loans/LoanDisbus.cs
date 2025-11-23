@@ -46,6 +46,7 @@ namespace TestApp.VModels.Loans
         public List<SelectListItem> MbrList { get; set; }
 
         public string GType { get; set; }
+        public string GrpCode { get; set; } // Selected group code
 
         public string SelectedGrpName { get; set; }
         public string SelectedMbrName { get; set; }

@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Rollback";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h2>Rollback</h2>
+<script>
+    if (alert("Are you sure to Rollback from last post?")) {
+
+    }
+    else {
+        window.location.href = '@Url.Action("StaffLogin", "Staff")';
+    }
+
+</script>

@@ -12,6 +12,9 @@ namespace TestApp.VModels.Group
     {
         [DisplayName("Group Code")]
         public string GroupCode { get; set; }
+        [DisplayName("Branch Code")]
+        [Required(ErrorMessage = "Please Select Branch")]
+        public string BranchCode { get; set; }
         public string GroupName { get; set; }
         public string RecoveryDay { get; set; }
         [DisplayName("Village")]

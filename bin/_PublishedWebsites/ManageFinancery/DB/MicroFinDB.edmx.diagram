@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="25a896640a424f5f9c9810b4233118c2" Name="Diagram1" ZoomLevel="88">
+        <EntityTypeShape EntityType="MicroFinanceModel.StaffLogin" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MicroFinanceModel.UserLog" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MicroFinanceModel.Branch" Width="1.5" PointX="1.7351102948817938" PointY="22.549034144053717" />
+        <EntityTypeShape EntityType="MicroFinanceModel.Staff" Width="1.5" PointX="2.38495619706109" PointY="21.348091135429261" />
+        <AssociationConnector Association="MicroFinanceModel.FK__StaffLogi__Staff__2E1BDC42" />
+        <EntityTypeShape EntityType="MicroFinanceModel.Member" Width="1.5" PointX="6.8470672475393233" PointY="15.171882576854845" />
+        <EntityTypeShape EntityType="MicroFinanceModel.ALRAudjustment" Width="1.5" PointX="0.10081323427186033" PointY="7.939627099754115" />
+        <EntityTypeShape EntityType="MicroFinanceModel.Loan" Width="1.5" PointX="5.75855464942686" PointY="17.704488494295855" />
+        <EntityTypeShape EntityType="MicroFinanceModel.PartnerDetail" Width="1.5" PointX="8.6679745636265615" PointY="8.7657409947205984" />
+        <AssociationConnector Association="MicroFinanceModel.FK__ALRAudjus__MbrID__0F624AF8" />
+        <AssociationConnector Association="MicroFinanceModel.FK__Loans__Savings__5629CD9C" />
+        <EntityTypeShape EntityType="MicroFinanceModel.Loan_Cols" Width="1.5" PointX="4.75" PointY="8.625" />
+        <AssociationConnector Association="MicroFinanceModel.FK__Loan_Cols__Adjus__6477ECF3" />
+        <AssociationConnector Association="MicroFinanceModel.FK__Loan_Cols__MbrId__656C112C" />
+        <AssociationConnector Association="MicroFinanceModel.FK__ALRAudjus__MbrID__29221CFB" />
+        <EntityTypeShape EntityType="MicroFinanceModel.TmpLoanColsBackUpData" Width="1.5" PointX="0.1076753810549506" PointY="25.010837015235253" />
+        <EntityTypeShape EntityType="MicroFinanceModel.TmpLoansBackUpData" Width="1.5" PointX="6.75" PointY="25.25" />
+        <EntityTypeShape EntityType="MicroFinanceModel.TmpReceipt" Width="1.5" PointX="3.6030536497026002" PointY="18.875243493763378" />
+        <EntityTypeShape EntityType="MicroFinanceModel.TmpSummeryReportData" Width="1.5" PointX="8.0625197403424043" PointY="9.58039282708447" />
+        <EntityTypeShape EntityType="MicroFinanceModel.FinGroup" Width="1.5" PointX="9.2897788646117689" PointY="4.0747204739948364" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

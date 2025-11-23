@@ -81,6 +81,72 @@
                                 <div class="form-text">Leave blank for auto-generation</div>
                             </div>
 
+                            <!-- Branch Code -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Branch <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-code-branch text-primary"></i>
+                                    </span>
+                                    @Html.DropDownListFor(model => model.BranchCode, new SelectList(Model.BranchCodeList ?? new List<SelectListItem>(), "Value", "Text"), "-- Select Branch --", new { @class = "form-select", @id = "BranchCode", @required = "required" })
+                                </div>
+                                <div class="invalid-feedback">Please select a branch.</div>
+                            </div>
+
+                            <!-- Village -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Village <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-home text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Village, new { 
+                                        @class = "form-control", 
+                                        @placeholder = "Enter village name", 
+                                        @required = "required",
+                                        @id = "Village" 
+                                    })
+                                </div>
+                                <div class="invalid-feedback">Please enter village name.</div>
+                            </div>
+
+                            <!-- Total Members -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Total Members</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-users text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.TotalMember, new { 
+                                        @class = "form-control", 
+                                        @placeholder = "0", 
+                                        @type = "number",
+                                        @min = "0",
+                                        @id = "TotalMember" 
+                                    })
+                                </div>
+                                <div class="form-text">Current number of group members</div>
+                            </div>
+
+                            <!-- Distance -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Distance (KM)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-route text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Distance, new { 
+                                        @class = "form-control", 
+                                        @placeholder = "Distance from branch", 
+                                        @type = "number",
+                                        @min = "0",
+                                        @step = "0.1",
+                                        @id = "Distance" 
+                                    })
+                                </div>
+                                <div class="form-text">Distance from nearest branch in kilometers</div>
+                            </div>
+
                             <!-- Formation Date -->
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Formation Date <span class="text-danger">*</span></label>
@@ -100,96 +166,87 @@
                                     <span class="input-group-text">
                                         <i class="fas fa-toggle-on text-primary"></i>
                                     </span>
-                                    <select class="form-select" name="Status" id="Status" required>
-                                        <option value="">-- Select Status --</option>
-                                        <option value="Active" selected>Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                        <option value="Suspended">Suspended</option>
-                                    </select>
+                                    @Html.DropDownListFor(model => model.Status, new List<SelectListItem> 
+                                    {
+                                        new SelectListItem {Value="", Text="-- Select Status --"},
+                                        new SelectListItem {Value="Active", Text="Active", Selected=true},
+                                        new SelectListItem {Value="Inactive", Text="Inactive"},
+                                        new SelectListItem {Value="Suspended", Text="Suspended"}
+                                    }, new { @class = "form-select", @id = "Status", @required = "required" })
                                 </div>
                                 <div class="invalid-feedback">Please select group status.</div>
                             </div>
 
-                            <!-- Location/Address -->
+                            <!-- Recovery Day -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Recovery Day</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-day text-primary"></i>
+                                    </span>
+                                    @Html.DropDownListFor(model => model.RecoveryDay, new List<SelectListItem> 
+                                    {
+                                        new SelectListItem {Value="", Text="-- Select Day --"},
+                                        new SelectListItem {Value="Sun", Text="Sunday"},
+                                        new SelectListItem {Value="Mon", Text="Monday"},
+                                        new SelectListItem {Value="Tue", Text="Tuesday"},
+                                        new SelectListItem {Value="Wed", Text="Wednesday"},
+                                        new SelectListItem {Value="Thu", Text="Thursday"},
+                                        new SelectListItem {Value="Fri", Text="Friday"},
+                                        new SelectListItem {Value="Sat", Text="Saturday"}
+                                    }, new { @class = "form-select", @id = "RecoveryDay" })
+                                </div>
+                                <div class="form-text">Day for weekly recovery meetings</div>
+                            </div>
+
+                            <!-- Staff Name -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Staff Name <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user-tie text-primary"></i>
+                                    </span>
+                                    @Html.DropDownListFor(model => model.StaffID, new SelectList(Model.StaffMbrList ?? new List<SelectListItem>(), "Value", "Text"), "-- Select Staff --", new { @class = "form-select", @id = "StaffID", @required = "required" })
+                                </div>
+                                <div class="invalid-feedback">Please select a staff member.</div>
+                            </div>
+
+                            <!-- Formed By -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Formed By <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user-plus text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.FormedBy, new { 
+                                        @class = "form-control", 
+                                        @placeholder = "Name of person who formed the group", 
+                                        @required = "required",
+                                        @id = "FormedBy" 
+                                    })
+                                </div>
+                                <div class="invalid-feedback">Please enter who formed the group.</div>
+                            </div>
+
+                            <!-- Meeting Place Address -->
                             <div class="col-12">
-                                <label class="form-label fw-semibold">Location/Address <span class="text-danger">*</span></label>
+                                <label class="form-label fw-semibold">Meeting Place Address <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text">
                                         <i class="fas fa-map-marker-alt text-primary"></i>
                                     </span>
-                                    <textarea class="form-control" name="Location" id="Location" 
-                                              rows="3" placeholder="Enter group location/address" required></textarea>
+                                    @Html.TextAreaFor(model => model.MeetingPlaceAddress, new { 
+                                        @class = "form-control", 
+                                        @placeholder = "Enter complete meeting place address", 
+                                        @rows = "3",
+                                        @required = "required",
+                                        @id = "MeetingPlaceAddress" 
+                                    })
                                 </div>
-                                <div class="invalid-feedback">Please enter group location.</div>
+                                <div class="invalid-feedback">Please enter meeting place address.</div>
                             </div>
 
-                            <!-- Meeting Schedule -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Meeting Day</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-clock text-primary"></i>
-                                    </span>
-                                    <select class="form-select" name="MeetingDay" id="MeetingDay">
-                                        <option value="">-- Select Day --</option>
-                                        <option value="Monday">Monday</option>
-                                        <option value="Tuesday">Tuesday</option>
-                                        <option value="Wednesday">Wednesday</option>
-                                        <option value="Thursday">Thursday</option>
-                                        <option value="Friday">Friday</option>
-                                        <option value="Saturday">Saturday</option>
-                                        <option value="Sunday">Sunday</option>
-                                    </select>
-                                </div>
-                            </div>
 
-                            <!-- Meeting Time -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Meeting Time</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-clock text-primary"></i>
-                                    </span>
-                                    <input type="time" class="form-control" name="MeetingTime" id="MeetingTime" />
-                                </div>
-                            </div>
-
-                            <!-- Maximum Members -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Maximum Members</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-users text-primary"></i>
-                                    </span>
-                                    <input type="number" class="form-control" name="MaxMembers" id="MaxMembers" 
-                                           min="5" max="50" placeholder="e.g., 20" />
-                                </div>
-                                <div class="form-text">Recommended: 10-20 members per group</div>
-                            </div>
-
-                            <!-- Contact Person -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Contact Person</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-user text-primary"></i>
-                                    </span>
-                                    <input type="text" class="form-control" name="ContactPerson" id="ContactPerson" 
-                                           placeholder="Group leader/coordinator name" />
-                                </div>
-                            </div>
-
-                            <!-- Description -->
-                            <div class="col-12">
-                                <label class="form-label fw-semibold">Description</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-info-circle text-primary"></i>
-                                    </span>
-                                    <textarea class="form-control" name="Description" id="Description" 
-                                              rows="3" placeholder="Brief description about the group purpose and activities"></textarea>
-                                </div>
-                            </div>
 
                             <!-- Form Actions -->
                             <div class="col-12">
@@ -262,6 +319,56 @@ function initializeFormValidation() {
             this.setCustomValidity('');
         }
     });
+    
+    // Custom validation for Village
+    $('#Village').on('input', function() {
+        const value = this.value.trim();
+        if (value.length > 0 && value.length < 2) {
+            this.setCustomValidity('Village name must be at least 2 characters long');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+    
+    // Custom validation for Formed By
+    $('#FormedBy').on('input', function() {
+        const value = this.value.trim();
+        if (value.length > 0 && value.length < 2) {
+            this.setCustomValidity('Formed by name must be at least 2 characters long');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+    
+    // Custom validation for Meeting Place Address
+    $('#MeetingPlaceAddress').on('input', function() {
+        const value = this.value.trim();
+        if (value.length > 0 && value.length < 5) {
+            this.setCustomValidity('Meeting place address must be at least 5 characters long');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+    
+    // Custom validation for TotalMember
+    $('#TotalMember').on('input', function() {
+        const value = parseInt(this.value);
+        if (isNaN(value) || value < 0) {
+            this.setCustomValidity('Total members must be a non-negative number');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+    
+    // Custom validation for Distance
+    $('#Distance').on('input', function() {
+        const value = parseFloat(this.value);
+        if (isNaN(value) || value < 0) {
+            this.setCustomValidity('Distance must be a non-negative number');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
 }
 
 function generateGroupCode() {
@@ -300,7 +407,7 @@ function submitForm() {
                 showMessage('Group created successfully!', 'success');
                 resetForm();
                 
-                // Redirect to group list after 2 seconds
+                // Redirect to new group list after 2 seconds
                 setTimeout(function() {
                     window.location.href = '@Url.Action("GrpList_New", "Group")';
                 }, 2000);
@@ -329,6 +436,14 @@ function resetForm() {
     // Reset to defaults
     $('#FormationDate').val(new Date().toISOString().split('T')[0]);
     $('#Status').val('Active');
+    $('#TotalMember').val('');
+    $('#Distance').val('');
+    $('#RecoveryDay').val('');
+    $('#StaffID').val('');
+    $('#BranchCode').val('');
+    $('#FormedBy').val('');
+    $('#Village').val('');
+    $('#MeetingPlaceAddress').val('');
 }
 
 function showMessage(message, type) {

@@ -76,6 +76,9 @@
                                     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="clearFilter()">
                                         <i class="fas fa-times me-1"></i>Clear
                                     </button>
+                                    <button type="button" class="btn btn-outline-info btn-sm" onclick="testStaffList()" title="Test Staff Dropdown">
+                                        <i class="fas fa-bug me-1"></i>Test Staff
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -153,10 +156,10 @@
                                                     <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewBranch(@branch.BranchID)" title="View">
                                                         <i class="fas fa-eye"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="editBranch(@branch.BranchID, '@branch.BranchName', '@branch.BranchCode')" title="Edit">
+                                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="editBranch(@branch.BranchID)" title="Edit">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteBranch(@branch.BranchID, '@branch.BranchName')" title="Delete">
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteBranch(@branch.BranchID, '@(branch.BranchName != null ? branch.BranchName.Replace("'", "\\'") : "")')" title="Delete">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </div>
@@ -230,6 +233,29 @@ function clearFilter() {
     document.getElementById('resultCount').textContent = 'Showing all branches';
 }
 
+function testStaffList() {
+    console.log('Testing staff list API...');
+    
+    $.ajax({
+        url: '/Staff/GetStaffList',
+        type: 'GET',
+        success: function(data) {
+            console.log('Staff list response:', data);
+            console.log('Number of staff members:', data ? data.length : 0);
+            
+            if (data && data.length > 0) {
+                alert('Staff list loaded successfully! Found ' + data.length + ' staff members. Check console for details.');
+            } else {
+                alert('No staff members found in the database. Please add some staff first.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Staff list error:', error, xhr.responseText);
+            alert('Error loading staff list: ' + error);
+        }
+    });
+}
+
 function exportData() {
     alert("Export functionality will be implemented soon!");
 }
@@ -238,8 +264,163 @@ function viewBranch(id) {
     alert("View branch " + id + " - functionality to be implemented");
 }
 
-function editBranch(id, name, code) {
-    alert("Edit branch " + name + " (ID: " + id + ") - functionality to be implemented");
+function editBranch(branchId) {
+    $('#editBranchId').val(branchId);
+    
+    // Show loading in form fields
+    $('#editBranchCode').val('Loading...');
+    $('#editBranchName').val('Loading...');
+    $('#editOpenDate').val('');
+    $('#editBranchAddress').val('Loading...');
+    $('#editCity').val('Loading...');
+    $('#editState').val('Loading...');
+    $('#editPinCode').val('');
+    
+    // Store branch ID for later use
+    $('#editBranchModal').data('branchId', branchId);
+    
+    // Show modal (this will trigger loadStaffList)
+    $('#editBranchModal').modal('show');
+}
+
+// Handle edit button clicks with data attributes
+$(document).on('click', '.edit-branch-btn', function() {
+    var button = $(this);
+    var branchId = button.data('branch-id');
+    var branchCode = button.data('branch-code') || '';
+    var branchName = button.data('branch-name') || '';
+    var openDate = button.data('open-date') || '';
+    var address = button.data('address') || '';
+    var city = button.data('city') || '';
+    var state = button.data('state') || '';
+    var pinCode = button.data('pin-code') || 0;
+    var managerId = button.data('manager-id') || 0;
+
+    $('#editBranchId').val(branchId);
+    $('#editBranchCode').val(branchCode);
+    $('#editBranchName').val(branchName);
+    $('#editOpenDate').val(openDate);
+    $('#editBranchAddress').val(address);
+    $('#editCity').val(city);
+    $('#editState').val(state);
+    $('#editPinCode').val(pinCode);
+    
+    // Set manager after dropdown is loaded
+    $('#editBranchModal').one('shown.bs.modal', function() {
+        if (managerId && managerId > 0) {
+            $('#editBranchManager').val(managerId);
+        }
+    });
+    
+    $('#editBranchModal').modal('show');
+});
+
+function updateBranch() {
+    // Validate required fields
+    var branchCode = $('#editBranchCode').val().trim();
+    var branchName = $('#editBranchName').val().trim();
+    var address = $('#editBranchAddress').val().trim();
+    var city = $('#editCity').val().trim();
+    var state = $('#editState').val().trim();
+    var pinCode = $('#editPinCode').val();
+    
+    if (!branchCode) {
+        alert('Please enter branch code.');
+        $('#editBranchCode').focus();
+        return;
+    }
+    
+    if (!branchName) {
+        alert('Please enter branch name.');
+        $('#editBranchName').focus();
+        return;
+    }
+    
+    if (!address) {
+        alert('Please enter branch address.');
+        $('#editBranchAddress').focus();
+        return;
+    }
+    
+    if (!city) {
+        alert('Please enter city.');
+        $('#editCity').focus();
+        return;
+    }
+    
+    if (!state) {
+        alert('Please enter state.');
+        $('#editState').focus();
+        return;
+    }
+    
+    if (!pinCode || pinCode.toString().length !== 6) {
+        alert('Please enter a valid 6-digit PIN code.');
+        $('#editPinCode').focus();
+        return;
+    }
+    
+    var branchData = {
+        BranchID: $('#editBranchId').val(),
+        BranchCode: branchCode,
+        BranchName: branchName,
+        OpenDate: $('#editOpenDate').val() || '',
+        BAddress: address,
+        City: city,
+        State: state,
+        PinCode: parseInt(pinCode),
+        ManagerID: $('#editBranchManager').val() || 0
+    };
+    
+    // Create the UserModel string format expected by the controller
+    var userModel = branchData.BranchID + ',' + branchData.BranchCode + ',' + 
+                   branchData.BranchName + ',' + branchData.OpenDate + ',' + 
+                   branchData.BAddress + ',' + branchData.City + ',' + 
+                   branchData.State + ',' + branchData.PinCode + ',' + branchData.ManagerID;
+    
+    // Show loading state
+    var $updateBtn = $('.btn-success[onclick="updateBranch()"]');
+    var originalText = $updateBtn.html();
+    $updateBtn.html('<i class="fas fa-spinner fa-spin me-1"></i>Updating...').prop('disabled', true);
+    
+    $.ajax({
+        url: '/Staff/EditBranch',
+        type: 'GET',
+        data: { UserModel: userModel },
+        timeout: 10000, // 10 seconds timeout
+        success: function(result) {
+            if (result === 'Success') {
+                $('#editBranchModal').modal('hide');
+                
+                // Show success message
+                var successHtml = '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                '<i class="fas fa-check-circle me-2"></i>Branch updated successfully!' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                                '</div>';
+                $('.container-fluid .card-body').prepend(successHtml);
+                
+                // Auto dismiss after 3 seconds
+                setTimeout(function() {
+                    $('.alert-success').fadeOut();
+                }, 3000);
+                
+                // Reload the page to show updated data
+                setTimeout(function() {
+                    location.reload();
+                }, 1500);
+            } else {
+                alert('Error updating branch: ' + result);
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Error updating branch: ' + error);
+            console.log('Error details:', xhr.responseText);
+        },
+        complete: function() {
+            // Reset button state
+            $updateBtn.html(originalText).prop('disabled', false);
+        }
+    });
 }
 
 function deleteBranch(id, name) {
@@ -249,6 +430,209 @@ function deleteBranch(id, name) {
 }
 </script>
 }
+
+<!-- Edit Branch Modal -->
+<div class="modal fade" id="editBranchModal" tabindex="-1" aria-labelledby="editBranchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="editBranchModalLabel">
+                    <i class="fas fa-building-edit me-2"></i>Edit Branch
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editBranchForm">
+                    <input type="hidden" id="editBranchId">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="editBranchCode" class="form-label">Branch Code <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editBranchCode" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editBranchName" class="form-label">Branch Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editBranchName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editOpenDate" class="form-label">Open Date</label>
+                            <input type="text" class="form-control" id="editOpenDate" placeholder="DD/MM/YYYY">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editBranchManager" class="form-label">Branch Manager</label>
+                            <select class="form-select" id="editBranchManager">
+                                <option value="">-- Select Manager --</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="editBranchAddress" class="form-label">Branch Address <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="editBranchAddress" rows="3" required></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editCity" class="form-label">City <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editCity" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editState" class="form-label">State <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editState" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editPinCode" class="form-label">PIN Code <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="editPinCode" maxlength="6" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Cancel
+                </button>
+                <button type="button" class="btn btn-success" onclick="updateBranch()">
+                    <i class="fas fa-save me-1"></i>Update Branch
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Load staff list for manager dropdown when modal is shown
+    $('#editBranchModal').on('show.bs.modal', function() {
+        var branchId = $(this).data('branchId');
+        $(this).data('branchId', branchId); // Store the branchId for later use
+        
+        // Load staff list first, then load branch data
+        loadStaffList(function() {
+            // Callback after staff list is loaded
+            if (branchId) {
+                loadBranchData(branchId);
+            }
+        });
+    });
+    
+    // PIN code validation
+    $('#editPinCode').on('input', function() {
+        var value = $(this).val();
+        if (value.length > 6) {
+            $(this).val(value.slice(0, 6));
+        }
+    });
+    
+    // Form validation
+    $('#editBranchForm input, #editBranchForm textarea, #editBranchForm select').on('blur', function() {
+        validateField($(this));
+    });
+});
+
+function validateField($field) {
+    var value = $field.val().trim();
+    var isValid = true;
+    
+    if ($field.attr('required') && !value) {
+        isValid = false;
+    }
+    
+    if ($field.attr('id') === 'editPinCode' && value && (value.length !== 6 || !/^\d{6}$/.test(value))) {
+        isValid = false;
+    }
+    
+    if (isValid) {
+        $field.removeClass('is-invalid').addClass('is-valid');
+    } else {
+        $field.removeClass('is-valid').addClass('is-invalid');
+    }
+    
+    return isValid;
+}
+
+function loadStaffList(callback) {
+    $.ajax({
+        url: '/Staff/GetStaffList',
+        type: 'GET',
+        success: function(data) {
+            var dropdown = $('#editBranchManager');
+            dropdown.empty();
+            dropdown.append('<option value="">-- Select Manager --</option>');
+            
+            if (data && data.length > 0) {
+                $.each(data, function(index, staff) {
+                    dropdown.append('<option value="' + staff.Value + '">' + staff.Text + '</option>');
+                });
+                console.log('Staff list loaded successfully with ' + data.length + ' items');
+            } else {
+                console.log('No staff members found');
+            }
+            
+            // Call the callback function if provided
+            if (typeof callback === 'function') {
+                callback();
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error loading staff list:', error);
+            $('#editBranchManager').html('<option value="">Error loading staff</option>');
+            
+            // Still call callback even on error
+            if (typeof callback === 'function') {
+                callback();
+            }
+        }
+    });
+}
+
+function loadBranchData(branchId) {
+    // Show loading state in the modal
+    $('#editBranchCode').val('Loading...');
+    $('#editBranchName').val('Loading...');
+    $('#editBranchAddress').val('Loading...');
+    $('#editCity').val('Loading...');
+    $('#editState').val('Loading...');
+    
+    // Fetch branch details via AJAX
+    $.ajax({
+        url: '/Staff/GetBranch',
+        type: 'GET',
+        data: { id: branchId },
+        success: function(response) {
+            if (response.success) {
+                // Populate form fields
+                $('#editBranchCode').val(response.BranchCode || '');
+                $('#editBranchName').val(response.BranchName || '');
+                $('#editOpenDate').val(response.OpenDate || '');
+                $('#editBranchAddress').val(response.BAddress || '');
+                $('#editCity').val(response.City || '');
+                $('#editState').val(response.State || '');
+                $('#editPinCode').val(response.PinCode || '');
+                
+                // Set manager - ensure dropdown is populated first
+                if (response.ManagerID && response.ManagerID > 0) {
+                    // Check if the option exists in the dropdown
+                    var managerOption = $('#editBranchManager option[value="' + response.ManagerID + '"]');
+                    if (managerOption.length > 0) {
+                        $('#editBranchManager').val(response.ManagerID);
+                        console.log('Manager set to:', response.ManagerID);
+                    } else {
+                        console.log('Manager ID not found in dropdown:', response.ManagerID);
+                        console.log('Available options:', $('#editBranchManager option').length);
+                    }
+                } else {
+                    console.log('No manager assigned to this branch');
+                }
+                
+                console.log('Branch data loaded successfully for branch ID:', branchId);
+            } else {
+                alert('Error: ' + response.message);
+                $('#editBranchModal').modal('hide');
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Error loading branch details: ' + error);
+            console.error('Branch data loading error:', xhr.responseText);
+            $('#editBranchModal').modal('hide');
+        }
+    });
+}
+</script>
 
 <style>
 .card {

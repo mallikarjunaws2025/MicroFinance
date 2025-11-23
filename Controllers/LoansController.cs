@@ -23,10 +23,16 @@ namespace TestApp.Controllers
         NLog.Logger logger = LogManager.GetCurrentClassLogger();
         string sLListGrpCode = string.Empty;
         [HttpGet]
-        public ActionResult LoansDisbus(int iMbrID)
+        public ActionResult LoansDisbus(int? iMbrID)
         {
             try
             {
+                // Don't redirect if member ID is not provided, allow for new loan creation
+                // if (!iMbrID.HasValue || iMbrID.Value <= 0)
+                // {
+                //     return RedirectToAction("MemberDetails_New", "Member");
+                // }
+                
                 if (Helper.IsValidUser(Convert.ToString(Session["ValideUsr"])))
                 {
                     MicroFinanceEntities db = new MicroFinanceEntities();
@@ -54,10 +60,26 @@ namespace TestApp.Controllers
 
                     //if (!string.IsNullOrEmpty(Convert.ToString(Session["LoanLaterDisbusMbrID"])) ||
                     //    !string.IsNullOrEmpty(Convert.ToString(Session["SavedMbrID"])))
-                    if (iMbrID > 0)
+                    if (iMbrID.HasValue && iMbrID.Value > 0)
                     {
-
+                        // Pre-select the member in the dropdown and mark as editing existing member
                         objLoanDisbus.IsSucess = "NewMbr";
+                        objLoanDisbus.MbrId = iMbrID.Value; // Set the selected member ID
+                        
+                        // Get the member details to pre-populate group information
+                        var selectedMember = db.Members.FirstOrDefault(m => m.MbrId == iMbrID.Value);
+                        if (selectedMember != null)
+                        {
+                            objLoanDisbus.GrpCode = selectedMember.GroupCode;
+                            
+                            // Get group type for loan calculation
+                            var group = db.FinGroups.FirstOrDefault(g => g.GroupCode == selectedMember.GroupCode);
+                            if (group != null)
+                            {
+                                objLoanDisbus.GType = group.GType;
+                                Session["GType"] = group.GType; // Store in session for future use
+                            }
+                        }
 
                         if (TempData["GType"] != null)
                         {
@@ -110,28 +132,76 @@ namespace TestApp.Controllers
             Loan_Cols dbLoanCols = new Loan_Cols();
             FinGroup objGrp = new FinGroup();
             DateTime NxtDueDt;
-            int iStaffID = 0, iMbrID = 0;
+            int iStaffID = 0, localMbrID = 0;
             double dIntEMIAmt = 0.00;
             string sStaffName = string.Empty, sExistingLoanType = string.Empty;
             try
             {
-                if (!string.IsNullOrEmpty(Convert.ToString(Session["SavedMbrID"])) || !string.IsNullOrEmpty(Convert.ToString(objLoans.MbrId)))
+                logger.Info($"POST LoansDisbus_New - Starting loan disbursement for Member ID: {objLoans.MbrId}");
+                logger.Info($"Session SavedMbrID: {Session["SavedMbrID"]}");
+                logger.Info($"Loan Amount: {objLoans.Loan_Amount}, Rate: {objLoans.RateOfInterest}, Days: {objLoans.NoOfDays}");
+                
+                // Ensure we have a valid member ID - check both form and session
+                int validMemberId = 0;
+                if (objLoans.MbrId > 0)
                 {
+                    validMemberId = objLoans.MbrId;
+                    logger.Info($"Using form Member ID: {validMemberId}");
+                }
+                else if (!string.IsNullOrEmpty(Convert.ToString(Session["SavedMbrID"])))
+                {
+                    validMemberId = Convert.ToInt32(Session["SavedMbrID"]);
+                    logger.Info($"Using session Member ID: {validMemberId}");
+                }
+                
+                if (validMemberId == 0)
+                {
+                    logger.Error("No valid Member ID found in form or session");
+                    objLoanDisbus.IsSucess = "2";
+                    // Re-populate lists for display
+                    List<SelectListItem> grpCodeListError = (from p in db.FinGroups.AsEnumerable()
+                                                        select new SelectListItem
+                                                        {
+                                                            Text = p.GrpName,
+                                                            Value = p.GroupCode
+                                                        }).ToList();
+                    objLoanDisbus.GrpCodeList = grpCodeListError;
+
+                    List<SelectListItem> mbrListError = (from p in db.Members.AsEnumerable()
+                                                    select new SelectListItem
+                                                    {
+                                                        Text = p.MbrName,
+                                                        Value = p.MbrId.ToString()
+                                                    }).ToList();
+                    objLoanDisbus.MbrList = mbrListError;
+                    return View(objLoanDisbus);
+                }
+                
+                if (!string.IsNullOrEmpty(Convert.ToString(Session["SavedMbrID"])) || validMemberId > 0)
+                {
+                    logger.Info($"Member validation passed, validMemberId: {validMemberId}");
+                    
                     if (!string.IsNullOrEmpty(Convert.ToString((Session["SavedMbrID"]))))
                     {
-                        iMbrID = Convert.ToInt32(Session["SavedMbrID"]);
+                        localMbrID = Convert.ToInt32(Session["SavedMbrID"]);
+                        logger.Info($"Using session MbrID: {localMbrID}");
                     }
-                    if (!string.IsNullOrEmpty(Convert.ToString(objLoans.MbrId)))
+                    if (validMemberId > 0)
                     {
-                        iMbrID = Convert.ToInt32(objLoans.MbrId);
+                        localMbrID = validMemberId;
+                        logger.Info($"Using form/validated MbrID: {localMbrID}");
                     }
 
-                    objDBLoans = db.Loans.Where(p => p.MbrId == objLoans.MbrId).FirstOrDefault();
+                    var objMbrLoans = db.Loans.Where(p => p.MbrId == objLoans.MbrId);
+                    objDBLoans = objMbrLoans != null ? objMbrLoans
+                                    .OrderByDescending(p => p.LoanID)
+                                    .Select(p => p).FirstOrDefault() : null;
+
                     if (objDBLoans != null)
                     {
                         if (!string.IsNullOrEmpty(objDBLoans.Expiry_Date))
                         {
-                            DateTime exdt = Convert.ToDateTime(objDBLoans.Expiry_Date);
+                            DateTime exdt = DateTime.Parse(objDBLoans.Expiry_Date, new CultureInfo("en-US", true));
                             if (exdt > DateTime.Now)
                             {
                                 objLoanDisbus.IsSucess = "L";
@@ -150,9 +220,20 @@ namespace TestApp.Controllers
 
                 if (string.IsNullOrEmpty(objLoanDisbus.IsSucess))
                 {
+                    logger.Info("No existing loan conflicts, proceeding with loan creation...");
+                    
                     objCrMbr = db.Members
-                               .Where(p => p.MbrId == iMbrID)
+                               .Where(p => p.MbrId == localMbrID)
                                .Select(p => p).FirstOrDefault();
+
+                    if (objCrMbr == null)
+                    {
+                        logger.Error($"Member not found with ID: {localMbrID}");
+                        objLoanDisbus.IsSucess = "2";
+                        throw new Exception($"Member not found with ID: {localMbrID}");
+                    }
+                    
+                    logger.Info($"Member found: {objCrMbr.MbrName}, GroupCode: {objCrMbr.GroupCode}");
 
 
                     if (objCrMbr != null)
@@ -161,6 +242,15 @@ namespace TestApp.Controllers
                         objGrp = (from c in db.FinGroups
                                   where c.GroupCode == objCrMbr.GroupCode
                                   select c).FirstOrDefault();
+
+                        if (objGrp == null)
+                        {
+                            logger.Error($"Group not found with GroupCode: {objCrMbr.GroupCode}");
+                            objLoanDisbus.IsSucess = "2";
+                            throw new Exception($"Group not found with GroupCode: {objCrMbr.GroupCode}");
+                        }
+                        
+                        logger.Info($"Group found: {objGrp.GrpName}, GroupType: {objGrp.GType}");
 
                         iStaffID = Convert.ToInt32(objCrMbr.StaffId);
                     }
@@ -184,9 +274,9 @@ namespace TestApp.Controllers
                     }
                     else
                     {
+                        NxtDueDt = DateTime.Parse(objLoans.NextDueDt, new CultureInfo("en-US", true));
 
-
-                        NxtDueDt = Convert.ToDateTime(objLoans.NextDueDt); // NxtDueDt.AddDays(7 - (int)NxtDueDt.DayOfWeek);
+                        //NxtDueDt = Convert.ToDateTime(objLoans.NextDueDt); // NxtDueDt.AddDays(7 - (int)NxtDueDt.DayOfWeek);
 
                     }
 
@@ -262,7 +352,7 @@ namespace TestApp.Controllers
                     dbLoanCols.Prin_Due = Convert.ToString(dPrinDue) == null ? "0" : Convert.ToString(dPrinDue);
                     dbLoanCols.Int_Due = Convert.ToString(dIntDue) == null ? "0" : Convert.ToString(dIntDue);
                     dbLoanCols.Transact_Date = objDBLoans.Date_Of_Disbursement;
-                    dbLoanCols.Next_Due_Date = Convert.ToDateTime(objLoans.Date_Of_Disbursement).AddDays(7).ToShortDateString();
+                    dbLoanCols.Next_Due_Date = DateTime.Parse(objLoans.Date_Of_Disbursement, new CultureInfo("en-US", true)).AddDays(7).ToShortDateString();
                     dbLoanCols.Upto_Last_Savings = "0.00";
                     dbLoanCols.ALRSavings = Convert.ToString(objLoans.Savings) == null ? "0" : Convert.ToString(objLoans.Savings);
                     dbLoanCols.As_On = Convert.ToString(objLoans.Savings) == null ? "0" : Convert.ToString(objLoans.Savings);
@@ -298,11 +388,13 @@ namespace TestApp.Controllers
 
                             if (objGrp.GType.Trim() == "Daily" && i > 1)
                             {
-                                NxtDueDt = Convert.ToDateTime(dbLoanCols.Next_Due_Date).AddDays(1);
+                                NxtDueDt = DateTime.Parse(objLoans.NextDueDt, new CultureInfo("en-US", true)).AddDays(1);
+                                //NxtDueDt = Convert.ToDateTime(dbLoanCols.Next_Due_Date).AddDays(1);
                             }
                             else
                             {
-                                NxtDueDt = Convert.ToDateTime(dbLoanCols.Next_Due_Date).AddDays(7);
+                                NxtDueDt = DateTime.Parse(objLoans.NextDueDt, new CultureInfo("en-US", true)).AddDays(7);
+                                //NxtDueDt = Convert.ToDateTime(dbLoanCols.Next_Due_Date).AddDays(7);
                             }
 
                             dbAdvPaidLoanCols.PostedUserID = Convert.ToString(Session["UserID"]);
@@ -366,7 +458,11 @@ namespace TestApp.Controllers
             }
             catch (Exception ex)
             {
-                logger.Error("Error in LoansDisbus () Post" + ex.InnerException);
+                logger.Error("Error in LoansDisbus () Post: " + ex.Message);
+                if (ex.InnerException != null)
+                {
+                    logger.Error("Inner Exception: " + ex.InnerException.Message);
+                }
                 objLoanDisbus.IsSucess = "2";
             }
             return View(objLoanDisbus);
@@ -503,7 +599,7 @@ namespace TestApp.Controllers
 
                 if (!string.IsNullOrEmpty(DueDt))
                 {
-                    DateTime dt = Convert.ToDateTime(DueDt);
+                    DateTime dt = DateTime.Parse(DueDt, new CultureInfo("en-US", true));
 
                     DueDt = dt.Month.ToString() + "/" + dt.Day.ToString() + "/" + dt.Year.ToString();
 
@@ -640,7 +736,7 @@ namespace TestApp.Controllers
                         objMbr.Gen = objMbr.Gen;
                         objMbr.CantactNum = objMbr.CantactNum;
                         objMbr.MbrDOJ = Convert.ToString(objMbr.CrD + "/" + objMbr.CrM + "/" + objMbr.CrY);
-                        DateTime dt = Convert.ToDateTime(MbrObj.WithdrawDt);
+                        DateTime dt = DateTime.Parse(MbrObj.WithdrawDt, new CultureInfo("en-US", true));
                         objMbr.WD = dt.Day.ToString();
                         objMbr.WM = dt.Month.ToString();
                         objMbr.WD = Convert.ToString(dt.Day);
@@ -794,7 +890,9 @@ namespace TestApp.Controllers
                 CurrentDue = objLoan.Prin_EMI;
                 Savings = objLoan.ALRSavings;
 
-                DateTime NxtDueDt = new DateTime(Convert.ToInt32(Convert.ToDateTime(objLoan.NextDueDt).Year), Convert.ToInt32(Convert.ToDateTime(objLoan.NextDueDt).Month), Convert.ToInt32(Convert.ToDateTime(objLoan.NextDueDt).Day));
+                DateTime NxtDueDtTmp = DateTime.Parse(objLoan.NextDueDt, new CultureInfo("en-US", true));
+
+                DateTime NxtDueDt = new DateTime(Convert.ToInt32(NxtDueDtTmp.Year), Convert.ToInt32(NxtDueDtTmp.Month), Convert.ToInt32(NxtDueDtTmp.Day));
                 if (sGType.Trim() == "Daily")
                 {
                     NxtDueDt = NxtDueDt.AddDays(1);
@@ -1546,7 +1644,7 @@ namespace TestApp.Controllers
 
                         objLoan.Balance_Interest = objLoanDisb.RateOfInterest;
                         objLoan.Balance_Interest = objLoan.Balance_Interest == null ? "0" : objLoan.Balance_Interest;
-                        objLoan.Status = string.IsNullOrEmpty(objLoanDisb.Expiry_Date) ? Convert.ToDateTime(objLoanDisb.Expiry_Date) <= DateTime.Now ? 1 : 0 : 0;
+                        objLoan.Status = string.IsNullOrEmpty(objLoanDisb.Expiry_Date) ?  DateTime.Parse(objLoanDisb.Expiry_Date, new CultureInfo("en-US", true)) <= DateTime.Now ? 1 : 0 : 0;
                         db.Entry(objLoan).State = EntityState.Modified;
                         db.SaveChanges();
 
@@ -1840,7 +1938,9 @@ namespace TestApp.Controllers
         [HttpGet]
         public ActionResult LoansDisbus_New(int iMbrID = 0)
         {
-            var result = LoansDisbus(iMbrID);
+            // Convert int to int? for proper null handling
+            int? nullableMbrID = iMbrID > 0 ? (int?)iMbrID : null;
+            var result = LoansDisbus(nullableMbrID);
             if (result is ViewResult viewResult)
             {
                 viewResult.ViewName = "LoansDisbus_New";

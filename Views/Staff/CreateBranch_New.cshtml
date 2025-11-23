@@ -88,7 +88,7 @@
                             <!-- Branch Manager -->
                             <div class="col-md-6">
                                 <label for="StaffId" class="form-label">Branch Manager</label>
-                                @Html.DropDownListFor(model => model.StaffId, Model.StaffList ?? new List<SelectListItem>(), new { 
+                                @Html.DropDownListFor(model => model.StaffId, Model.StaffList ?? new List<SelectListItem>(), "-- Select Manager --", new { 
                                     @class = "form-select",
                                     @id = "StaffId"
                                 })
@@ -99,7 +99,7 @@
                                         Select an active staff member to be the branch manager
                                     </small>
                                 </div>
-                            }
+                            </div>
                             
                             <!-- Branch Address -->
                             <div class="col-12">
@@ -256,6 +256,24 @@ $(document).ready(function() {
         var value = $(this).val();
         if (value.length > 6) {
             $(this).val(value.slice(0, 6));
+        }
+    });
+    
+    // Staff dropdown validation and enhancement
+    $('#StaffId').on('change', function() {
+        var selectedValue = $(this).val();
+        if (selectedValue && selectedValue !== '') {
+            $(this).removeClass('is-invalid').addClass('is-valid');
+        } else {
+            $(this).removeClass('is-valid');
+        }
+    });
+    
+    // Add visual feedback when staff is selected
+    $('#StaffId').on('change', function() {
+        var selectedText = $(this).find('option:selected').text();
+        if (selectedText && selectedText !== '-- Select Manager --') {
+            console.log('Selected manager: ' + selectedText);
         }
     });
 });

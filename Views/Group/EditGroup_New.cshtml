@@ -43,7 +43,7 @@
                 <div class="card-body p-4">
                     @using (Html.BeginForm("EditGroup_New", "Group", FormMethod.Post, new { @class = "needs-validation", @id = "groupEditForm", @novalidate = "novalidate" }))
                     {
-                        @Html.Hidden("GroupID", ViewBag.GroupID)
+                        <input type="hidden" name="GroupID" value="@ViewBag.GroupID" />
                         
                         <div class="row g-4">
                             <!-- Group Name -->
@@ -96,6 +96,18 @@
                                     })
                                 </div>
                                 <div class="form-text">Group code cannot be changed</div>
+                            </div>
+
+                            <!-- Branch Code -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Branch <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-code-branch text-warning"></i>
+                                    </span>
+                                    @Html.DropDownListFor(model => model.BranchCode, new SelectList(Model.BranchCodeList ?? new List<SelectListItem>(), "Value", "Text"), "-- Select Branch --", new { @class = "form-select", @id = "BranchCode", @required = "required" })
+                                </div>
+                                <div class="invalid-feedback">Please select a branch.</div>
                             </div>
 
                             <!-- Status -->

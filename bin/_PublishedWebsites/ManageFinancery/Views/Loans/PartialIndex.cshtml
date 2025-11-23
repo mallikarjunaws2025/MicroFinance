@@ -1,0 +1,201 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CSS Template</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  
+ 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+  background-color: #666;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: white;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+  float: left;
+  width: 30%;
+  height: 300px; /* only for demonstration, should be removed */
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 300px; /* only for demonstration, should be removed */
+}
+
+/* Clear floats after the columns */
+section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+} 
+       
+        .label {
+            color: grey;
+        }
+        .Grid {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            margin-top:5%;
+        }
+ 
+        .Grid th {
+            background-color: #428bca;
+            font-weight: bold;
+        }
+ 
+        .Grid th, .Grid td {
+            padding: 5px;
+            width: 150px;
+            border: 1px solid #ccc;
+        }
+ 
+        .Grid, .Grid table td {
+            border: 0px solid #ccc;
+        }
+ 
+        .Grid th a, .Grid th a:visited {
+            color: #333;
+        } 
+ 
+</style>
+</head> 
+<header>
+    @Html.ActionLink("<=Back To Home Page", "Index", "Charts")
+  <h2>Loans And Reports</h2>
+ <button id="MbrList">Member List</button></li><br />
+ <button id="LoanList">Loans List</button></li><br />
+ <button id="HistList">Loans Posting history</button></li> <br />
+</header>
+
+<section> 
+ <article>
+
+<div id="PartialViewhtmlMbrList">
+   
+</div>
+
+<div id="PartialViewhtmlLoanList">
+    
+</div>
+
+<div id="PartialViewhtmlHistList">
+
+</div>
+
+  </article>
+</section>
+
+<footer>
+  <p>Footer</p>
+</footer>
+
+</body>
+</html>
+
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript">
+
+    $("#MbrList").click(function () {
+        $.ajax({
+            url: '@Url.Action("Partialload","Loans")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            data: { "TabName": "MbrList" },
+            catch: false,
+            success: function (result) {
+
+                debugger;
+                $('#PartialViewhtmlLoanList').html(result);
+            },
+            error: function (errormessage) {
+                alert("Error while process your request");
+            }
+        });
+    });
+
+    $("#LoanList").click(function () {
+        debugger;       
+
+        $.ajax({
+            url: '@Url.Action("Partialload","Loans")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            data: { "TabName": "LoansList" },
+            catch: false,
+            success: function (result) {
+
+                debugger;
+                $('#PartialViewhtmlLoanList').html(result); 
+            },
+            error: function (errormessage) {
+                alert("Error while process your request");
+            }
+        });
+
+
+        //$("#PartialViewhtmlLoanList").load("/Loans/Partialload", { TabName: "LoanList" });
+    });
+
+    $("#HistList").click(function () {
+
+        $.ajax({
+            url: '@Url.Action("Partialload","Loans")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            data: { "TabName": "HistList" },
+            catch: false,
+            success: function (result) {
+
+                debugger;
+                $('#PartialViewhtmlLoanList').html(result);
+            },
+            error: function (errormessage) {
+                alert("Error while process your request");
+            }
+        });
+
+    });
+
+
+</script>
+
+
+
+
+
+

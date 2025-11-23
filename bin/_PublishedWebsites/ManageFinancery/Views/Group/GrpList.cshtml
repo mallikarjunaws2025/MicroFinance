@@ -1,0 +1,191 @@
+﻿@model IEnumerable<TestApp.DB.FinGroup>
+
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    WebGrid webGrid = new WebGrid(source: Model, canPage: true, canSort: false);
+}
+ 
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>Group List</title>
+    <style type="text/css">
+       
+        .label {
+            color: grey;
+        }
+        .Grid {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            margin-top:5%;
+        }
+ 
+        .Grid th {
+            background-color: #428bca;
+            font-weight: bold;
+        }
+ 
+        .Grid th, .Grid td {
+            padding: 5px;
+            width: 150px;
+            border: 1px solid #ccc;
+        }
+ 
+        .Grid, .Grid table td {
+            border: 0px solid #ccc;
+        }
+ 
+        .Grid th a, .Grid th a:visited {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+          <div class="container" ;border-color: "darkgrey";border-width:"2px";">
+    <div class="well form-horizontal" style="margin-top: 3%;">
+      <div style="width:100%;overflow:auto">    
+     <h2>Groups List</h2>
+
+           @if (ViewBag.IsAdmin == true)
+           { 
+                 @webGrid.GetHtml(
+                 htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+                 columns: webGrid.Columns(
+                 webGrid.Column(header: "Group ID", format: @<text>  <span  class="display-mode">@item.GroupID </span> <label id="lblGroupID" class="edit-mode">@item.GroupID</label> </text>, style: "col1Width"),
+                 webGrid.Column(header: "Group Name", format: @<text>  <span  class="display-mode"> <label id="lblGrpName"  >@item.GrpName</label> </span> <input type="text" id="GrpName" value="@item.GrpName" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Group Code", format: @<text>  <span  class="display-mode"> <label id="lblGroupCode"  >@item.GroupCode</label> </span> <input type="text" id="GroupCode" value="@item.GroupCode" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Branch Code", format: @<text> <span  class="display-mode"> <label id="lblBranchCode">@item.BranchCode</label> </span>  <input type="text" id="BranchCode" value="@item.BranchCode" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(header: "Village", format: @<text> <span  class="display-mode"> <label id="lblVillage">@item.Village</label> </span>  <input type="text" id="Village" value="@item.Village" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(header: "Net Members", format: @<text>  <span  class="display-mode"> <label id="lblNet_Members"  >@item.Net_Members</label> </span> <input type="text" id="Net_Members" value="@item.Net_Members" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Distance", format: @<text>  <span  class="display-mode"> <label id="lblDistance"  >@item.Distance</label> </span> <input type="text" id="Distance" value="@item.Distance" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Status", format: @<text> <span  class="display-mode"> <label id="lblGStatus">@item.GStatus</label> </span>  <input type="text" id="GStatus" value="@item.GStatus" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(header: "Staff ID", format: @<text> <span  class="display-mode"> <label id="lblStaffID">@item.StaffID</label> </span>  <input type="text" id="StaffID" value="@item.StaffID" class="edit-mode" /> </text>, style: "col2Width"),
+
+                 webGrid.Column(header: "Formed By", format: @<text>  <span  class="display-mode"> <label id="lblFormedBy"  >@item.FormedBy</label> </span> <input type="text" id="FormedBy" value="@item.FormedBy" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Meeting Place", format: @<text>  <span  class="display-mode"> <label id="lblMeetingPlaceAddress"  >@item.MeetingPlaceAddress</label> </span> <input type="text" id="MeetingPlaceAddress" value="@item.MeetingPlaceAddress" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "GType", format: @<text> <span  class="display-mode"> <label id="lblGType">@item.GType</label> </span>  <input type="text" id="GType" value="@item.GType" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(header: "DOC", format: @<text> <span  class="display-mode"> <label id="lblDOC">@item.DOC</label> </span>  <input type="text" id="DOC" value="@item.DOC" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(format: @<text>  
+                                <button class="edit-user display-mode" style="background-color: #428bca;font-weight: bold" >Edit</button>  
+                                <button class="save-user edit-mode" style="background-color:lightgreen" >Save</button>  
+                                <button class="cancel-user edit-mode" style="background-color:orangered">Cancel</button>  
+                            </text>, style: "col3Width", canSort: false)))
+           }
+           else
+           {
+            @webGrid.GetHtml(
+                 htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+                 columns: webGrid.Columns(
+                 webGrid.Column(header: "Group ID", format: @<text>  <span  class="display-mode">@item.GroupID </span> <label id="lblGroupID" class="edit-mode">@item.GroupID</label> </text>, style: "col1Width"),
+                 webGrid.Column(header: "Group Name", format: @<text>  <span  class="display-mode"> <label id="lblGrpName"  >@item.GrpName</label> </span> <input type="text" id="GrpName" value="@item.GrpName" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Group Code", format: @<text>  <span  class="display-mode"> <label id="lblGroupCode"  >@item.GroupCode</label> </span> <input type="text" id="GroupCode" value="@item.GroupCode" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Branch Code", format: @<text> <span  class="display-mode"> <label id="lblBranchCode">@item.BranchCode</label> </span>  <input type="text" id="BranchCode" value="@item.BranchCode" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(header: "Village", format: @<text> <span  class="display-mode"> <label id="lblVillage">@item.Village</label> </span>  <input type="text" id="Village" value="@item.Village" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(header: "Net Members", format: @<text>  <span  class="display-mode"> <label id="lblNet_Members"  >@item.Net_Members</label> </span> <input type="text" id="Net_Members" value="@item.Net_Members" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Distance", format: @<text>  <span  class="display-mode"> <label id="lblDistance"  >@item.Distance</label> </span> <input type="text" id="Distance" value="@item.Distance" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Status", format: @<text> <span  class="display-mode"> <label id="lblGStatus">@item.GStatus</label> </span>  <input type="text" id="GStatus" value="@item.GStatus" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(header: "Staff ID", format: @<text> <span  class="display-mode"> <label id="lblStaffID">@item.StaffID</label> </span>  <input type="text" id="StaffID" value="@item.StaffID" class="edit-mode" /> </text>, style: "col2Width"),
+
+                 webGrid.Column(header: "Formed By", format: @<text>  <span  class="display-mode"> <label id="lblFormedBy"  >@item.FormedBy</label> </span> <input type="text" id="FormedBy" value="@item.FormedBy" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "Meeting Place", format: @<text>  <span  class="display-mode"> <label id="lblMeetingPlaceAddress"  >@item.MeetingPlaceAddress</label> </span> <input type="text" id="MeetingPlaceAddress" value="@item.MeetingPlaceAddress" class="edit-mode" /></text>, style: "col2Width"),
+                 webGrid.Column(header: "GType", format: @<text> <span  class="display-mode"> <label id="lblGType">@item.GType</label> </span>  <input type="text" id="GType" value="@item.GType" class="edit-mode" /> </text>, style: "col2Width"),
+                 webGrid.Column(header: "DOC", format: @<text> <span  class="display-mode"> <label id="lblDOC">@item.DOC</label> </span>  <input type="text" id="DOC" value="@item.DOC" class="edit-mode" /> </text>, style: "col2Width")))
+           }
+    <br/>
+          </div> 
+        </div>
+    </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript">
+            $(function () {
+                $('.edit-mode').hide();
+                $('.edit-user, .cancel-user').on('click', function () {
+                    var tr = $(this).parents('tr:first');
+                    tr.find('.edit-mode, .display-mode').toggle();
+                });
+
+                $('.save-user').on('click', function () {
+                    var tr = $(this).parents('tr:first');
+
+                    var GroupID = tr.find("#lblGroupID").html();
+                    var GroupCode = tr.find("#GroupCode").val();
+                    var GrpName = tr.find("#GrpName").val();
+                    var BranchCode = tr.find("#BranchCode").val();
+
+                    var Village = tr.find("#Village").val();
+                    var Net_Members = tr.find("#Net_Members").val();
+                    var Distance = tr.find("#Distance").val();
+                    var GStatus = tr.find("#GStatus").val();
+                    var StaffID = tr.find("#StaffID").val();
+
+                    var FormedBy = tr.find("#FormedBy").val();
+                    var MeetingPlaceAddress = tr.find("#MeetingPlaceAddress").val();
+                    var GType = tr.find("#GType").val();
+                    var DOC = tr.find("#DOC").val();
+
+                    tr.find("#lblGroupCode").text(GroupCode);
+                    tr.find("#lblGrpName").text(GrpName);
+                    tr.find("#lblBranchCode").text(BranchCode);
+
+                    tr.find("#lblVillage").text(Village);
+                    tr.find("#lblNet_Members").text(Net_Members);
+                    tr.find("#lblDistance").text(Distance);
+                    tr.find("#lblGStatus").text(GStatus);
+                    tr.find("#lblStaffID").text(StaffID);
+
+                    tr.find("#lblFormedBy").text(FormedBy);
+                    tr.find("#lbMeetingPlaceAddress").text(MeetingPlaceAddress);
+                    tr.find("#lblGType").text(GType);
+                    tr.find("#lblDOC").text(DOC);
+
+
+                    tr.find('.edit-mode, .display-mode').toggle();
+                    
+                var UserModel = GroupID + "," +
+                    GroupCode + "," +
+                    BranchCode + "," +
+                    Village + "," +
+                    Net_Members + "," +
+                    DOC + "," +
+                    Distance + "," +
+                    GStatus + "," +
+                    StaffID + "," +
+                    FormedBy + "," +
+                    MeetingPlaceAddress + "," +
+                    GType + "," +
+                    GrpName;
+                                                      
+                    $.ajax({
+                        url: '@Url.Action("EditGroup", "Group")',
+                        data: { UserModel: UserModel },
+                        type: 'GET',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            if (data == 'Success') {
+                                $.ajax({
+                                    url: '@Url.Action("GrpList", "Group")',
+                                 type: 'GET',
+                                 contentType: 'application/json; charset=utf-8',
+                                 success: function (data) {
+
+                                 }
+                             });
+                             alert("Successfully updated Staff details");
+                            }
+                            else if (data == 'RoleIssue')
+                            {
+                                alert("Your not Admin to Change/Edit details");
+                            }
+                            else {
+                                alert("Failed to update please try again");
+                            }
+                     }
+                                                       });
+
+                                                    });
+                                                })
+    </script>
+</body>
+</html>

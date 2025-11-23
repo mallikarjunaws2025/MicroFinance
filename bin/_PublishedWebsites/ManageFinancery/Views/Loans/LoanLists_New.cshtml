@@ -1,0 +1,55 @@
+@model IEnumerable<TestApp.DB.Loan>
+@{
+    ViewBag.Title = "Loan Lists";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h2>Loan Lists</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr style="background-color: #428bca; color: white;">
+                    <th>Loan ID</th>
+                    <th>Member ID</th>
+                    <th>Loan Amount</th>
+                    <th>Balance Amount</th>
+                    <th>Rate of Interest</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var loan in Model)
+                    {
+                        <tr>
+                            <td>@loan.LoanID</td>
+                            <td>@loan.MbrId</td>
+                            <td>Rs. @loan.Loan_Amount</td>
+                            <td>Rs. @loan.Balance_Amount</td>
+                            <td>@loan.RateOfInterest%</td>
+                            <td>
+                                @if (loan.Status == 1)
+                                {
+                                    <span class="label label-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="label label-default">Inactive</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">No loan records found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

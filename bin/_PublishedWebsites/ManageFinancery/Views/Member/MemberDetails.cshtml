@@ -1,0 +1,255 @@
+﻿@model TestApp.VModels.Member.MemberViewModel
+@{
+    ViewBag.Title = "MemberDetails";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<html>
+<head>
+    <title>
+        <h3>Member Details</h3>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Scripts/Stylesheet.css" rel="stylesheet" />
+</head>
+<body>
+    @using (Html.BeginForm("MemberDetails", "Member",FormMethod.Post))
+    {        
+        <div class="container">   <h3>Member Records</h3>
+            <div style="margin-top: 1%;"> <label >Select Group Name&nbsp</label>@Html.DropDownListFor(x => Model.GrpCode, new SelectList(Model.GrpNameList, "Value", "Text"), "--All Groups--", htmlAttributes: new { @class = "btn btn-primary",@style="width: 150px;", @id = "GrpCode" })&nbsp
+            <label >Select Staff Name&nbsp</label>@Html.DropDownListFor(x => Model.StaffMbrList, new SelectList(Model.StaffMbrList, "Value", "Text"), "--All Members--", htmlAttributes: new { @class = "btn btn-primary",@style="width: 150px;", @id = "StaffId" })
+       </div> <br /> <br /> <br /> 
+            <div class="form-control" style="height:auto; overflow:auto;margin-left:15%;">
+            <table class="table table-bordered table-hover" id="mbrtbl">
+                <thead>
+                    <tr style="background-color: #428bca;color: #1b0a0a;">
+                        <th>Sl. No.
+                        </th>
+                        <th>Group Name
+                        </th>
+                        <th>Member Name
+                        </th>
+                        <th>Husband Name
+                        </th>
+                        <th>Age
+                        </th>
+                        <th>Status
+                        </th>
+                        <th>Withdraw Date
+                        </th>
+                        <th>Staff Name
+                        </th>
+                        <th>Address 
+                        </th>
+                        <th>Nominee 
+                        </th>
+                        <th>PhoneNo2 
+                        </th>
+                        <th>Action 
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="tbody">
+                </tbody>
+            </table>
+            </div><br />
+</div>  
+        
+        
+    }      
+</body>
+</html>
+
+<script type="text/javascript">
+    //Load Data in Table when documents is read
+   
+    $(document).ready(function () {
+        loadData();
+    });
+
+    $("#GrpCode").change(function () {
+        loadData();
+    });
+    $("#StaffId").change(function () {
+        loadData();
+    });
+
+
+    //Load Data function
+    function loadData() {
+        var selectedGrpCode = $("#GrpCode :selected").val();
+        var vMbrId = $("#StaffId").val()
+        $.ajax({
+            url: '@Url.Action("MemberList","Member")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            async: true,
+            data: { sGrpCode: selectedGrpCode, sStaffId: vMbrId },
+            catch: false,
+            dataType: "json",
+            success: function (result) {
+
+                var html = '';
+                $.each(result, function (key, item) {
+                    html += '<tr ondblclick="loadloanPage(' + item.MbrId + ')"  id=' + item.MbrId + '>';
+                    html += '<td>' + item.MbrId + '</td>';
+                    html += '<td>' + item.GrpName + '</td>';
+                    html += '<td>' + item.MbrName + '</td>';
+                    html += '<td>' + item.Husbandname + '</td>';
+                    html += '<td>' + item.Age + '</td>';
+                    html += '<td>' + item.MbrStatus + '</td>';
+                    html += '<td>' + item.WithdrawDt + '</td>';
+                    html += '<td>' + item.StaffName + '</td>';
+                    html += '<td>' + item.MbrAddress + '</td>';
+                    html += '<td>' + item.Nominee + '</td>';
+                    html += '<td>' + item.PhoneNo2 + '</td>';
+                    
+                    if ('@ViewBag.IsAdmin' == 'True') {
+                        html += '<td><a href="#" onclick="return getMbrbyID(' + item.MbrId + ')">Edit</a> | <a href="#" onclick="Delele(' + item.MbrId + ')">Delete</a> <br/> <a href="#" style="font-size: 12px;" onclick="LoanLaterDisbus(' + item.MbrId + ')">Loan Disbus</a></td>';
+                    }
+                    else {
+                        html += '<td><a href="#" style="font-size: 12px;" onclick="LoanLaterDisbus(' + item.MbrId + ')">Loan Disbus</a></td>';
+                    }
+                    
+                    html += '</tr>';
+                });
+                $('.tbody').html(html);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+    //Function for getting the Data Based upon Employee ID
+    function ALRAdjust(MbrID) {
+        $.ajax({
+            url: '@Url.Action("GetMember","Member")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            data: { iMbrID: MbrID },
+            catch: false,
+            success: function (result) {
+                if (result == "True") {
+                    window.location.href = '@Url.Action("EditMember","Member")';
+                }
+                else {
+                    alert("Sorry, unable to process your request");
+                }
+            },
+            error: function (errormessage) {
+                alert("Error while process your request");
+            }
+        });
+        return false;
+    }
+
+   @* $("#mbrtbl").dblclick(function () {
+
+        debugger;
+        alert('Row dblclicked');
+
+     
+        var row = $(this).closest("tr");
+        $("#mbrtbl td").css("background-color", "white");
+        row.find("td").css("background-color", "Aqua");
+
+
+        var LoanID = $(this).attr('id');
+        alert(LoanID);
+        //var baseUrl = '@Url.Content("~/")';            
+        //window.open(baseUrl + "Loans/Partialload?TabName=HistList," + LonId +"?GrpID=''", "_blank", "width=800,height=500");
+        window.open("Loans/Partialload?TabName=LoansList," + LoanID, "_blank", "width=1000,height=500");
+    });*@
+     
+    //Function for getting the Data Based upon Employee ID
+    function getMbrbyID(EmpID) {
+        window.open("/Member/EditMember?iMbrID=" + EmpID, "_blank", "width=1000,height=500");
+       
+       @* $.ajax({
+            url: '@Url.Action("GetMember","Member")',
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            data: { iMbrID: EmpID },
+            catch: false,
+            success: function (result) {               
+                if (result == "True") {
+                    window.location.href = '@Url.Action("EditMember","Member")';
+                }
+                else {
+                    alert("Sorry, unable to process your request");
+                }
+            },
+            error: function (errormessage) {
+                alert("Error while process your request");
+            }
+        });*@
+        return false;
+    }
+
+
+
+    //function for deleting employee's record
+    function Delele(ID) {
+        var ans = confirm("Are you sure you want to delete this Record?");
+        if (ans) {
+            $.ajax({
+                url: '@Url.Action("RemoveMember","Member")',
+                type: "Get",
+                contentType: "application/json;charset=utf-8",
+                async: true,
+                data: { iMbrID: ID },
+                catch: false,
+                success: function (result) {
+                    if (result == '0')
+                    {
+                        alert("Successfully Deleted Member : "+ iMbrID);
+                    }
+                    else {
+                        alert('Unable to delete due to relationship with loans and collections');
+                    }
+                    loadData();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+    }
+    function loadloanPage(ID) {
+
+        var row = $(this).closest("tr");
+        $("#WebGrid td").css("background-color", "white");
+        row.find("td").css("background-color", "Aqua");
+        window.open("/Loans/Partialload?TabName=LoansList," + ID, "_blank", "width=1000,height=500");
+
+    }
+
+    //function for deleting employee's record
+    function LoanLaterDisbus(ID) {
+        
+            $.ajax({
+                url: '@Url.Action("LoanLaterDisbus","Loans")',
+                type: "Get",
+                contentType: "application/json;charset=utf-8",
+                async: true,
+                data: { iMbrID: ID },
+                catch: false,
+                success: function (result) {
+                    if (result == "Yes") {
+                        alert("Member already have one loan and still its not closed");
+                        return;// window.location.href = '@Url.Action("MemberDetails", "Member")';
+                    }
+                    else {
+                        window.open("/Loans/LoansDisbus?iMbrID=" + ID, "_blank", "width=1000,height=500");                       
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+    }
+</script>
+
+

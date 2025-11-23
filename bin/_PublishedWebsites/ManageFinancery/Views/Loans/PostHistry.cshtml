@@ -1,0 +1,32 @@
+﻿@model IEnumerable<TestApp.DB.Loan_Cols>
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    ViewBag.Title = "PostHistry";
+}
+ <div id="PartialViewhtmlHistList">
+     @{Html.RenderAction("_PostingHistory", Model);}
+</div>
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript">
+
+   @*     $(document).ready(function () {
+
+            $.ajax({
+                url: '@Url.Action("Partialload","Loans")',
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                data: { "TabName": "HistList" },
+                catch: false,
+                success: function (result) {
+
+                    debugger;
+                    $('#PartialViewhtmlHistList').html(result);
+                },
+                error: function (errormessage) {
+                    alert("Error while process your request");
+                }
+            });
+ 
+        });*@
+</script>

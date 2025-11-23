@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "ErrorPage";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+    <<head>
+        <title>ErrorPage</title>
+     </head>
+<h2>ErrorPage</h2>
+@using (Html.BeginForm("ErrorPage", "Group", FormMethod.Post))
+{
+    <div style="color: rosybrown; font-size: medium">
+        Error while processing your request please try again by clicking bellow link.<br />
+      <h3><u>  @Html.ActionLink("Go to previous page.", "ErrorPage", "Group")</u></h3>
+    </div>
+}

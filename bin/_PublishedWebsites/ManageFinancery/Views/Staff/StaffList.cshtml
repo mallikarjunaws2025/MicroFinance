@@ -1,0 +1,127 @@
+﻿@model IEnumerable<TestApp.DB.Staff>
+
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    WebGrid webGrid = new WebGrid(source: Model, canPage: true, canSort: false);
+}
+ 
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>Index</title>
+    <style type="text/css">
+       
+        .label {
+            color: grey;
+        }
+        .Grid {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            margin-top:5%;
+        }
+ 
+        .Grid th {
+            background-color: #428bca;
+            font-weight: bold;
+        }
+ 
+        .Grid th, .Grid td {
+            padding: 5px;
+            width: 150px;
+            border: 1px solid #ccc;
+        }
+ 
+        .Grid, .Grid table td {
+            border: 0px solid #ccc;
+        }
+ 
+        .Grid th a, .Grid th a:visited {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+          <div class="container" ;border-color: "darkgrey";border-width:"2px";">
+    <div class="well form-horizontal" style="margin-top: 3%;">
+        <h2>Staff List</h2>
+      <div style="width:100%;overflow:auto">
+    @webGrid.GetHtml(
+        htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+        columns: webGrid.Columns(
+                 webGrid.Column(header: "StaffID", format: @<text>  <span  class="display-mode">@item.StaffID </span> <label id="lblStaffID" class="edit-mode">@item.StaffID</label> </text>, style: "col1Width" ),
+                 webGrid.Column(header: "Staff Name", format: @<text>  <span  class="display-mode"> <label id="lblStaffName"  >@item.StaffName</label> </span> <input type="text" id="StaffName" value="@item.StaffName" class="edit-mode" /></text>, style: "col2Width"),  
+                 webGrid.Column(header: "DOB", format: @<text>  <span  class="display-mode"> <label id="lblDOB"  >@item.DOB</label> </span> <input type="text" id="DOB" value="@item.DOB" class="edit-mode" /></text>, style: "col2Width"),  
+                 webGrid.Column(header: "DOJ", format: @<text> <span  class="display-mode"> <label id="lblDOJ">@item.DOJ</label> </span>  <input type="text" id="DOJ" value="@item.DOJ" class="edit-mode" /> </text>, style: "col2Width"),   
+                 webGrid.Column(header: "Status", format: @<text> <span  class="display-mode"> <label id="lblStatus">@item.Status</label> </span>  <input type="text" id="Status" value="@item.Status" class="edit-mode" /> </text>, style: "col2Width"),   
+                 webGrid.Column(format: @<text>  
+                                <button class="edit-user display-mode" style="background-color: #428bca;font-weight: bold" >Edit</button>  
+                                <button class="save-user edit-mode" style="background-color:lightgreen" >Save</button>  
+                                <button class="cancel-user edit-mode" style="background-color:orangered">Cancel</button>  
+                            </text>,  style: "col3Width" , canSort: false)))
+
+    <br/>
+             </div>
+          </div> 
+        </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+     <script type="text/javascript" >
+         $(function () {
+             $('.edit-mode').hide();
+             $('.edit-user, .cancel-user').on('click', function () {
+                 var tr = $(this).parents('tr:first');
+                 tr.find('.edit-mode, .display-mode').toggle();
+             });
+
+             $('.save-user').on('click', function () {
+                 var tr = $(this).parents('tr:first');
+
+                 var StaffID = tr.find("#lblStaffID").html();
+                 var StaffName = tr.find("#StaffName").val();
+                 var DOB = tr.find("#DOB").val();
+                 var DOJ = tr.find("#DOJ").val();
+                 var Status = tr.find("#Status").val();
+
+                 tr.find("#lblStaffID").text(StaffID);
+                 tr.find("#lblStaffName").text(StaffName);
+                 tr.find("#lblDOB").text(DOB);
+                 tr.find("#lblDOJ").text(DOJ);
+                 tr.find("#lblStatus").text(Status);
+
+
+                 tr.find('.edit-mode, .display-mode').toggle();
+                 var UserModel = StaffID 
+                     +","+ StaffName
+                     +","+DOB
+                     +","+ DOJ
+                     +","+ Status
+               
+                 $.ajax({
+                     url: '@Url.Action("EditStaff", "Staff")',
+                     data: { UserModel: UserModel },
+                     type: 'GET',
+                     contentType: 'application/json; charset=utf-8',
+                     success: function (data) {
+                         if (data == 'Success') {
+                             $.ajax({
+                                 url: '@Url.Action("StaffList", "Staff")',
+                                 type: 'GET',
+                                 contentType: 'application/json; charset=utf-8',
+                                 success: function (data) {
+                                     
+                                 }
+                             });
+                             alert("Successfully updated Staff details");
+                         }
+                         else {
+                             alert("Failed to update please try again");
+                         }
+                     }
+                 });
+
+             });
+         })
+</script>  
+</body>
+</html>

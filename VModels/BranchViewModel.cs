@@ -26,8 +26,11 @@ namespace TestApp.VModels
         [DisplayName("State")]
         [Required(ErrorMessage = "Please select State")]
         public string State { get; set; }
-        [DisplayName("State")]
+        [DisplayName("PIN Code")]
+        [Required(ErrorMessage = "Please enter PIN Code")]
         public int PinCode { get; set; }
+        
+        [DisplayName("Branch Manager")]
         public int StaffId { get; set; }
         
         // Staff list for dropdown

@@ -215,39 +215,28 @@ namespace TestApp.Controllers
 
                 ViewBag.IsAdmin = Helper.IsAdmin;
 
-                if ((string.IsNullOrEmpty(sGrpCode) || sGrpCode == "--All Groups--") && iStaffId == 0)
+                // Normalize the group code - handle various "all" representations
+                bool isAllGroups = string.IsNullOrEmpty(sGrpCode) || 
+                                  sGrpCode == "--All Groups--" || 
+                                  sGrpCode == "-- All Groups --" ||
+                                  sGrpCode.Trim() == "";
+
+                // Handle staff ID properly
+                bool isAllStaff = iStaffId <= 0;
+
+                if (isAllGroups && isAllStaff)
                 {
                     objMbr = db.Members.ToList();
                     return Json(objMbr, JsonRequestBehavior.AllowGet);
                 }
-                else if (!string.IsNullOrEmpty(sGrpCode) && iStaffId == 0)
+                else if (!isAllGroups && isAllStaff)
                 {
-
                     var data = from c in db.Members
                                where c.GroupCode == sGrpCode
                                select c;
-
-                    int i = 0;
-                    foreach (var sval in data.ToArray())
-                    {
-                        i = i + 1;
-                        Member NewObj = new Member();
-                        NewObj = (Member)sval;
-                        NewObj.WithdrawDt = NewObj.WithdrawDt.ToString();
-
-                        objMbr.Add(NewObj);
-                    }
-
                     return Json(data.ToList(), JsonRequestBehavior.AllowGet);
                 }
-                else if (iStaffId > 0 && !string.IsNullOrEmpty(sGrpCode) && sGrpCode != "--All Groups--")
-                {
-                    var data = from c in db.Members
-                               where c.StaffId == iStaffId && c.GroupCode == sGrpCode
-                               select c;
-                    return Json(data.ToList(), JsonRequestBehavior.AllowGet);
-                }
-                else if (iStaffId > 0 && string.IsNullOrEmpty(sGrpCode))
+                else if (isAllGroups && !isAllStaff)
                 {
                     var data = from c in db.Members
                                where c.StaffId == iStaffId
@@ -256,7 +245,10 @@ namespace TestApp.Controllers
                 }
                 else
                 {
-                    return Json(db.Members.ToList(), JsonRequestBehavior.AllowGet);
+                    var data = from c in db.Members
+                               where c.StaffId == iStaffId && c.GroupCode == sGrpCode
+                               select c;
+                    return Json(data.ToList(), JsonRequestBehavior.AllowGet);
                 }
 
                 
@@ -367,8 +359,16 @@ namespace TestApp.Controllers
                                    .Where(p => p.MbrId == iMbrID)
                                    .Select(p => p).FirstOrDefault();
 
+                            if (MbrObj == null)
+                            {
+                                // Member not found, return with error
+                                objMbr.IsSucess = "NotFound";
+                                return View(objMbr);
+                            }
 
-                            if (db.Members.Where(c => c.AdharaCardNum == MbrObj.AdharaCardNum.Trim()).ToList().Count > 0)
+                            // Safe null check for AdharaCardNum
+                            if (!string.IsNullOrEmpty(MbrObj.AdharaCardNum) && 
+                                db.Members.Where(c => c.AdharaCardNum == MbrObj.AdharaCardNum.Trim()).ToList().Count > 0)
                             {
                                 objMbr.IsSucess = "A";
                             }
@@ -379,41 +379,65 @@ namespace TestApp.Controllers
                                       .Where(p => p.GroupCode == MbrObj.GroupCode)
                                       .Select(p => p).FirstOrDefault();
 
-                                objMbr.MbrName = MbrObj.MbrName;
+                                objMbr.MbrName = MbrObj.MbrName ?? "";
                                 objMbr.MbrID = iMbrID;
-                                objMbr.GrpCode = MbrObj.GroupCode;
-                                objMbr.HsbndName = MbrObj.Husbandname;
-                                objMbr.Age = (int)MbrObj.Age;
-                                objMbr.MbrStatus = MbrObj.MbrStatus;
-                                objMbr.StaffID = (int)MbrObj.StaffId;
-                                objMbr.MbrAddress = MbrObj.MbrAddress;
-                                objMbr.Gen = MbrObj.Gender;
-                                objMbr.CantactNum = MbrObj.CantactNo;
-                                objMbr.MbrDOJ = MbrObj.DOJ; //Convert.ToString(MbrObj.DOJ.Split('/')[0] + "/" + MbrObj.DOJ.Split('/')[1] + "/" + MbrObj.DOJ.Split('/')[3]);
-                                objMbr.Nominee = MbrObj.Nominee;
-                                objMbr.PhoneNo2 = MbrObj.PhoneNo2;
-                                //DateTime dt = Convert.ToDateTime(MbrObj.WithdrawDt);
-                                //objMbr.WD = dt.Day.ToString();
-                                //objMbr.WM = dt.Month.ToString();
-                                //objMbr.WD = Convert.ToString(dt.Day);
-                                //objMbr.WY = dt.Year.ToString();
+                                objMbr.GrpCode = MbrObj.GroupCode ?? "";
+                                objMbr.HsbndName = MbrObj.Husbandname ?? "";
+                                objMbr.Age = MbrObj.Age ?? 0; // Safe null handling
+                                objMbr.MbrStatus = MbrObj.MbrStatus ?? "";
+                                objMbr.StaffID = MbrObj.StaffId ?? 0; // Safe null handling
+                                objMbr.MbrAddress = MbrObj.MbrAddress ?? "";
+                                objMbr.Gen = MbrObj.Gender ?? "";
+                                objMbr.CantactNum = MbrObj.CantactNo ?? "";
+                                objMbr.MbrDOJ = MbrObj.DOJ ?? "";
+                                objMbr.Nominee = MbrObj.Nominee ?? "";
+                                objMbr.PhoneNo2 = MbrObj.PhoneNo2 ?? "";
+                                objMbr.AdharaCardNum = MbrObj.AdharaCardNum ?? "";
+                                objMbr.RationCardNum = MbrObj.RCardNo ?? "";
 
+                                // Safe date parsing for DOJ
+                                try
+                                {
+                                    if (!string.IsNullOrEmpty(MbrObj.DOJ) && MbrObj.DOJ.Contains("/"))
+                                    {
+                                        string[] dateParts = MbrObj.DOJ.Split('/');
+                                        if (dateParts.Length == 3)
+                                        {
+                                            objMbr.CrM = dateParts[0]; // Month
+                                            objMbr.CrD = dateParts[1]; // Day
+                                            objMbr.CrY = dateParts[2]; // Year
+                                        }
+                                        else
+                                        {
+                                            objMbr.CrD = "01";
+                                            objMbr.CrM = "01";
+                                            objMbr.CrY = "2000";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        objMbr.CrD = "01";
+                                        objMbr.CrM = "01";
+                                        objMbr.CrY = "2000";
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    objMbr.CrD = "01";
+                                    objMbr.CrM = "01";
+                                    objMbr.CrY = "2000";
+                                }
 
-                                objMbr.AdharaCardNum = MbrObj.AdharaCardNum;
-                                objMbr.RationCardNum = MbrObj.RCardNo;
-
-                                //string[] arrDt = Convert.ToString(MbrObj.DOJ).Split('/');
-                                //DateTime dt = new DateTime(Convert.ToInt32(arrDt[2]), Convert.ToInt32(arrDt[1]), Convert.ToInt32(arrDt[0]));
-                                objMbr.CrD = Convert.ToString(MbrObj.DOJ.Split('/')[1]);
-                                objMbr.CrM = Convert.ToString(MbrObj.DOJ.Split('/')[0]);
-                                objMbr.CrY = Convert.ToString(MbrObj.DOJ.Split('/')[2]);
-                                objMbr.GrpCode = MbrObj.GroupCode;
+                                // Don't override GrpCode again - it's already set above
+                                // objMbr.GrpCode = MbrObj.GroupCode; // REMOVED - was causing issues
                             //}
                             logger.Info(Session["UserID"] + ": changed info of this member " + objMbr.MbrName + DateTime.Now);
                             objMbr.IsSucess = "0";
                         }
+
                         return View(objMbr);
                     }
+                    
                     return View(objMbr);
                 }
                 else
@@ -424,8 +448,26 @@ namespace TestApp.Controllers
             catch (Exception ex)
             {
                 logger.Error("Error in EditMember() Get Method" + ex.InnerException);
+                // Create a new model with dropdown lists populated in case of error
+                MemberViewModel errorModel = new MemberViewModel();
+                MicroFinanceEntities db = new MicroFinanceEntities();
+                
+                List<SelectListItem> StaffList = (from p in db.Staffs.AsEnumerable()
+                                                  select new SelectListItem
+                                                  {
+                                                      Text = p.StaffName,
+                                                      Value = p.StaffID.ToString()
+                                                  }).ToList();
+                List<SelectListItem> GrpCodeList = (from p in db.FinGroups.AsEnumerable()
+                                                    select new SelectListItem
+                                                    {
+                                                        Text = p.GrpName,
+                                                        Value = p.GroupCode
+                                                    }).ToList();
+                errorModel.StaffMbrList = StaffList;
+                errorModel.GrpNameList = GrpCodeList;
+                return View(errorModel);
             }
-            return View();
 
         }
 
@@ -450,38 +492,48 @@ namespace TestApp.Controllers
                         Member objCrMbr = new Member();
                         objCrMbr.MbrName = objMbr.MbrName;
                         objCrMbr.GroupCode = Data.GroupCode;
+                        objCrMbr.GrpName = Data.GrpName; // Add group name
                         objCrMbr.Husbandname = objMbr.HsbndName;
                         objCrMbr.Age = objMbr.Age;
                         objCrMbr.MbrStatus = objMbr.MbrStatus;
                         objCrMbr.Gender = objMbr.Gen;
                         objCrMbr.CantactNo = objMbr.CantactNum;
-                        objCrMbr.DOJ = Convert.ToString(objMbr.CrD + "/" + objMbr.CrM + "/" + objMbr.CrY);
-                        objCrMbr.WithdrawDt = Convert.ToString(DateTime.Now); // Convert.ToDateTime(objMbr.CrD + "/" + objMbr.CrM + "/" + objMbr.CrY);
+                        
+                        // Handle DOJ properly - use MbrDOJ if available
+                        if (!string.IsNullOrEmpty(objMbr.MbrDOJ))
+                        {
+                            objCrMbr.DOJ = objMbr.MbrDOJ;
+                        }
+                        else
+                        {
+                            objCrMbr.DOJ = Convert.ToString(objMbr.CrD + "/" + objMbr.CrM + "/" + objMbr.CrY);
+                        }
+                        
+                        objCrMbr.WithdrawDt = Convert.ToString(DateTime.Now);
                         objCrMbr.StaffId = objMbr.StaffID;
+                        
+                        // Get staff name from StaffId
+                        if (objMbr.StaffID > 0)
+                        {
+                            var staff = db.Staffs.FirstOrDefault(s => s.StaffID == objMbr.StaffID);
+                            objCrMbr.StaffName = staff?.StaffName;
+                        }
+                        
                         objCrMbr.MbrAddress = objMbr.MbrAddress;
                         objCrMbr.RCardNo = objMbr.RationCardNum;
-
+                        objCrMbr.AdharaCardNum = objMbr.AdharaCardNum; // Add Adhaar card number
+                        objCrMbr.Nominee = objMbr.Nominee; // Add nominee
+                        objCrMbr.PhoneNo2 = objMbr.PhoneNo2; // Add phone number 2
                         objCrMbr.MbrId = objMbr.MbrID;
                      
                         db.Entry(objCrMbr).State = EntityState.Modified;
                         db.SaveChanges();
                         objMbr.IsSucess = "1";
                         logger.Info(Session["UserID"] + ": changed info of this member " + objMbr.MbrName + DateTime.Now);
-                        List<SelectListItem> StaffList = (from p in db.Staffs.AsEnumerable()
-                                                          select new SelectListItem
-                                                          {
-                                                              Text = p.StaffName,
-                                                              Value = p.StaffID.ToString()
-                                                          }).ToList();
-                        List<SelectListItem> GrpCodeList = (from p in db.FinGroups.AsEnumerable()
-                                                            select new SelectListItem
-                                                            {
-                                                                Text = p.GrpName,
-                                                                Value = p.GroupCode
-                                                            }).ToList();
-                        objMbr.StaffMbrList = StaffList;
-                        objMbr.GrpNameList = GrpCodeList;
-                        objMbr.IsSucess = "1";
+                        
+                        // On successful update, redirect to member list page
+                        TempData["SuccessMessage"] = "Member information updated successfully!";
+                        return RedirectToAction("MemberDetails_New");
                     }
 
             }
@@ -489,6 +541,32 @@ namespace TestApp.Controllers
             {
                 logger.Error("Error in EditMember() Post Method" + ex.InnerException);
                 objMbr.IsSucess = "2";
+                ModelState.AddModelError("", "Error updating member information. Please try again.");
+            }
+            
+            // If we reach here, there was an error - repopulate dropdowns and stay on same page
+            try
+            {
+                MicroFinanceEntities db = new MicroFinanceEntities();
+                List<SelectListItem> StaffList = (from p in db.Staffs.AsEnumerable()
+                                                  select new SelectListItem
+                                                  {
+                                                      Text = p.StaffName,
+                                                      Value = p.StaffID.ToString()
+                                                  }).ToList();
+                List<SelectListItem> GrpCodeList = (from p in db.FinGroups.AsEnumerable()
+                                                    select new SelectListItem
+                                                    {
+                                                        Text = p.GrpName,
+                                                        Value = p.GroupCode
+                                                    }).ToList();
+                objMbr.StaffMbrList = StaffList;
+                objMbr.GrpNameList = GrpCodeList;
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error populating dropdown lists in EditMember() Post Method: " + ex.Message);
+                // Even if dropdown population fails, we still want to show the form with error
             }
             return View(objMbr);
         }
@@ -535,6 +613,25 @@ namespace TestApp.Controllers
         public ActionResult MemberDetails_New()
         {
             return MemberDetails();
+        }
+
+        [HttpGet]
+        public ActionResult EditMember_New(int? id)
+        {
+            if (id.HasValue && id.Value > 0)
+            {
+                return EditMember(id.Value);
+            }
+            else
+            {
+                return RedirectToAction("MemberDetails_New");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditMember_New(MemberViewModel objMbr)
+        {
+            return EditMember(objMbr);
         }
     }
 }

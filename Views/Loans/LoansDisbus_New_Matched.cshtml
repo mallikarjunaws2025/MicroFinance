@@ -1,0 +1,596 @@
+@model TestApp.VModels.Loans.LoanDisbus
+@{
+    ViewBag.Title = "Loan Disbursement";
+    Layout = "~/Views/Shared/_LayoutPage_New.cshtml";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0 text-primary fw-bold">
+            <i class="fas fa-money-bill-wave me-2"></i>Loan Disbursement
+        </h2>
+        <a href="@Url.Action("LoanLists_New", "Loans")" class="btn btn-outline-secondary">
+            <i class="fas fa-list me-2"></i>View All Loans
+        </a>
+    </div>
+
+    <!-- Form Card -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-hand-holding-usd me-2"></i>Loan Information
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    @using (Html.BeginForm("LoansDisbus", "Loans", FormMethod.Post, new { @class = "needs-validation", @id = "myform", @novalidate = "novalidate" }))
+                    {
+                        @Html.HiddenFor(model => model.Date_Of_Disbursement, new { @id = "DOD" })
+                        @Html.HiddenFor(model => model.MbrId, new { @id = "HiddenMbrId" })
+                        @Html.HiddenFor(model => model.Prin_EMI, new { @id = "HiddenPrinEMI" })
+                        @Html.HiddenFor(model => model.Int_EMI, new { @id = "HiddenIntEMI" })
+                        @Html.HiddenFor(model => model.Balance_Amount, new { @id = "HiddenBalanceAmount" })
+                        @Html.HiddenFor(model => model.Expiry_Date, new { @id = "HiddenExpiryDate" })
+                        @Html.HiddenFor(model => model.NextDueDt, new { @id = "HiddenNextDueDt" })
+                        @Html.HiddenFor(model => model.ALRAmt, new { @id = "HiddenALRAmt" })
+                        @Html.HiddenFor(model => model.GrpCode, new { @id = "HiddenGrpCode" })
+                        @Html.HiddenFor(model => model.GrpName, new { @id = "HiddenGrpName" })
+                        @Html.HiddenFor(model => model.GType, new { @id = "HiddenGType" })
+                        @Html.HiddenFor(model => model.StaffName, new { @id = "HiddenStaffName" })
+                        
+                        <!-- Alert Messages -->
+                        <div id="lblmgs"></div>
+
+                        <!-- Group and Member Selection Section -->
+                        <div class="row g-4 mb-4 p-3 bg-light rounded">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Select Group Name <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-users text-primary"></i>
+                                    </span>
+                                    @Html.DropDownListFor(x => Model.GrpCodeList, new SelectList(Model.GrpCodeList, "Value", "Text"), "--All Groups--", new { @class = "form-select", @id = "GrpCode", @required = "required" })
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Select Member Name <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user text-primary"></i>
+                                    </span>
+                                    @Html.DropDownListFor(x => Model.MbrList, new SelectList(Model.MbrList, "Value", "Text"), "--All Members--", new { @class = "form-select", @id = "drMbrId", @required = "required" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-4">
+                            <!-- Member ID -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Member ID</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-id-badge text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.MbrId, new { @class = "form-control", @Value = "0", @readonly = "readonly", @placeholder = "Member ID", @id = "MbrID" })
+                                </div>
+                            </div>
+
+                            <!-- Loan Amount -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Loan Amount <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-rupee-sign text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Loan_Amount, new { @class = "form-control", @Value = "0.00", @placeholder = "Loan Amount", @required = "required", @id = "Loan_Amount" })
+                                </div>
+                            </div>
+
+                            <!-- No Of Days/Weeks -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">No Of Days/Weeks <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-alt text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.NoOfDays, new { @class = "form-control", @placeholder = "No Of Days", @required = "required", @id = "NoOfDays" })
+                                </div>
+                            </div>
+
+                            <!-- Disbursement Date -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Disbursement Date <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-day text-primary"></i>
+                                    </span>
+                                    <input class="form-control" required="required" value="@Model.Date_Of_Disbursement" type="text" id="idDOD" placeholder="Select date">
+                                </div>
+                            </div>
+
+                            <!-- Principal EMI -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Principal EMI <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-rupee-sign text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Prin_EMI, new { @class = "form-control", @Value = "0.00", @placeholder = "Principal EMI", @required = "required", @id = "Prin_EMI" })
+                                </div>
+                            </div>
+
+                            <!-- Total Interest Amount -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Total Interest Amount <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-percentage text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.RateOfInterest, new { @class = "form-control", @Value = "0.00", @placeholder = "Interest Amount", @required = "required", @id = "RateOfInterest" })
+                                </div>
+                            </div>
+
+                            <!-- End Date -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">End Date <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-check text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Expiry_Date, new { @class = "form-control", @placeholder = "End Date", @required = "required", @id = "Expiry_Date" })
+                                </div>
+                            </div>
+
+                            <!-- Processing Fee -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Processing Fee</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-receipt text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Processing_Fee, new { @class = "form-control", @Value = "0.00", @placeholder = "Processing Fee", @id = "Processing_Fee" })
+                                </div>
+                            </div>
+
+                            <!-- GRF Amount -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">GRF Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-piggy-bank text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.GRFAmt, new { @class = "form-control", @Value = "0.00", @placeholder = "GRF Amount", @id = "GRFAmt" })
+                                </div>
+                            </div>
+
+                            <!-- Loan Type -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Loan Type <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-tags text-primary"></i>
+                                    </span>
+                                    @Html.DropDownListFor(model => model.LoanType, new List<SelectListItem> { 
+                                        new SelectListItem { Value = "General", Text = "General" }, 
+                                        new SelectListItem { Value = "Special", Text = "Special" } 
+                                    }, "-Select Loan Type-", new { @class = "form-select", @required = "required", @id = "LoanType" })
+                                </div>
+                            </div>
+
+                            <!-- Other Income -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Other Income</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-coins text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Other_Income, new { @class = "form-control", @Value = "0.00", @placeholder = "Other Income", @id = "Other_Income" })
+                                </div>
+                            </div>
+
+                            <!-- Insurance -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Insurance</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-shield-alt text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Insurance, new { @class = "form-control", @Value = "0.00", @placeholder = "Insurance", @id = "Insurance" })
+                                </div>
+                            </div>
+
+                            <!-- Next Due Date -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Next Due Date <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-plus text-primary"></i>
+                                    </span>
+                                    @Html.TextBoxFor(model => model.NextDueDt, new { @class = "form-control", @placeholder = "Next Due Date", @required = "required", @id = "NextDueDt" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Advanced EMI Section -->
+                        <div class="row g-4 mt-3">
+                            <div class="col-md-12">
+                                <div class="card border-secondary">
+                                    <div class="card-body">
+                                        <div class="form-check mb-3">
+                                            @Html.CheckBox("isActive", false, new { @id = "bAdvancedEMI", @class = "form-check-input" })
+                                            <label class="form-check-label fw-semibold" for="bAdvancedEMI">
+                                                <i class="fas fa-fast-forward text-primary me-1"></i>Advanced EMI
+                                            </label>
+                                        </div>
+                                        <div id="dvPrePaid" style="display:none" class="mt-3">
+                                            <label class="form-label fw-semibold">Advanced EMI Amount</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-rupee-sign text-primary"></i>
+                                                </span>
+                                                @Html.TextBoxFor(model => model.AdvancedEMI, new { @Value = "0", @placeholder = "Advanced EMI", @id = "AdvancedEMI", @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Success Alert -->
+                        <div class="alert alert-success d-none" role="alert" id="success_message">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <span>Success!</span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="row mt-4">
+                            <div class="col-12 text-center">
+                                <button type="button" id="btnSave" class="btn btn-primary btn-lg me-3">
+                                    <i class="fas fa-save me-2"></i>Submit Loan
+                                </button>
+                                <button type="submit" id="btnSbmt" class="btn btn-primary d-none">Submit</button>
+                                <button type="button" id="btnCancel" class="btn btn-outline-secondary btn-lg">
+                                    <i class="fas fa-times me-2"></i>Cancel
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  // Date picker functionality
+  $("#idDOD").click(function () {
+    $("#idDOD").attr("type", "date");
+  });
+
+  $("#idDOD").mouseout(function () {
+    if ($('#idDOD').val() == '') {
+      $("#idDOD").attr("type", "text");
+      $('#idDOD').val('@Model.Date_Of_Disbursement')
+    }
+  });
+
+  $(document).ready(function () {
+    // Handle pre-selected member ID from session
+    if ('@Session["LoanLaterDisbusMbrID"]' != '') {
+      $("#MbrID").val('@Session["LoanLaterDisbusMbrID"]');
+    }
+
+    if ('@Session["SavedMbrID"]' != '') {
+      $("#MbrID").val('@Session["SavedMbrID"]');
+    }
+
+    // Date change validation and calculations
+    $("#idDOD").change(function () {
+      $("#lblmgs").html('');
+      if ($('#idDOD').val().length == 0) {
+        return;
+      }
+      else {
+        var today = new Date();
+        var frmDt = new Date($('#idDOD').val());
+        if (frmDt.getDate() > today.getDate() && frmDt.getMonth() > today.getMonth() && frmDt.getFullYear() == today.getFullYear()) {
+          $("#lblmgs").html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>Future date is not allowed.</div>');
+        }
+        else {
+          $('#DOD').val(frmDt.toLocaleDateString());
+          $("#lblmgs").html('');
+        }
+      }
+    });
+
+    // Advanced EMI change handler
+    $("#AdvancedEMI").change(function () {
+      var PaidWeeks = $('#AdvancedEMI').val();
+      var today = new Date();
+      var DODDt = new Date($('#idDOD').val());
+
+      if (PaidWeeks != '' && parseInt(PaidWeeks) > 0) {
+        PaidWeeks = parseInt(PaidWeeks) + 1;
+        var iDay = parseInt(PaidWeeks) * 7;
+
+        var dat = new Date(DODDt);
+        dat.setDate(dat.getDate() + iDay);
+
+        $('#NextDueDt').val(dat.toLocaleDateString());
+      }
+    });
+
+    // Handle success/error messages from server
+    if ('@Model.IsSucess' == "NewMbr") {
+      // New member flow
+    }
+    else if ('@Model.IsSucess' == "1") {
+      $("#lblmgs").html('<div class="alert alert-success"><i class="fas fa-check-circle me-2"></i>Successfully Saved Loan Details For Member: ' + '@Model.Savings' + '</div>');
+      $('#myform')[0].reset();
+    }
+    else if ('@Model.IsSucess' == "2") {
+      $("#lblmgs").html('<div class="alert alert-danger"><i class="fas fa-exclamation-circle me-2"></i>Failed To Save Loan Details. Please try again.</div>');
+    }
+    else if ('@Model.IsSucess' == "Exist") {
+      $("#lblmgs").html('<div class="alert alert-warning"><i class="fas fa-info-circle me-2"></i>This type of loan is already disbursed.</div>');
+    }
+    else if ('@Model.IsSucess' == "L") {
+      $("#lblmgs").html('<div class="alert alert-danger"><i class="fas fa-ban me-2"></i>This member already has an active loan.</div>');
+      alert("Member Already Have Active Loan");
+    }
+  });
+
+  // Cancel button functionality
+  $("#btnCancel").click(function () {
+    $("form")[0].reset();
+  });
+
+  // Field click/mouseout handlers for resetting placeholder values
+  $("#Loan_Amount").click(function () {
+    if ($("#Loan_Amount").val() == "0.00") {
+      $("#Loan_Amount").val('');
+    } 
+  });
+
+  $("#Loan_Amount").mouseout(function () {
+    if ($("#Loan_Amount").val() == "") {
+      $("#Loan_Amount").val('0.00');
+    }
+  });
+
+  $("#NoOfDays").click(function () {
+    if ($("#NoOfDays").val() == "0") {
+      $("#NoOfDays").val('');
+    }
+  });
+
+  $("#NoOfDays").mouseout(function () {
+    if ($("#NoOfDays").val() == "") {
+      $("#NoOfDays").val('0');
+    }
+  });
+
+  $("#GRFAmt").mouseout(function () {
+    if ($("#GRFAmt").val() == "") {
+      $("#GRFAmt").val('0.00');
+    }
+  });
+
+  $("#GRFAmt").click(function () {
+    if ($("#GRFAmt").val() == "0.00") {
+      $("#GRFAmt").val('');
+    }
+  });
+
+  $("#Insurance").click(function () {
+    if ($("#Insurance").val() == "0.00") {
+      $("#Insurance").val('');
+    }
+  });
+
+  $("#Insurance").mouseout(function () {
+    if ($("#Insurance").val() == "") {
+      $("#Insurance").val('0.00');
+    }
+  });
+
+  $("#Processing_Fee").click(function () {
+    if ($("#Processing_Fee").val() == "0.00") {
+      $("#Processing_Fee").val('');
+    }
+  });
+
+  $("#Processing_Fee").mouseout(function () {
+    if ($("#Processing_Fee").val() == "") {
+      $("#Processing_Fee").val('0.00');
+    }
+  });
+
+  $("#RateOfInterest").mouseout(function () {
+    if ($("#RateOfInterest").val() == "") {
+      $("#RateOfInterest").val('0.00');
+    }
+  });
+
+  $("#RateOfInterest").click(function () {
+    if ($("#RateOfInterest").val() == "0.00") {
+      $("#RateOfInterest").val('');
+    }
+  });
+
+  $("#Other_Income").click(function () {
+    if ($("#Other_Income").val() == "0.00") {
+      $("#Other_Income").val('');
+    }
+  });
+
+  $("#Other_Income").mouseout(function () {
+    if ($("#Other_Income").val() == "") {
+      $("#Other_Income").val('0.00');
+    }
+  });
+
+  $("#AdvancedEMI").click(function () {
+    if ($("#AdvancedEMI").val() == "0") {
+      $("#AdvancedEMI").val('');
+    }
+  });
+
+  $("#AdvancedEMI").mouseout(function () {
+    if ($("#AdvancedEMI").val() == "") {
+      $("#AdvancedEMI").val('0');
+    }
+  });
+
+  // Advanced EMI checkbox toggle
+  $("#bAdvancedEMI").click(function () {
+    if ($("#bAdvancedEMI").is(':checked')) {
+      $('#dvPrePaid').show();
+    }
+    else {
+      $('#dvPrePaid').hide();
+    }
+  });
+
+  // Group selection change handler
+  $("#GrpCode").change(function () {
+    loadData();
+    var mbr = $("#drMbrId :selected").val();
+    $("#MbrID").val(mbr);
+    updateHiddenFields();
+  });
+
+  // Member selection change handler
+  $("#drMbrId").change(function () {
+    var mbr = $("#drMbrId :selected").val();
+    $("#MbrID").val(mbr);
+    updateHiddenFields();
+  });
+
+  // Disbursement date calculations
+  $("#idDOD").focusout(function () {
+    var newDt = new Date($("#idDOD").val());
+    var vDays = parseInt($("#NoOfDays").val() * 7);
+    
+    // Calculate Principal EMI
+    $("#Prin_EMI").val(Math.round(parseFloat($("#Loan_Amount").val()) / parseInt($("#NoOfDays").val())));
+
+    // Calculate End Date
+    newDt.setDate(newDt.getDate() + parseInt(vDays));
+    $("#Expiry_Date").val(newDt.toLocaleDateString());
+
+    // Calculate Next Due Date
+    var newDt2 = new Date($("#idDOD").val());
+    newDt2.setDate(newDt2.getDate() + 7);
+    $('#NextDueDt').val(newDt2.toLocaleDateString());
+    
+    updateHiddenFields();
+  });
+
+  // Form submission validation
+  $("#btnSave").click(function () {
+    var msg = "";
+    
+    if ($("#Loan_Amount").val() == "0.00") {
+      msg = msg + "<br/> Please enter Loan Amount";
+    }
+
+    if ($("#NoOfDays").val() == "0") {
+      msg = msg + "<br/> Please enter No Of Days";
+    }
+
+    if ($("#idDOD").val().length == 0) {
+      msg = msg + "<br/> Please select Disbursement Date";
+    }
+
+    if ($("#Prin_EMI").val() == "0.00") {
+      msg = msg + "<br/> Please check Prin EMI";
+    }
+
+    if ($("#RateOfInterest").val() == "0.00") {
+      msg = msg + "<br/> Please enter Total Interest Amount";
+    }
+
+    if ($("#Expiry_Date").val().length == 0) {
+      msg = msg + "<br/> Please enter End Date";
+    }
+
+    var drpGpID = $("#LoanType option:selected").val();
+    if (drpGpID == "" || drpGpID == '-Select Loan Type-') {
+      msg = msg + "<br/> Please Select Loan Type";
+    }
+
+    if (msg != "") {
+      bootbox.alert(msg);
+    }
+    else {
+      updateHiddenFields();
+      $("#btnSbmt").trigger("click");
+    }
+  });
+
+  // Load member data based on group selection
+  function loadData() {
+    var selectedGrpCode = $("#GrpCode :selected").val();
+
+    $.ajax({
+      url: '@Url.Action("GetLoanMemberList", "Loans")',
+      type: "GET",
+      contentType: "application/json;charset=utf-8",
+      async: true,
+      data: { sGrpCode: selectedGrpCode },
+      catch: false,
+      dataType: "json",
+      success: function (res) {
+        $("#drMbrId").empty();
+        $.each(res, function (index, item) {
+          $("#drMbrId").append($('<option></option>').text(item.Text).val(item.Value));
+        });
+        var mbr = $("#drMbrId :selected").val();
+        $("#MbrID").val(mbr);
+        updateHiddenFields();
+      },
+      error: function (errormessage) {
+        alert(errormessage.responseText);
+      }
+    });
+  }
+
+  // Update hidden fields for form submission
+  function updateHiddenFields() {
+    $("#HiddenMbrId").val($("#MbrID").val());
+    $("#HiddenPrinEMI").val($("#Prin_EMI").val());
+    $("#HiddenExpiryDate").val($("#Expiry_Date").val());
+    $("#HiddenNextDueDt").val($("#NextDueDt").val());
+    
+    // Update group-related hidden fields
+    var selectedGrpCode = $("#GrpCode :selected").val();
+    var selectedGrpName = $("#GrpCode :selected").text();
+    
+    $("#HiddenGrpCode").val(selectedGrpCode);
+    $("#HiddenGrpName").val(selectedGrpName);
+    
+    // Set default group type based on name or use Weekly as default
+    var groupType = 'Weekly';
+    if (selectedGrpName.toLowerCase().includes('daily')) {
+      groupType = 'Daily';
+    } else if (selectedGrpName.toLowerCase().includes('monthly')) {
+      groupType = 'Monthly';
+    }
+    
+    $("#HiddenGType").val(groupType);
+    
+    // Calculate balance amount and other fields
+    var loanAmount = parseFloat($("#Loan_Amount").val()) || 0;
+    var interestAmount = parseFloat($("#RateOfInterest").val()) || 0;
+    var balanceAmount = loanAmount + interestAmount;
+    
+    $("#HiddenBalanceAmount").val(balanceAmount);
+    $("#HiddenALRAmt").val(loanAmount); // Set ALR amount same as loan amount
+  }
+</script>

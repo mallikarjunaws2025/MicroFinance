@@ -1,0 +1,562 @@
+@model TestApp.VModels.Loans.LoanDisbus
+@{
+    ViewBag.Title = "Loans";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Loan Disbursement</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script> 
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>  
+  <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+  <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'>
+  <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
+  <link rel="stylesheet" href="css/style.css">  
+  <style>
+    .drpdwn {
+      width: 43px;
+      height: 30px;
+    }
+    .container {
+      border-color: darkgrey;
+      border-width: 2px;
+    }
+  </style>
+</head>   
+<body>
+  
+<div class="container">
+  @using (Html.BeginForm("LoansDisbus", "Loans", FormMethod.Post, htmlAttributes: new { @class = "well form-horizontal", @id = "myform" }))
+  {              
+    @Html.HiddenFor(model => model.Date_Of_Disbursement, new { @id = "DOD" })
+    @Html.HiddenFor(model => model.MbrId, new { @id = "HiddenMbrId" })
+    @Html.HiddenFor(model => model.Prin_EMI, new { @id = "HiddenPrinEMI" })
+    @Html.HiddenFor(model => model.Int_EMI, new { @id = "HiddenIntEMI" })
+    @Html.HiddenFor(model => model.Balance_Amount, new { @id = "HiddenBalanceAmount" })
+    @Html.HiddenFor(model => model.Expiry_Date, new { @id = "HiddenExpiryDate" })
+    @Html.HiddenFor(model => model.NextDueDt, new { @id = "HiddenNextDueDt" })
+    @Html.HiddenFor(model => model.ALRAmt, new { @id = "HiddenALRAmt" })
+    @Html.HiddenFor(model => model.GrpCode, new { @id = "HiddenGrpCode" })
+    @Html.HiddenFor(model => model.GrpName, new { @id = "HiddenGrpName" })
+    @Html.HiddenFor(model => model.GType, new { @id = "HiddenGType" })
+    @Html.HiddenFor(model => model.StaffName, new { @id = "HiddenStaffName" })
+    
+    <label id="lblmgs"></label>
+
+    <fieldset>     
+      <!-- Form Name -->
+      <legend>
+        <h2><b>Loan Disbursement</b></h2><br>
+         
+        <div style="float:left;margin-top: 1%;"> 
+          <label>Select Group Name&nbsp;</label>
+          @Html.DropDownListFor(x => Model.GrpCodeList, new SelectList(Model.GrpCodeList, "Value", "Text"), "--All Groups--", htmlAttributes: new { @class = "btn btn-primary", @style = "width: 150px;", @id = "GrpCode" })&nbsp;
+          <label>Select Member Name&nbsp;</label>
+          @Html.DropDownListFor(x => Model.MbrList, new SelectList(Model.MbrList, "Value", "Text"), "--All Members--", htmlAttributes: new { @class = "btn btn-primary", @style = "width: 150px;", @id = "drMbrId" })
+        </div> 
+        <br /> <br /> <br /> 
+      </legend>
+
+      <!-- Member ID -->
+      <div class="form-group">
+        <label class="col-md-2 control-label">Member ID</label>  
+        <div class="col-md-3 inputGroupContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+            @Html.TextBoxFor(model => model.MbrId, new { @class = "form-control", @Value = "0", @readonly = "readonly", @placeholder = "Member ID", @required = "required", @id = "MbrID" })
+          </div>
+        </div>
+      </div>
+
+      <!-- Loan Amount -->
+      <div class="form-group">
+        <label class="col-md-2 control-label">Loan Amount</label>  
+        <div class="col-md-3 inputGroupContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+            @Html.TextBoxFor(model => model.Loan_Amount, new { @class = "form-control", @Value = "0.00", @placeholder = "Loan Amount", @required = "required", @id = "Loan_Amount" })
+          </div>
+        </div>
+
+        <label class="col-md-2 control-label">No Of Days/Weeks</label> 
+        <div class="col-md-3 inputGroupContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-hourglass-2"></i></span>
+            @Html.TextBoxFor(model => model.NoOfDays, new { @class = "form-control", @placeholder = "No Of Days", @required = "required", @id = "NoOfDays" })
+          </div>
+        </div>
+      </div>
+      
+      <!-- Disbursement Date and Principal EMI -->
+      <div class="form-group">
+        <label class="col-md-2 control-label">Disbursement Date</label> 
+        <div class="col-md-3 selectContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span> 
+            <input class="form-control" required="required" value="@Model.Date_Of_Disbursement" type="text" id="idDOD">
+          </div>
+        </div>
+
+        <label class="col-md-2 control-label">Prin EMI</label>  
+        <div class="col-md-3 inputGroupContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+            @Html.TextBoxFor(model => model.Prin_EMI, new { @class = "form-control", @Value = "0.00", @placeholder = "Prin EMI", @required = "required", @id = "Prin_EMI" })
+          </div>
+        </div>
+      </div>
+   
+      <div class="form-group">
+        <!-- Interest Rate -->
+        <label class="col-md-2 control-label">Total Interest Amount</label>
+        <div class="col-md-3 selectContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-percent"></i></span> 
+            @Html.TextBoxFor(model => model.RateOfInterest, new { @class = "form-control", @Value = "0.00", @placeholder = "Interest Rate", @required = "required", @id = "RateOfInterest" })
+          </div>
+        </div>
+
+        <!-- End Date -->
+        <label class="col-md-2 control-label">End Date</label> 
+        <div class="col-md-3 inputGroupContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            @Html.TextBoxFor(model => model.Expiry_Date, new { @class = "form-control", @placeholder = "End Date", @required = "required", @id = "Expiry_Date" })
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <!-- Processing Fee -->
+        <label class="col-md-2 control-label">Processing Fee</label>  
+        <div class="col-md-3 inputGroupContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+            @Html.TextBoxFor(model => model.Processing_Fee, new { @class = "form-control", @Value = "0.00", @placeholder = "Processing Fee", @id = "Processing_Fee" })
+          </div>
+        </div>
+
+        <!-- GRF Amount -->
+        <label class="col-md-2 control-label">GRF Amount</label>  
+        <div class="col-md-3 inputGroupContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+            @Html.TextBoxFor(model => model.GRFAmt, new { @class = "form-control", @Value = "0.00", @placeholder = "GRF Amount", @id = "GRFAmt" })
+          </div>
+        </div>
+      </div>
+
+      <!-- Loan Type and Other Income -->
+      <div class="form-group"> 
+        <!-- Loan Type -->
+        <label class="col-md-2 control-label">Loan Type</label>
+        <div class="col-md-3 selectContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-check"></i></span>
+            @Html.DropDownListFor(model => model.LoanType, new List<SelectListItem> { new SelectListItem { Value = "General", Text = "General" }, new SelectListItem { Value = "Special", Text = "Special" } }, "-Select Loan Type-", new { @class = "form-control", @required = "required", @id = "LoanType" })
+          </div>
+        </div>
+
+        <!-- Other Income -->
+        <label class="col-md-2 control-label">Other Income</label>
+        <div class="col-md-3 selectContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+            @Html.TextBoxFor(model => model.Other_Income, new { @class = "form-control", @Value = "0.00", @placeholder = "Other Income", @id = "Other_Income" })
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <!-- Insurance -->
+        <label class="col-md-2 control-label">Insurance</label>
+        <div class="col-md-3 selectContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-rupee"></i></span>
+            @Html.TextBoxFor(model => model.Insurance, new { @class = "form-control", @Value = "0.00", @placeholder = "Insurance", @id = "Insurance" })
+          </div>
+        </div>
+
+        <label class="col-md-2 control-label">Next Due Date</label>  
+        <div class="col-md-3 inputGroupContainer">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            @Html.TextBoxFor(model => model.NextDueDt, new { @class = "form-control", @placeholder = "NextDueDate", @required = "required", @id = "NextDueDt" }) 
+          </div>
+        </div>
+      </div> 
+
+      <div class="form-group"> 
+        <label class="col-md-2 control-label">Advanced EMI <span> </span></label> 
+
+        <div class="col-md-3 selectContainer">
+          <div class="input-group">
+            @Html.CheckBox("isActive", false, new { @id = "bAdvancedEMI" })
+          </div>
+          <div id="dvPrePaid" style="display:none"> 
+            @Html.TextBoxFor(model => model.AdvancedEMI, new { @Value = "0", @placeholder = "Advanced EMI", @id = "AdvancedEMI" })
+          </div>
+        </div>
+      </div> 
+      
+      <!-- Success message -->
+      <label class="alert alert-success" style="display:none" role="alert" id="success_message"> <i class="glyphicon glyphicon-thumbs-up"></i> Success!.</label>
+        
+      <!-- Button -->
+      <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+        <div class="col-md-4 inputGroupContainer">
+          <input type="button" style="float:left" id="btnSave" class="btn btn-warning" value="Submit"/>&nbsp;&nbsp;&nbsp;
+          <input type="submit" style="display:none;" id="btnSbmt" class="btn btn-warning" value="Submit"/>&nbsp;&nbsp;&nbsp;
+          <input type="button" value="Cancel" id="btnCancel" class="btn btn-warning" style="float:right" />
+        </div>
+      </div>
+    </fieldset>
+  }            
+</div>
+ 
+<!-- Scripts -->
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+<script type="text/javascript">
+  // Date picker functionality
+  $("#idDOD").click(function () {
+    $("#idDOD").attr("type", "date");
+  });
+
+  $("#idDOD").mouseout(function () {
+    if ($('#idDOD').val() == '') {
+      $("#idDOD").attr("type", "text");
+      $('#idDOD').val('@Model.Date_Of_Disbursement')
+    }
+  });
+
+  $(document).ready(function () {
+    // Handle pre-selected member ID from session
+    if ('@Session["LoanLaterDisbusMbrID"]' != '') {
+      $("#MbrID").val('@Session["LoanLaterDisbusMbrID"]');
+    }
+
+    if ('@Session["SavedMbrID"]' != '') {
+      $("#MbrID").val('@Session["SavedMbrID"]');
+    }
+
+    // Date change validation and calculations
+    $("#idDOD").change(function () {
+      $("#lblmgs").html('');
+      if ($('#idDOD').val().length == 0) {
+        return;
+      }
+      else {
+        var today = new Date();
+        var frmDt = new Date($('#idDOD').val());
+        if (frmDt.getDate() > today.getDate() && frmDt.getMonth() > today.getMonth() && frmDt.getFullYear() == today.getFullYear()) {
+          $("#lblmgs").html("<h3 style='color: red;'>Future date is not allowed.</h3>");
+        }
+        else {
+          $('#DOD').val(frmDt.toLocaleDateString());
+          $("#lblmgs").html('');
+        }
+      }
+    });
+
+    // Advanced EMI change handler
+    $("#AdvancedEMI").change(function () {
+      var PaidWeeks = $('#AdvancedEMI').val();
+      var today = new Date();
+      var DODDt = new Date($('#idDOD').val());
+
+      if (PaidWeeks != '' && parseInt(PaidWeeks) > 0) {
+        PaidWeeks = parseInt(PaidWeeks) + 1;
+        var iDay = parseInt(PaidWeeks) * 7;
+
+        var dat = new Date(DODDt);
+        dat.setDate(dat.getDate() + iDay);
+
+        $('#NextDueDt').val(dat.toLocaleDateString());
+      }
+    });
+
+    // Handle success/error messages from server
+    if ('@Model.IsSucess' == "NewMbr") {
+      // New member flow
+    }
+    else if ('@Model.IsSucess' == "1") {
+      $("#lblmgs").html("<h3 style='color: green'>Successfully Saved Loan Details For Member :" + '@Model.Savings' + ".</h3>");
+      $('#myform')[0].reset();
+    }
+    else if ('@Model.IsSucess' == "2") {
+      $("#lblmgs").html("<h3 style='color: red'>Failed To Save Loan Details try again.</h3>");
+    }
+    else if ('@Model.IsSucess' == "Exist") {
+      $("#lblmgs").html("<h3 style='color: red'>This type of loan is already disbursed.</h3>");
+    }
+    else if ('@Model.IsSucess' == "L") {
+      $("#lblmgs").html("<h3 style='color: red;'>Already This Member Have Active Loan.</h3>");
+      alert("Member Already Have Active Loan");
+    }
+  });
+
+  // Cancel button functionality
+  $("#btnCancel").click(function () {
+    $("form")[0].reset();
+  });
+
+  // Field click/mouseout handlers for resetting placeholder values
+  $("#Loan_Amount").click(function () {
+    if ($("#Loan_Amount").val() == "0.00") {
+      $("#Loan_Amount").val('');
+    } 
+  });
+
+  $("#Loan_Amount").mouseout(function () {
+    if ($("#Loan_Amount").val() == "") {
+      $("#Loan_Amount").val('0.00');
+    }
+  });
+
+  $("#NoOfDays").click(function () {
+    if ($("#NoOfDays").val() == "0") {
+      $("#NoOfDays").val('');
+    }
+  });
+
+  $("#NoOfDays").mouseout(function () {
+    if ($("#NoOfDays").val() == "") {
+      $("#NoOfDays").val('0');
+    }
+  });
+
+  $("#GRFAmt").mouseout(function () {
+    if ($("#GRFAmt").val() == "") {
+      $("#GRFAmt").val('0.00');
+    }
+  });
+
+  $("#GRFAmt").click(function () {
+    if ($("#GRFAmt").val() == "0.00") {
+      $("#GRFAmt").val('');
+    }
+  });
+
+  $("#Insurance").click(function () {
+    if ($("#Insurance").val() == "0.00") {
+      $("#Insurance").val('');
+    }
+  });
+
+  $("#Insurance").mouseout(function () {
+    if ($("#Insurance").val() == "") {
+      $("#Insurance").val('0.00');
+    }
+  });
+
+  $("#Processing_Fee").click(function () {
+    if ($("#Processing_Fee").val() == "0.00") {
+      $("#Processing_Fee").val('');
+    }
+  });
+
+  $("#Processing_Fee").mouseout(function () {
+    if ($("#Processing_Fee").val() == "") {
+      $("#Processing_Fee").val('0.00');
+    }
+  });
+
+  $("#RateOfInterest").mouseout(function () {
+    if ($("#RateOfInterest").val() == "") {
+      $("#RateOfInterest").val('0.00');
+    }
+  });
+
+  $("#RateOfInterest").click(function () {
+    if ($("#RateOfInterest").val() == "0.00") {
+      $("#RateOfInterest").val('');
+    }
+  });
+
+  $("#Other_Income").click(function () {
+    if ($("#Other_Income").val() == "0.00") {
+      $("#Other_Income").val('');
+    }
+  });
+
+  $("#Other_Income").mouseout(function () {
+    if ($("#Other_Income").val() == "") {
+      $("#Other_Income").val('0.00');
+    }
+  });
+
+  $("#AdvancedEMI").click(function () {
+    if ($("#AdvancedEMI").val() == "0") {
+      $("#AdvancedEMI").val('');
+    }
+  });
+
+  $("#AdvancedEMI").mouseout(function () {
+    if ($("#AdvancedEMI").val() == "") {
+      $("#AdvancedEMI").val('0');
+    }
+  });
+
+  // Advanced EMI checkbox toggle
+  $("#bAdvancedEMI").click(function () {
+    if ($("#bAdvancedEMI").is(':checked')) {
+      $('#dvPrePaid').attr("style", "display:normal");
+    }
+    else {
+      $('#dvPrePaid').attr("style", "display:none");
+    }
+  });
+
+  // Group selection change handler
+  $("#GrpCode").change(function () {
+    loadData();
+    var mbr = $("#drMbrId :selected").val();
+    $("#MbrID").val(mbr);
+    updateHiddenFields();
+  });
+
+  // Member selection change handler
+  $("#drMbrId").change(function () {
+    var mbr = $("#drMbrId :selected").val();
+    $("#MbrID").val(mbr);
+    updateHiddenFields();
+  });
+
+  // Disbursement date calculations
+  $("#idDOD").focusout(function () {
+    var newDt = new Date($("#idDOD").val());
+    var vDays = parseInt($("#NoOfDays").val() * 7);
+    
+    // Calculate Principal EMI
+    $("#Prin_EMI").val(Math.round(parseFloat($("#Loan_Amount").val()) / parseInt($("#NoOfDays").val())));
+
+    // Calculate End Date
+    newDt.setDate(newDt.getDate() + parseInt(vDays));
+    $("#Expiry_Date").val(newDt.toLocaleDateString());
+
+    // Calculate Next Due Date
+    var newDt2 = new Date($("#idDOD").val());
+    newDt2.setDate(newDt2.getDate() + 7);
+    $('#NextDueDt').val(newDt2.toLocaleDateString());
+    
+    updateHiddenFields();
+  });
+
+  // Form submission validation
+  $("#btnSave").click(function () {
+    var msg = "";
+    
+    if ($("#Loan_Amount").val() == "0.00") {
+      msg = msg + "<br/> Please enter Loan Amount";
+    }
+
+    if ($("#NoOfDays").val() == "0") {
+      msg = msg + "<br/> Please enter No Of Days";
+    }
+
+    if ($("#idDOD").val().length == 0) {
+      msg = msg + "<br/> Please select Disbursement Date";
+    }
+
+    if ($("#Prin_EMI").val() == "0.00") {
+      msg = msg + "<br/> Please check Prin EMI";
+    }
+
+    if ($("#RateOfInterest").val() == "0.00") {
+      msg = msg + "<br/> Please enter Total Interest Amount";
+    }
+
+    if ($("#Expiry_Date").val().length == 0) {
+      msg = msg + "<br/> Please enter End Date";
+    }
+
+    var drpGpID = $("#LoanType option:selected").val();
+    if (drpGpID == "" || drpGpID == '-Select Loan Type-') {
+      msg = msg + "<br/> Please Select Loan Type";
+    }
+
+    if (msg != "") {
+      bootbox.alert(msg);
+    }
+    else {
+      updateHiddenFields();
+      $("#btnSbmt").trigger("click");
+    }
+  });
+
+  // Load member data based on group selection
+  function loadData() {
+    var selectedGrpCode = $("#GrpCode :selected").val();
+
+    $.ajax({
+      url: '@Url.Action("GetLoanMemberList", "Loans")',
+      type: "GET",
+      contentType: "application/json;charset=utf-8",
+      async: true,
+      data: { sGrpCode: selectedGrpCode },
+      catch: false,
+      dataType: "json",
+      success: function (res) {
+        $("#drMbrId").empty();
+        $.each(res, function (index, item) {
+          $("#drMbrId").append($('<option></option>').text(item.Text).val(item.Value));
+        });
+        var mbr = $("#drMbrId :selected").val();
+        $("#MbrID").val(mbr);
+        updateHiddenFields();
+      },
+      error: function (errormessage) {
+        alert(errormessage.responseText);
+      }
+    });
+  }
+
+  // Update hidden fields for form submission
+  function updateHiddenFields() {
+    $("#HiddenMbrId").val($("#MbrID").val());
+    $("#HiddenPrinEMI").val($("#Prin_EMI").val());
+    $("#HiddenExpiryDate").val($("#Expiry_Date").val());
+    $("#HiddenNextDueDt").val($("#NextDueDt").val());
+    
+    // Update group-related hidden fields
+    var selectedGrpCode = $("#GrpCode :selected").val();
+    var selectedGrpName = $("#GrpCode :selected").text();
+    
+    $("#HiddenGrpCode").val(selectedGrpCode);
+    $("#HiddenGrpName").val(selectedGrpName);
+    
+    // Set default group type based on name or use Weekly as default
+    var groupType = 'Weekly';
+    if (selectedGrpName.toLowerCase().includes('daily')) {
+      groupType = 'Daily';
+    } else if (selectedGrpName.toLowerCase().includes('monthly')) {
+      groupType = 'Monthly';
+    }
+    
+    $("#HiddenGType").val(groupType);
+    
+    // Calculate balance amount and other fields
+    var loanAmount = parseFloat($("#Loan_Amount").val()) || 0;
+    var interestAmount = parseFloat($("#RateOfInterest").val()) || 0;
+    var balanceAmount = loanAmount + interestAmount;
+    
+    $("#HiddenBalanceAmount").val(balanceAmount);
+    $("#HiddenALRAmt").val(loanAmount); // Set ALR amount same as loan amount
+  }
+</script>
+
+</body>
+</html>

@@ -89,6 +89,7 @@ namespace TestApp.Controllers
 
                 objCrGrp.GrpName = objGrps.GroupName;
                 objCrGrp.GroupCode = objGrps.GroupCode;
+                objCrGrp.BranchCode = objGrps.BranchCode;
                 objCrGrp.RecoveryDay = objGrps.RecoveryDay;
                 objCrGrp.Village = objGrps.Village;
                 objCrGrp.Net_Members = objGrps.TotalMember;
@@ -286,10 +287,25 @@ namespace TestApp.Controllers
                         return RedirectToAction("GrpList_New");
                     }
                     
+                    // Load dropdown lists
+                    List<SelectListItem> StaffList = (from p in db.Staffs.AsEnumerable()
+                                                      select new SelectListItem
+                                                      {
+                                                          Text = p.StaffName,
+                                                          Value = p.StaffID.ToString()
+                                                      }).ToList();
+                    List<SelectListItem> BranchCodeList = (from p in db.Branches.AsEnumerable()
+                                                           select new SelectListItem
+                                                           {
+                                                               Text = p.BranchCode,
+                                                               Value = p.BranchID.ToString()
+                                                           }).ToList();
+                    
                     // Convert FinGroup to Groups model for the view
                     Groups groupModel = new Groups
                     {
                         GroupCode = finGroup.GroupCode,
+                        BranchCode = finGroup.BranchCode,
                         GroupName = finGroup.GrpName,
                         RecoveryDay = finGroup.RecoveryDay,
                         Village = finGroup.Village,
@@ -300,7 +316,9 @@ namespace TestApp.Controllers
                         StaffID = finGroup.StaffID ?? 0,
                         FormedBy = finGroup.FormedBy,
                         MeetingPlaceAddress = finGroup.MeetingPlaceAddress,
-                        GroupType = finGroup.GType
+                        GroupType = finGroup.GType,
+                        StaffMbrList = StaffList,
+                        BranchCodeList = BranchCodeList
                     };
                     
                     ViewBag.GroupID = finGroup.GroupID; // Pass the ID for updating
@@ -333,6 +351,7 @@ namespace TestApp.Controllers
                     {
                         // Update FinGroup with Groups model data
                         finGroup.GroupCode = objGrp.GroupCode;
+                        finGroup.BranchCode = objGrp.BranchCode;
                         finGroup.GrpName = objGrp.GroupName;
                         finGroup.RecoveryDay = objGrp.RecoveryDay;
                         finGroup.Village = objGrp.Village;

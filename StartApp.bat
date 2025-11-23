@@ -15,7 +15,7 @@ REM Build the project
 echo.
 echo Building the project...
 cd /d "%~dp0"
-"%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe" ManageFinancery.csproj /p:Configuration=Release /v:minimal
+"%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" ManageFinancery.csproj /p:Configuration=Release /v:minimal
 
 if %errorlevel% equ 0 (
     echo Build successful!
