@@ -138,7 +138,11 @@ namespace TestApp.Controllers
             try
             {
                 logger.Info($"POST LoansDisbus_New - Starting loan disbursement for Member ID: {objLoans.MbrId}");
-                
+
+                objLoans.NextDueDt = DateTime.ParseExact(objLoans.NextDueDt, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString();
+                objLoans.Date_Of_Disbursement = DateTime.ParseExact(objLoans.Date_Of_Disbursement, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString();
+                objLoans.Expiry_Date = DateTime.ParseExact(objLoans.Expiry_Date, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString();
+
                 // Check model state for validation errors
                 if (!ModelState.IsValid)
                 {
@@ -249,7 +253,7 @@ namespace TestApp.Controllers
                         if (!string.IsNullOrEmpty(objDBLoans.Expiry_Date))
                         {
                             //DateTime exdt = DateTime.Parse(objDBLoans.Expiry_Date, new CultureInfo("en-US", true));
-                            DateTime exdt = DateTime.ParseExact(objDBLoans.Expiry_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                            DateTime exdt = DateTime.ParseExact(objDBLoans.Expiry_Date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                             if (exdt > DateTime.Now)
                             {
                                 objLoanDisbus.IsSucess = "L";
@@ -303,19 +307,11 @@ namespace TestApp.Controllers
                         iStaffID = Convert.ToInt32(objCrMbr.StaffId);
                     }
 
-                    // IntrAmount/NoOfWeeks
-                    // IntrRate%NoOfWeeks
-
-                    //if(!string.IsNullOrEmpty(Convert.ToString(ConfigurationManager.AppSettings["IntrRate"])));
-
-                    //dIntEMIAmt = (((Convert.ToDouble(objLoans.Loan_Amount) * Convert.ToDouble(objLoans.RateOfInterest)) / 100) / Convert.ToInt32(objLoans.NoOfDays));
                     dIntEMIAmt = (Convert.ToDouble(objLoans.RateOfInterest) / Convert.ToInt32(objLoans.NoOfDays));
                     objDBLoans = objDBLoans == null ? new Loan() : objDBLoans;
                     objDBLoans.Int_EMI = dIntEMIAmt.ToString();
 
-                    //objLoans.Date_Of_Disbursement = objLoans.Date_Of_Disbursement.ToString("MM/dd/yyyy");
-                    //NxtDueDt = DateTime.Parse(objLoans.Date_Of_Disbursement, new CultureInfo("en-US", true));
-                    NxtDueDt = DateTime.ParseExact(objLoans.Date_Of_Disbursement, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    NxtDueDt = DateTime.Parse(objLoans.Date_Of_Disbursement);
 
                     if (objGrp.GType.Trim() == "Daily")
                     {
@@ -323,7 +319,7 @@ namespace TestApp.Controllers
                     }
                     else
                     {
-                        NxtDueDt = DateTime.ParseExact(objLoans.NextDueDt, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        NxtDueDt = DateTime.Parse(objLoans.NextDueDt);
                     }
 
 
@@ -357,7 +353,7 @@ namespace TestApp.Controllers
                     objDBLoans.StaffName = sStaffName;
                     objDBLoans.Balance_Interest = Math.Round(Convert.ToDouble(objDBLoans.Int_EMI) * Convert.ToInt32(objDBLoans.NoOfDay)).ToString();
                     objDBLoans.Balance_Interest = objDBLoans.Balance_Interest == null ? "0" : objDBLoans.Balance_Interest;
-                    objDBLoans.NextDueDt = NxtDueDt.ToShortDateString();
+                    objDBLoans.NextDueDt = NxtDueDt.ToString();
                     objDBLoans.LoanType = objLoans.LoanType;
                     objDBLoans.Status = 0;
                     db.Loans.Add(objDBLoans);
@@ -398,7 +394,7 @@ namespace TestApp.Controllers
                     dbLoanCols.Prin_Due = Convert.ToString(dPrinDue) == null ? "0" : Convert.ToString(dPrinDue);
                     dbLoanCols.Int_Due = Convert.ToString(dIntDue) == null ? "0" : Convert.ToString(dIntDue);
                     dbLoanCols.Transact_Date = objDBLoans.Date_Of_Disbursement;
-                    dbLoanCols.Next_Due_Date = DateTime.Parse(objLoans.Date_Of_Disbursement, new CultureInfo("en-US", true)).AddDays(7).ToShortDateString();
+                    dbLoanCols.Next_Due_Date = DateTime.Parse(objLoans.Date_Of_Disbursement).AddDays(7).ToString();
                     dbLoanCols.Upto_Last_Savings = "0.00";
                     dbLoanCols.ALRSavings = Convert.ToString(objLoans.Savings) == null ? "0" : Convert.ToString(objLoans.Savings);
                     dbLoanCols.As_On = Convert.ToString(objLoans.Savings) == null ? "0" : Convert.ToString(objLoans.Savings);
@@ -434,11 +430,11 @@ namespace TestApp.Controllers
 
                             if (objGrp.GType.Trim() == "Daily" && i > 1)
                             {
-                                NxtDueDt = DateTime.ParseExact(dbLoanCols.Next_Due_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture).AddDays(1);
+                                NxtDueDt = DateTime.Parse(dbLoanCols.Next_Due_Date).AddDays(1);
                             }
                             else
                             {
-                                NxtDueDt = DateTime.ParseExact(dbLoanCols.Next_Due_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture).AddDays(7);
+                                NxtDueDt = DateTime.Parse(dbLoanCols.Next_Due_Date).AddDays(7);
                             }
 
                             dbAdvPaidLoanCols.PostedUserID = Convert.ToString(Session["UserID"]);
@@ -630,8 +626,10 @@ namespace TestApp.Controllers
                 
                 try
                 {
-                    var spResult = db.spGetLoanMbrsList(null, null, 0);
+                    // Use the actual filter parameters in the stored procedure call
+                    var spResult = db.spGetLoanMbrsList(sGrpName, sStaffName, iMbrID);
                     RawGetLoanMbrsList = spResult.ToList();
+                    logger.Info($"Stored procedure called with Group: {sGrpName}, Staff: {sStaffName}, Member: {iMbrID}");
                     logger.Info($"Stored procedure returned {RawGetLoanMbrsList.Count} records");
                     
                     if (!RawGetLoanMbrsList.Any())
@@ -656,28 +654,10 @@ namespace TestApp.Controllers
                     return Json(new { error = "Unable to retrieve loan data: " + spEx.Message }, JsonRequestBehavior.AllowGet);
                 }
 
-                // Apply filters
-                if (!string.IsNullOrEmpty(sGrpName))
-                {
-                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.GrpName == sGrpName).ToList();
-                    logger.Info($"After group filter: {RawGetLoanMbrsList.Count} records");
-                }
-
-                if (!string.IsNullOrEmpty(sStaffName))
-                {
-                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.StaffName == sStaffName).ToList();
-                    logger.Info($"After staff filter: {RawGetLoanMbrsList.Count} records");
-                }
-
-                if (iMbrID > 0)
-                {
-                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.MbrId == iMbrID).ToList();
-                    logger.Info($"After member filter: {RawGetLoanMbrsList.Count} records");
-                }
-
+                // Apply additional due date filter if provided
                 if (!string.IsNullOrEmpty(DueDt))
                 {
-                    DateTime dt = DateTime.Parse(DueDt, new CultureInfo("en-US", true));
+                    DateTime dt = DateTime.ParseExact(DueDt, "yyyy-MM-dd", CultureInfo.InvariantCulture);                    
 
                     DueDt = dt.Month.ToString() + "/" + dt.Day.ToString() + "/" + dt.Year.ToString();
 
@@ -821,7 +801,7 @@ namespace TestApp.Controllers
                         objMbr.Gen = objMbr.Gen;
                         objMbr.CantactNum = objMbr.CantactNum;
                         objMbr.MbrDOJ = Convert.ToString(objMbr.CrD + "/" + objMbr.CrM + "/" + objMbr.CrY);
-                        DateTime dt = DateTime.Parse(MbrObj.WithdrawDt, new CultureInfo("en-US", true));
+                        DateTime dt = DateTime.ParseExact(MbrObj.WithdrawDt, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                         objMbr.WD = dt.Day.ToString();
                         objMbr.WM = dt.Month.ToString();
                         objMbr.WD = Convert.ToString(dt.Day);
@@ -952,7 +932,7 @@ namespace TestApp.Controllers
                     Convert.ToString(Session["DeletedBackUpTble"]) == "No"))
                 {
                     //db.spDeleteBackUpTble();
-                    db.spTakeBackUpBeforeLoanPost(objLoan.NextDueDt);
+                    //db.spTakeBackUpBeforeLoanPost(objLoan.NextDueDt);
                     Session["DeletedBackUpTble"] = "Yes";
                 }
 
@@ -976,7 +956,7 @@ namespace TestApp.Controllers
                 Savings = objLoan.ALRSavings;
 
                 //DateTime NxtDueDtTmp = DateTime.Parse(objLoan.NextDueDt, new CultureInfo("en-US", true));
-                DateTime NxtDueDtTmp = DateTime.ParseExact(objLoan.NextDueDt, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                DateTime NxtDueDtTmp = DateTime.Parse(objLoan.NextDueDt);
 
                 DateTime NxtDueDt = new DateTime(Convert.ToInt32(NxtDueDtTmp.Year), Convert.ToInt32(NxtDueDtTmp.Month), Convert.ToInt32(NxtDueDtTmp.Day));
                 if (sGType.Trim() == "Daily")
@@ -1730,7 +1710,7 @@ namespace TestApp.Controllers
 
                         objLoan.Balance_Interest = objLoanDisb.RateOfInterest;
                         objLoan.Balance_Interest = objLoan.Balance_Interest == null ? "0" : objLoan.Balance_Interest;
-                        objLoan.Status = string.IsNullOrEmpty(objLoanDisb.Expiry_Date) ?  DateTime.Parse(objLoanDisb.Expiry_Date, new CultureInfo("en-US", true)) <= DateTime.Now ? 1 : 0 : 0;
+                        objLoan.Status = string.IsNullOrEmpty(objLoanDisb.Expiry_Date) ?  DateTime.ParseExact(objLoanDisb.Expiry_Date, "yyyy-MM-dd", CultureInfo.InvariantCulture) <= DateTime.Now ? 1 : 0 : 0;
                         db.Entry(objLoan).State = EntityState.Modified;
                         db.SaveChanges();
 

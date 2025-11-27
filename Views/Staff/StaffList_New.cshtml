@@ -112,7 +112,7 @@
                                         <th>DOJ</th>
                                         <th>Status</th>
                                         <th>Staff Role</th>
-                                        <th>Actions</th>
+                                        <th class="text-center" style="min-width: 160px;"><i class="fas fa-cogs me-1"></i>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -166,13 +166,10 @@
                                             </td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewStaff(@staff.StaffID)" title="View">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="editStaff(@staff.StaffID, '@staff.StaffName', '@staff.DOB', '@staff.DOJ', '@staff.Status', '@(staff.RolePermission ?? "")', '@(staff.ContactNum ?? "")')" title="Edit">
+                                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="editStaff(@staff.StaffID, '@staff.StaffName', '@staff.DOB', '@staff.DOJ', '@staff.Status', '@(staff.RolePermission ?? "")', '@(staff.ContactNum ?? "")')" title="Edit Staff">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteStaff(@staff.StaffID, '@staff.StaffName')" title="Delete">
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteStaff(@staff.StaffID, '@staff.StaffName')" title="Delete Staff">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </div>

@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="header-right">
-                <a href="@Url.Action("LoansDetails", "Loans")" class="modern-btn modern-btn-outline">
+                <a href="@Url.Action("LoanLists_New", "Loans")" class="modern-btn modern-btn-outline">
                     <i class="bi bi-list"></i>
                     <span>View Loans</span>
                 </a>
@@ -842,6 +842,19 @@ body {
 <script type="text/javascript">
     var datePickerActive = false;
 
+    // Helper function to format date as yyyy-MM-dd (ISO 8601)
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+
     $("#idDOD").on("focus", function () {
         if (!datePickerActive) {
             datePickerActive = true;
@@ -878,7 +891,7 @@ body {
                     $("#lblmgs").html("<h3 style='color: white; background: linear-gradient(45deg, #fed7d7, #feb2b2);'>Future date is not allowed.</h3>");
                 }
                 else {
-                    $('#DOD').val(frmDt.toLocaleDateString());
+                    $('#DOD').val(formatDate(frmDt));
                     $("#lblmgs").html('');
                 }
             }
@@ -896,7 +909,7 @@ body {
                 var dat = new Date(DODDt);
                 dat.setDate(dat.getDate() + iDay);
 
-                $('#NextDueDt').val(dat.toLocaleDateString());
+                $('#NextDueDt').val(formatDate(dat));
             }
         });
 
@@ -1137,13 +1150,13 @@ body {
             // Calculate End Date
             if (vDays > 0) {
                 newDt.setDate(newDt.getDate() + vDays);
-                $("#Expiry_Date").val(newDt.toLocaleDateString());
+                $("#Expiry_Date").val(formatDate(newDt));
             }
 
             // Calculate Next Due Date (7 days from disbursement)
             var nextDue = new Date($(this).val());
             nextDue.setDate(nextDue.getDate() + 7);
-            $('#NextDueDt').val(nextDue.toLocaleDateString());
+            $('#NextDueDt').val(formatDate(nextDue));
         }
     });
 

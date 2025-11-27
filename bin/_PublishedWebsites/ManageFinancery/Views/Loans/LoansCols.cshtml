@@ -194,6 +194,12 @@
                 </div>
                 <div class="control-item">
                     <label>&nbsp;</label>
+                    <button type="button" id="btnRefresh" class="btn btn-primary">
+                        <i class="fas fa-sync-alt me-1"></i>Refresh
+                    </button>
+                </div>
+                <div class="control-item">
+                    <label>&nbsp;</label>
                     <button type="button" id="btnPrint" class="btn btn-info">
                         <i class="fas fa-print me-1"></i>Print
                     </button>
@@ -238,7 +244,7 @@
                     </thead>
                     <tbody class="tbody">
                         <tr>
-                            <td colspan="15" class="text-center">
+                            <td colspan="13" class="text-center">
                                 <div class="spinner-border text-primary" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
@@ -276,22 +282,31 @@
     //Load Data in Table when documents is ready
     var chkCount = 0;
     $(document).ready(function () {
+        console.log('Page ready, loading data...');
         loadData();
     });
 
+    // Add refresh button handler
+    $("#btnRefresh").click(function () {
+        loadData();
+    });
+    
     $("#GrpCode").change(function () {
         $("#lblStaff").html($("#GrpCode :selected").text());
-        loadData();
+        // Auto-refresh removed - user will click refresh button
         $("#lblStaff").html($("#StaffId :selected").text());
     });
     
     $("#StaffId").change(function () {
-        loadData();
+        // Auto-refresh removed - user will click refresh button
         $("#lblStaff").html($("#StaffId :selected").text());
     });
 
-    $("#MbrIDName").keyup(function () {
-        loadData();
+    $("#MbrIDName").keyup(function (e) {
+        // Only auto-refresh on Enter key
+        if (e.keyCode === 13) {
+            loadData();
+        }
     });
 
     //Load Data function
@@ -300,8 +315,25 @@
         var vStaffId = $("#StaffId").val();
         var vMbrId = $("#MbrIDName").val();
         
+        // For initial load, use null values to get all records
+        if (selectedGrpCode === "--All Groups--" || selectedGrpCode === "Select Group") {
+            selectedGrpCode = null;
+        }
+        if (vStaffId === "--All Staff--" || vStaffId === "Select Staff") {
+            vStaffId = null;
+        }
+        if (!vMbrId || vMbrId.trim() === "") {
+            vMbrId = null;
+        }
+        
         // Show loading state
-        $('.tbody').html('<tr><td colspan="15" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div><p class="mt-2">Loading loan data...</p></td></tr>');
+        $('.tbody').html('<tr><td colspan="13" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div><p class="mt-2">Loading loan data...</p></td></tr>');
+        
+        console.log('Loading data with parameters:', {
+            group: selectedGrpCode,
+            staff: vStaffId,
+            member: vMbrId
+        });
         
         $.ajax({
             url: '@Url.Action("LoansList", "Loans")',
@@ -309,34 +341,58 @@
             contentType: "application/json;charset=utf-8",
             async: true,
             data: { sGrpName: selectedGrpCode, sStaffName: vStaffId, sMbrID: vMbrId },
-            catch: false,
+            cache: false,
             dataType: "json",
+            beforeSend: function() {
+                console.log('AJAX request starting...');
+            },
             success: function (result) {
+                console.log('AJAX Success - Raw result:', result);
+                console.log('Result type:', typeof result);
+                console.log('Is array:', Array.isArray(result));
                 var html = '';
                 var vCurrentDue = '';
                 
-                if (result && result.length > 0) {
+                // Check if result has error property
+                if (result && result.error) {
+                    console.error('Server error:', result.error);
+                    html = '<tr><td colspan="13" class="text-center text-danger"><i class="fas fa-exclamation-triangle"></i> Server Error: ' + result.error + '</td></tr>';
+                }
+                else if (result && Array.isArray(result) && result.length > 0) {
+                    console.log('Processing ' + result.length + ' records');
                     $.each(result, function (key, item) {
                         html += '<tr id="rw' + item.LoanID + '">';
                         html += '<td style="display:none" id="tdID' + item.LoanID + '">' + item.LoanID + '</td>';
                         html += '<td style="display:none">' + item.MbrId + '</td>';
-                        html += '<td><strong>' + item.MbrName + '</strong></td>';
-                        html += '<td><span class="badge bg-info">' + item.GrpName + '</span></td>';
-                        html += '<td id="tdLA' + item.LoanID + '"><strong>Rs. ' + parseFloat(item.Actual_Balance).toLocaleString() + '</strong></td>';
-                        html += '<td>' + item.NoOfDay + ' days</td>';
-                        html += '<td id="tdPE' + item.LoanID + '"><span class="badge bg-success">' + item.PaidEMI + '</span></td>';
-                        html += '<td id="tdCA' + item.LoanID + '">Rs. ' + parseFloat(parseFloat(item.Collected_Amount) * parseInt(item.PaidEMI)).toLocaleString() + '</td>';
-                        html += '<td id="tdBL' + item.LoanID + '"><strong class="text-danger">Rs. ' + parseFloat(item.Balance_Amount).toLocaleString() + '</strong></td>';
-                        html += '<td><span class="badge bg-warning text-dark">' + item.Balance_Installment + '</span></td>';
-                        html += '<td id="tdCD' + item.LoanID + '"><strong class="text-primary">Rs. ' + parseFloat(item.Prin_EMI).toLocaleString() + '</strong></td>';
-                        html += '<td><small class="text-muted">' + item.Next_Due_Date + '</small></td>';
+                        html += '<td><strong>' + (item.MbrName || 'N/A') + '</strong></td>';
+                        html += '<td><span class="badge bg-info">' + (item.GrpName || 'N/A') + '</span></td>';
+                        html += '<td id="tdLA' + item.LoanID + '"><strong>Rs. ' + (parseFloat(item.Actual_Balance || 0)).toLocaleString() + '</strong></td>';
+                        html += '<td>' + (item.NoOfDay || 0) + ' days</td>';
+                        html += '<td id="tdPE' + item.LoanID + '"><span class="badge bg-success">' + (item.PaidEMI || 0) + '</span></td>';
+                        html += '<td id="tdCA' + item.LoanID + '">Rs. ' + (parseFloat(parseFloat(item.Collected_Amount || 0) * parseInt(item.PaidEMI || 0))).toLocaleString() + '</td>';
+                        html += '<td id="tdBL' + item.LoanID + '"><strong class="text-danger">Rs. ' + (parseFloat(item.Balance_Amount || 0)).toLocaleString() + '</strong></td>';
+                        html += '<td><span class="badge bg-warning text-dark">' + (item.Balance_Installment || 0) + '</span></td>';
+                        html += '<td id="tdCD' + item.LoanID + '"><strong class="text-primary">Rs. ' + (parseFloat(item.Prin_EMI || 0)).toLocaleString() + '</strong></td>';
+                        html += '<td><small class="text-muted">' + (item.Next_Due_Date || 'N/A') + '</small></td>';
                         html += '<td class="text-center"><input type="checkbox" class="form-check-input LPost" value="Post,' + item.LoanID + '"/></td>';
                         html += '<td class="text-center"><input type="checkbox" id="ck' + item.LoanID + '" class="form-check-input LPre" onchange="SwapValForPrePaid(ck' + item.LoanID + ')" value="PrePaid,' + item.LoanID + '"/></td>';
-                        html += '<td class="text-center"><button class="btn btn-sm btn-outline-primary SPost" onclick="return getbyID(' + item.LoanID + ')"><i class="fas fa-paper-plane"></i></button></td>';
+                        // Admin actions
+                        if (true) { // TODO: Add admin check
+                            html += '<td class="text-center">';
+                            html += '<div class="btn-group" role="group">';
+                            html += '<button class="btn btn-sm btn-outline-success" onclick="editLoan(' + item.LoanID + ')" title="Edit Loan"><i class="fas fa-edit"></i></button>';
+                            html += '<button class="btn btn-sm btn-outline-danger" onclick="deleteLoan(' + item.LoanID + ')" title="Delete Loan"><i class="fas fa-trash"></i></button>';
+                            html += '<button class="btn btn-sm btn-outline-primary SPost" onclick="return getbyID(' + item.LoanID + ')" title="Post Loan"><i class="fas fa-paper-plane"></i></button>';
+                            html += '</div>';
+                            html += '</td>';
+                        } else {
+                            html += '<td class="text-center"><button class="btn btn-sm btn-outline-primary SPost" onclick="return getbyID(' + item.LoanID + ')" title="Post Loan"><i class="fas fa-paper-plane"></i></button></td>';
+                        }
                         html += '</tr>';
                     });
                 } else {
-                    html = '<tr><td colspan="15" class="text-center text-muted"><i class="fas fa-info-circle"></i> No loan data found for the selected criteria.</td></tr>';
+                    console.log('No data received or empty array');
+                    html = '<tr><td colspan="13" class="text-center text-muted"><i class="fas fa-info-circle"></i> No loan data found for the selected criteria.</td></tr>';
                 }
                 
                 $('.tbody').html(html);
@@ -345,8 +401,26 @@
                     DisplayProgressMessage('end');
                 }
             },
-            error: function (errormessage) {
-                $('.tbody').html('<tr><td colspan="15" class="text-center text-danger"><i class="fas fa-exclamation-triangle"></i> Error loading data: ' + errormessage.responseText + '</td></tr>');
+            error: function (xhr, status, error) {
+                console.error('AJAX Error Details:', {
+                    status: status,
+                    error: error,
+                    responseText: xhr.responseText,
+                    statusCode: xhr.status,
+                    readyState: xhr.readyState,
+                    url: '@Url.Action("LoansList", "Loans")'
+                });
+                var errorMessage = 'Connection Error';
+                if (xhr.status === 500) {
+                    errorMessage = 'Server Error (500): ' + (xhr.responseText || error);
+                } else if (xhr.status === 404) {
+                    errorMessage = 'Page Not Found (404)';
+                } else if (xhr.status === 0) {
+                    errorMessage = 'Network Error - Check if server is running';
+                } else if (xhr.responseText) {
+                    errorMessage = xhr.responseText.substring(0, 200);
+                }
+                $('.tbody').html('<tr><td colspan="13" class="text-center text-danger"><i class="fas fa-exclamation-triangle"></i> Error loading data: ' + errorMessage + '</td></tr>');
             }
         });
     }
@@ -376,13 +450,68 @@
         }
     }
 
+    // Function for editing loan - opens edit page in new window
+    function editLoan(loanId) {
+        if (!loanId) {
+            alert('Invalid Loan ID');
+            return false;
+        }
+        console.log('Opening edit page for loan ID:', loanId);
+        // Open edit page in new window similar to old loan list functionality
+        window.open('/Loans/EditLoan?iLoanId=' + loanId, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+        return false;
+    }
+
+    // Function for deleting loan record
+    function deleteLoan(loanId) {
+        if (!loanId) {
+            alert('Invalid Loan ID');
+            return false;
+        }
+        
+        var confirmMsg = 'Are you sure you want to delete this loan record?\n\nLoan ID: ' + loanId + '\n\nThis action cannot be undone.';
+        
+        if (confirm(confirmMsg)) {
+            console.log('Deleting loan ID:', loanId);
+            $.ajax({
+                url: '@Url.Action("RemoveLoan", "Loans")',
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                async: true,
+                data: { iLoanID: loanId },
+                cache: false,
+                success: function (result) {
+                    console.log('Delete result:', result);
+                    if (result === '0') {
+                        alert('Loan record deleted successfully! (Loan ID: ' + loanId + ')');
+                        // Reload the loan data
+                        loadData();
+                    } else if (result === '-1') {
+                        alert('Unable to delete loan due to relationship with collections or other dependencies.');
+                    } else {
+                        alert('Error occurred while deleting the loan record.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Delete error:', { xhr: xhr, status: status, error: error });
+                    var errorMessage = 'Error deleting loan record: ' + error;
+                    if (xhr.responseText) {
+                        errorMessage += '\n' + xhr.responseText;
+                    }
+                    alert(errorMessage);
+                }
+            });
+        }
+        return false;
+    }
+
     // Check Box Select 
     $('#btnSelectAll').click(function () {
         if ($(this).hasClass('allChecked')) {
-            $('input[class="form-check-input LPost"]', '#LoanColstbl').prop('checked', false);
+            $('.LPost', '#LoanColstbl').prop('checked', false);
             $(this).html('<i class="fas fa-check-double me-1"></i>Select All Postings');
         } else {
-            $('input[class="form-check-input LPost"]', '#LoanColstbl').prop('checked', true);
+            $('.LPost', '#LoanColstbl').prop('checked', true);
             $(this).html('<i class="fas fa-times me-1"></i>Unselect All Postings');
         }
         $(this).toggleClass('allChecked');
@@ -398,10 +527,10 @@
 
     $('#btnSelectAllPre').click(function () {
         if ($(this).hasClass('allChecked')) {
-            $('input[class="form-check-input LPre"]', '#LoanColstbl').prop('checked', false);
+            $('.LPre', '#LoanColstbl').prop('checked', false);
             $(this).html('<i class="fas fa-money-check-alt me-1"></i>Select All Pre-Paids');
         } else {
-            $('input[class="form-check-input LPre"]', '#LoanColstbl').prop('checked', true);
+            $('.LPre', '#LoanColstbl').prop('checked', true);
             $(this).html('<i class="fas fa-times me-1"></i>Unselect All Pre-Paids');
         }
         $(this).toggleClass('allChecked');
@@ -478,66 +607,98 @@
         sAdjustment = '';
 
         var bCheckedanybox = false;
+        var selectedLoans = [];
 
-        $('table [type="checkbox"]').each(function (i, chk) {
-            if (chk.checked) {
-                chkCount++;
-                bCheckedanybox = true;
-            }
+        // Collect all selected loans first
+        $('.LPost:checked, .LPre:checked', '#LoanColstbl').each(function (i, chk) {
+            selectedLoans.push(chk);
+            bCheckedanybox = true;
         });
 
         if (!bCheckedanybox) {
-            alert('Please select records to post and try again!');
-            return true;
+            alert('Please select at least one loan record to post!');
+            return false;
         }
+        
+        console.log('Selected loans for posting:', selectedLoans.length);
+        chkCount = selectedLoans.length;
 
-        if (confirm('Are you sure you want to post all selected records?')) {
+        if (confirm('Are you sure you want to post ' + selectedLoans.length + ' selected loan record(s)?')) {
             DisplayProgressMessage('start');
-            $('table [type="checkbox"]').each(function (i, chk) {
-                if (chk.checked) {
-                    if (chk.value.split(',')[1].trim() != PrevLoanID) {
-                        LoanId = $('#tdID' + $(this).val().trim().split(',')[1]).text();
-                        LoanAmount = $('#tdLA' + $(this).val().trim().split(',')[1]).text();
-                        PaidInstallments = $('#tdPE' + $(this).val().trim().split(',')[1]).text();
-                        PaidAmount = $('#tdCA' + $(this).val().trim().split(',')[1]).text();
-                        BalanceAmount = $('#tdBL' + $(this).val().trim().split(',')[1]).text();
-                        CurrentDue = $('#tdCD' + $(this).val().trim().split(',')[1]).text();
-                        Savings = 0;
-                        sAdjustment = 0;
+            
+            // Process each selected loan
+            $.each(selectedLoans, function(index, chk) {
+                var loanIdFromValue = $(chk).val().trim().split(',')[1];
+                
+                if (loanIdFromValue != PrevLoanID) {
+                    LoanId = $('#tdID' + loanIdFromValue).text();
+                    LoanAmount = $('#tdLA' + loanIdFromValue).text();
+                    PaidInstallments = $('#tdPE' + loanIdFromValue).text();
+                    PaidAmount = $('#tdCA' + loanIdFromValue).text();
+                    BalanceAmount = $('#tdBL' + loanIdFromValue).text();
+                    CurrentDue = $('#tdCD' + loanIdFromValue).text();
+                    Savings = 0;
+                    sAdjustment = 0;
+                    sPostType = $(chk).val().split(',')[0]; // Get Post or PrePaid type
 
-                        if ($('#ck' + $(this).val().trim().split(',')[1]).is(':checked')) {
-                            sPostType = $('#ck' + $(this).val().trim().split(',')[1]).val().split(',')[0];
-                            CurrentDue = LoanAmount;
-                        }
-
-                        $.ajax({
-                            url: '@Url.Action("LoanPosting", "Loans")',
-                            type: "Get",
-                            contentType: "application/json",
-                            data: {
-                                sPostType: sPostType,
-                                LoanId: LoanId, LoanAmount: LoanAmount,
-                                PaidInstallments: PaidInstallments, PaidAmount: PaidAmount,
-                                BalanceAmount: BalanceAmount, CurrentDue: CurrentDue,
-                                Savings: Savings, sAdjustment: sAdjustment
-                            },
-                            catch: false,
-                            success: function (result) {
-                                if (result.trim() == "NoAdj") {
-                                    alert("No sufficient savings balance in this account");
-                                    loadData();
-                                }
-                                else if (result.trim() == "1") {
-                                    chkCount--;
-                                    loadData();
-                                }
-                            },
-                            error: function (errormessage) {
-                                alert('Error while processing your request');
-                            }
-                        });
-                        PrevLoanID = LoanId;
+                    // If it's a prepaid loan, set CurrentDue to LoanAmount
+                    if ($('#ck' + loanIdFromValue).is(':checked')) {
+                        sPostType = $('#ck' + loanIdFromValue).val().split(',')[0];
+                        CurrentDue = LoanAmount;
                     }
+
+                    console.log('Posting loan:', {
+                        LoanId: LoanId,
+                        Type: sPostType,
+                        CurrentDue: CurrentDue,
+                        BalanceAmount: BalanceAmount
+                    });
+
+                    $.ajax({
+                        url: '@Url.Action("LoanPosting", "Loans")',
+                        type: "GET",
+                        contentType: "application/json",
+                        data: {
+                            sPostType: sPostType,
+                            LoanId: LoanId, 
+                            LoanAmount: LoanAmount,
+                            PaidInstallments: PaidInstallments, 
+                            PaidAmount: PaidAmount,
+                            BalanceAmount: BalanceAmount, 
+                            CurrentDue: CurrentDue,
+                            Savings: Savings, 
+                            sAdjustment: sAdjustment
+                        },
+                        cache: false,
+                        success: function (result) {
+                            console.log('Loan posting result for ID ' + LoanId + ':', result);
+                            if (result.trim() == "NoAdj") {
+                                alert("No sufficient savings balance in account for Loan ID: " + LoanId);
+                            }
+                            else if (result.trim() == "1") {
+                                console.log('Successfully posted loan ID:', LoanId);
+                            } else {
+                                console.log('Unexpected result for loan ID ' + LoanId + ':', result);
+                            }
+                            
+                            chkCount--;
+                            if (chkCount <= 0) {
+                                DisplayProgressMessage('end');
+                                loadData(); // Reload data after all posts complete
+                                alert('All selected loan records have been processed successfully!');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error posting loan ID ' + LoanId + ':', error);
+                            chkCount--;
+                            if (chkCount <= 0) {
+                                DisplayProgressMessage('end');
+                                loadData();
+                            }
+                            alert('Error while posting loan ID ' + LoanId + ': ' + error);
+                        }
+                    });
+                    PrevLoanID = LoanId;
                 }
             });
         }
