@@ -3,3 +3,50 @@
 ################################################################################
 
 /.vs/CopilotSnapshots/551C7EA4E7F97441A970D1B585382F36
+
+# Visual Studio Code Copilot and IntelliSense files
+**/CopilotIndices/
+**/CodeChunks.db*
+**/SemanticSymbols.db*
+**/*.vidx
+**/*.db-shm
+**/*.db-wal
+
+# Build and publish directories
+bin/
+obj/
+**/_PublishedWebsites/
+**/bin/Debug/
+**/bin/Release/
+**/obj/Debug/
+**/obj/Release/
+
+# Visual Studio cache/options directory
+.vs/
+.vscode/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Entity Framework generated files
+**/*.Context.cs
+**/*.Designer.cs
+**/*.edmx.diagram
+
+# NuGet packages directory
+packages/
+
+# Log files
+*.log
+NLog.txt
+
+# Temporary files
+*.tmp
+*.temp
+
+# Windows thumbnail cache
+Thumbs.db
+Desktop.ini

@@ -6,18 +6,28 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<div class="container-fluid">
-    <!-- Page Header -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h2 class="text-primary">
-                <i class="bi bi-currency-rupee"></i> Loan Disbursement
-            </h2>
-            <div class="pull-right">
-                <a href="@Url.Action("LoansDetails", "Loans")" class="btn btn-default">
-                    <i class="bi bi-list"></i> View Loans
+<div class="modern-container">
+    <!-- Modern Page Header -->
+    <div class="modern-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="header-icon">
+                    <i class="bi bi-currency-rupee"></i>
+                </div>
+                <div class="header-text">
+                    <h1 class="page-title">Loan Disbursement</h1>
+                    <p class="page-subtitle">Manage and process loan disbursements efficiently</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <a href="@Url.Action("LoansDetails", "Loans")" class="modern-btn modern-btn-outline">
+                    <i class="bi bi-list"></i>
+                    <span>View Loans</span>
                 </a>
             </div>
         </div>
@@ -26,35 +36,51 @@
     <!-- Status Message -->
     <label id="lblmgs"></label>
 
-    <!-- Group & Member Selection -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <i class="bi bi-people"></i> Select Group & Member
-            </h4>
+    <!-- Validation Summary -->
+    <div class="modern-alert modern-alert-error" id="validation-summary" style="display:none;">
+        <div class="alert-icon">
+            <i class="bi bi-exclamation-triangle"></i>
         </div>
-        <div class="panel-body">
-            <div class="row">
+        <div class="alert-content">
+            <h4>Please correct the following errors:</h4>
+            @Html.ValidationSummary(false, "", new { @class = "validation-list" })
+            <ul id="client-validation-list" class="validation-list"></ul>
+        </div>
+    </div>
+
+    <!-- Group & Member Selection -->
+    <div class="modern-card">
+        <div class="card-header">
+            <div class="card-header-icon">
+                <i class="bi bi-people"></i>
+            </div>
+            <div class="card-header-text">
+                <h3>Select Group & Member</h3>
+                <p>Choose group and member for loan disbursement</p>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="GrpCode" class="control-label">
+                    <div class="modern-form-group">
+                        <label for="GrpCode" class="modern-label">
                             <i class="bi bi-people"></i> Group Name
                         </label>
                         @Html.DropDownListFor(x => Model.GrpCodeList, 
                             Model.GrpCodeList != null ? new SelectList(Model.GrpCodeList, "Value", "Text") : new SelectList(new List<SelectListItem>(), "Value", "Text"), 
                             "-- Select Group --", 
-                            new { @class = "form-control", @id = "GrpCode" })
+                            new { @class = "modern-select", @id = "GrpCode" })
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="drMbrId" class="control-label">
+                    <div class="modern-form-group">
+                        <label for="drMbrId" class="modern-label">
                             <i class="bi bi-person"></i> Member Name
                         </label>
                         @Html.DropDownListFor(x => Model.MbrList, 
                             Model.MbrList != null ? new SelectList(Model.MbrList, "Value", "Text") : new SelectList(new List<SelectListItem>(), "Value", "Text"), 
                             "-- Select Member --", 
-                            new { @class = "form-control", @id = "drMbrId" })
+                            new { @class = "modern-select", @id = "drMbrId" })
                     </div>
                 </div>
             </div>
@@ -62,197 +88,239 @@
     </div>
 
     <!-- Loan Details Form -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <i class="bi bi-file-earmark-text"></i> Loan Details
-            </h4>
+    <div class="modern-card">
+        <div class="card-header">
+            <div class="card-header-icon">
+                <i class="bi bi-file-earmark-text"></i>
+            </div>
+            <div class="card-header-text">
+                <h3>Loan Details</h3>
+                <p>Enter comprehensive loan information</p>
+            </div>
         </div>
-        <div class="panel-body">
-            @using (Html.BeginForm("LoansDisbus_New", "Loans", FormMethod.Post, new { @id = "myform", @class = "form-horizontal" }))
+        <div class="card-body">
+            @using (Html.BeginForm("LoansDisbus_New", "Loans", FormMethod.Post, new { @id = "myform", @class = "modern-form" }))
             {
                 @Html.HiddenFor(model => model.Date_Of_Disbursement, new { @id = "DOD" })
 
                 <!-- Member ID Row -->
-                <div class="form-group">
-                    <label for="MbrID" class="col-sm-2 control-label">
-                        <i class="bi bi-person-badge"></i> Member ID
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="bi bi-person"></i></span>
-                            @Html.TextBoxFor(model => model.MbrId, new { @class = "form-control", @Value = "0", @readonly = "readonly", @placeholder = "Member ID", @required = "required", @id = "MbrID" })
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="MbrID" class="modern-label">
+                                <i class="bi bi-person-badge"></i> Member ID
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-person"></i></span>
+                                @Html.TextBoxFor(model => model.MbrId, new { @class = "modern-input", @Value = "0", @readonly = "readonly", @placeholder = "Member ID", @required = "required", @id = "MbrID" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.MbrId, "", new { @class = "field-validation-error" })
                         </div>
                     </div>
                 </div>
 
                 <!-- Loan Amount & Days Row -->
-                <div class="form-group">
-                    <label for="Loan_Amount" class="col-sm-2 control-label">
-                        <i class="bi bi-currency-rupee"></i> Loan Amount
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">₹</span>
-                            @Html.TextBoxFor(model => model.Loan_Amount, new { @class = "form-control", @Value = "0.00", @placeholder = "Loan Amount", @required = "required", @id = "Loan_Amount" })
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="Loan_Amount" class="modern-label">
+                                <i class="bi bi-currency-rupee"></i> Loan Amount
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-currency-dollar"></i></span>
+                                @Html.TextBoxFor(model => model.Loan_Amount, new { @class = "modern-input", @Value = "0.00", @placeholder = "Enter loan amount", @required = "required", @id = "Loan_Amount" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Loan_Amount, "", new { @class = "field-validation-error" })
                         </div>
                     </div>
-                    <label for="NoOfDays" class="col-sm-2 control-label">
-                        <i class="bi bi-calendar-date"></i> No Of Days/Weeks
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="bi bi-hourglass-split"></i></span>
-                            @Html.TextBoxFor(model => model.NoOfDays, new { @class = "form-control", @placeholder = "No Of Days", @required = "required", @id = "NoOfDays" })
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="NoOfDays" class="modern-label">
+                                <i class="bi bi-calendar-date"></i> No Of Days/Weeks
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-hourglass-split"></i></span>
+                                @Html.TextBoxFor(model => model.NoOfDays, new { @class = "modern-input", @placeholder = "Enter duration", @required = "required", @id = "NoOfDays" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NoOfDays, "", new { @class = "field-validation-error" })
                         </div>
                     </div>
                 </div>
 
                 <!-- Disbursement Date & Principal EMI Row -->
-                <div class="form-group">
-                    <label for="idDOD" class="col-sm-2 control-label">
-                        <i class="bi bi-calendar-check"></i> Disbursement Date
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="bi bi-calendar"></i></span>
-                            <input class="form-control" required="required" value="@Model.Date_Of_Disbursement" type="text" id="idDOD" placeholder="Select Date">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="idDOD" class="modern-label">
+                                <i class="bi bi-calendar-check"></i> Disbursement Date
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-calendar"></i></span>
+                                <input class="modern-input" required="required" value="@Model.Date_Of_Disbursement" type="text" id="idDOD" name="Date_Of_Disbursement" placeholder="Select disbursement date">
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Date_Of_Disbursement, "", new { @class = "field-validation-error" })
                         </div>
                     </div>
-                    <label for="Prin_EMI" class="col-sm-2 control-label">
-                        <i class="bi bi-cash-coin"></i> Principal EMI
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">₹</span>
-                            @Html.TextBoxFor(model => model.Prin_EMI, new { @class = "form-control", @Value = "0.00", @placeholder = "Prin EMI", @required = "required", @id = "Prin_EMI" })
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="Prin_EMI" class="modern-label">
+                                <i class="bi bi-cash-coin"></i> Principal EMI
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-currency-dollar"></i></span>
+                                @Html.TextBoxFor(model => model.Prin_EMI, new { @class = "modern-input", @Value = "0.00", @placeholder = "Auto calculated", @required = "required", @id = "Prin_EMI" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Prin_EMI, "", new { @class = "field-validation-error" })
                         </div>
                     </div>
                 </div>
 
                 <!-- Interest & End Date Row -->
-                <div class="form-group">
-                    <label for="RateOfInterest" class="col-sm-2 control-label">
-                        <i class="bi bi-percent"></i> Total Interest Amount
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">%</span>
-                            @Html.TextBoxFor(model => model.RateOfInterest, new { @class = "form-control", @Value = "0.00", @placeholder = "Interest Rate", @required = "required", @id = "RateOfInterest" })
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="RateOfInterest" class="modern-label">
+                                <i class="bi bi-percent"></i> Total Interest Amount
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon">%</span>
+                                @Html.TextBoxFor(model => model.RateOfInterest, new { @class = "modern-input", @Value = "0.00", @placeholder = "Interest amount", @required = "required", @id = "RateOfInterest" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.RateOfInterest, "", new { @class = "field-validation-error" })
                         </div>
                     </div>
-                    <label for="Expiry_Date" class="col-sm-2 control-label">
-                        <i class="bi bi-calendar-x"></i> End Date
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="bi bi-calendar"></i></span>
-                            @Html.TextBoxFor(model => model.Expiry_Date, new { @class = "form-control", @placeholder = "End Date", @required = "required", @id = "Expiry_Date" })
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="Expiry_Date" class="modern-label">
+                                <i class="bi bi-calendar-x"></i> End Date
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-calendar"></i></span>
+                                @Html.TextBoxFor(model => model.Expiry_Date, new { @class = "modern-input", @placeholder = "Auto calculated", @required = "required", @id = "Expiry_Date" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Expiry_Date, "", new { @class = "field-validation-error" })
                         </div>
                     </div>
                 </div>
 
                 <!-- Processing Fee & GRF Amount Row -->
-                <div class="form-group">
-                    <label for="Processing_Fee" class="col-sm-2 control-label">
-                        <i class="bi bi-file-earmark"></i> Processing Fee
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">₹</span>
-                            @Html.TextBoxFor(model => model.Processing_Fee, new { @class = "form-control", @Value = "0.00", @placeholder = "Processing Fee", @id = "Processing_Fee" })
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="Processing_Fee" class="modern-label">
+                                <i class="bi bi-file-earmark"></i> Processing Fee
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-currency-dollar"></i></span>
+                                @Html.TextBoxFor(model => model.Processing_Fee, new { @class = "modern-input", @Value = "0.00", @placeholder = "Processing fee", @id = "Processing_Fee" })
+                            </div>
                         </div>
                     </div>
-                    <label for="GRFAmt" class="col-sm-2 control-label">
-                        <i class="bi bi-bank"></i> GRF Amount
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">₹</span>
-                            @Html.TextBoxFor(model => model.GRFAmt, new { @class = "form-control", @Value = "0.00", @placeholder = "GRF Amount", @id = "GRFAmt" })
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="GRFAmt" class="modern-label">
+                                <i class="bi bi-bank"></i> GRF Amount
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-currency-dollar"></i></span>
+                                @Html.TextBoxFor(model => model.GRFAmt, new { @class = "modern-input", @Value = "0.00", @placeholder = "GRF amount", @id = "GRFAmt" })
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Loan Type & Other Income Row -->
-                <div class="form-group">
-                    <label for="LoanType" class="col-sm-2 control-label">
-                        <i class="bi bi-list-check"></i> Loan Type
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="bi bi-check"></i></span>
-                            @Html.DropDownListFor(model => model.LoanType, new List<SelectListItem> { 
-                                new SelectListItem { Value = "General", Text = "General" }, 
-                                new SelectListItem { Value = "Special", Text = "Special" } 
-                            }, "-Select Loan Type-", new { @class = "form-control", @required = "required", @id = "LoanType" })
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="LoanType" class="modern-label">
+                                <i class="bi bi-list-check"></i> Loan Type
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-check"></i></span>
+                                @Html.DropDownListFor(model => model.LoanType, new List<SelectListItem> { 
+                                    new SelectListItem { Value = "General", Text = "General" }, 
+                                    new SelectListItem { Value = "Special", Text = "Special" } 
+                                }, "-Select Loan Type-", new { @class = "modern-select", @required = "required", @id = "LoanType" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.LoanType, "", new { @class = "field-validation-error" })
                         </div>
                     </div>
-                    <label for="Other_Income" class="col-sm-2 control-label">
-                        <i class="bi bi-plus-circle"></i> Other Income
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">₹</span>
-                            @Html.TextBoxFor(model => model.Other_Income, new { @class = "form-control", @Value = "0.00", @placeholder = "Other Income", @id = "Other_Income" })
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="Other_Income" class="modern-label">
+                                <i class="bi bi-plus-circle"></i> Other Income
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-currency-dollar"></i></span>
+                                @Html.TextBoxFor(model => model.Other_Income, new { @class = "modern-input", @Value = "0.00", @placeholder = "Other income", @id = "Other_Income" })
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Insurance & Next Due Date Row -->
-                <div class="form-group">
-                    <label for="Insurance" class="col-sm-2 control-label">
-                        <i class="bi bi-shield-check"></i> Insurance
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">₹</span>
-                            @Html.TextBoxFor(model => model.Insurance, new { @class = "form-control", @Value = "0.00", @placeholder = "Insurance", @id = "Insurance" })
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="Insurance" class="modern-label">
+                                <i class="bi bi-shield-check"></i> Insurance
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-currency-dollar"></i></span>
+                                @Html.TextBoxFor(model => model.Insurance, new { @class = "modern-input", @Value = "0.00", @placeholder = "Insurance amount", @id = "Insurance" })
+                            </div>
                         </div>
                     </div>
-                    <label for="NextDueDt" class="col-sm-2 control-label">
-                        <i class="bi bi-calendar-plus"></i> Next Due Date
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="bi bi-calendar"></i></span>
-                            @Html.TextBoxFor(model => model.NextDueDt, new { @class = "form-control", @placeholder = "NextDueDate", @required = "required", @id = "NextDueDt" })
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label for="NextDueDt" class="modern-label">
+                                <i class="bi bi-calendar-plus"></i> Next Due Date
+                            </label>
+                            <div class="modern-input-group">
+                                <span class="input-icon"><i class="bi bi-calendar"></i></span>
+                                @Html.TextBoxFor(model => model.NextDueDt, new { @class = "modern-input", @placeholder = "Auto calculated", @required = "required", @id = "NextDueDt" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NextDueDt, "", new { @class = "field-validation-error" })
                         </div>
                     </div>
                 </div>
 
                 <!-- Advanced EMI -->
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">
-                        <i class="bi bi-fast-forward"></i> Advanced EMI
-                    </label>
-                    <div class="col-sm-4">
-                        <div class="checkbox">
-                            @Html.CheckBox("isActive", false, new { @id = "bAdvancedEMI" })
-                            <label for="bAdvancedEMI">Enable Advanced EMI</label>
-                        </div>
-                        <div id="dvPrePaid" style="display:none" class="mt-2">
-                            @Html.TextBoxFor(model => model.AdvancedEMI, new { @Value = "0", @placeholder = "Advanced EMI", @id = "AdvancedEMI", @class = "form-control" })
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="modern-form-group">
+                            <label class="modern-label">
+                                <i class="bi bi-fast-forward"></i> Advanced EMI
+                            </label>
+                            <div class="modern-checkbox-group">
+                                @Html.CheckBox("isActive", false, new { @id = "bAdvancedEMI", @class = "modern-checkbox" })
+                                <label for="bAdvancedEMI" class="checkbox-label">Enable Advanced EMI</label>
+                            </div>
+                            <div id="dvPrePaid" style="display:none" class="mt-3">
+                                @Html.TextBoxFor(model => model.AdvancedEMI, new { @Value = "0", @placeholder = "Advanced EMI amount", @id = "AdvancedEMI", @class = "modern-input" })
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Success message -->
-                <div class="alert alert-success" style="display:none" role="alert" id="success_message">
-                    <i class="bi bi-check-circle"></i> Success!
+                <div class="modern-alert modern-alert-success" style="display:none" id="success_message">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Success! Loan details saved successfully.</span>
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button" id="btnCancel" class="btn btn-default">
-                            <i class="bi bi-x-circle"></i> Cancel
-                        </button>
-                        <button type="button" id="btnSave" class="btn btn-primary">
-                            <i class="bi bi-save"></i> Submit
-                        </button>
-                        <input type="submit" style="display:none;" id="btnSbmt" class="btn btn-primary" value="Submit" />
-                    </div>
+                <div class="button-group">
+                    <button type="button" id="btnCancel" class="modern-btn modern-btn-secondary">
+                        <i class="bi bi-x-circle"></i>
+                        <span>Cancel</span>
+                    </button>
+                    <button type="button" id="btnSave" class="modern-btn modern-btn-primary">
+                        <i class="bi bi-save"></i>
+                        <span>Submit Loan</span>
+                    </button>
+                    <input type="submit" style="display:none;" id="btnSbmt" class="modern-btn modern-btn-primary" value="Submit" />
                 </div>
             }
         </div>
@@ -260,106 +328,514 @@
 </div>
 
 <style>
-/* Custom styling for improved appearance */
-.panel {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.1);
-    margin-bottom: 20px;
+/* Modern UI Styling */
+* {
+    box-sizing: border-box;
 }
 
-.panel-heading {
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #ddd;
-    border-radius: 4px 4px 0 0;
-    padding: 10px 15px;
-}
-
-.panel-title {
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+    background-size: 300% 300%;
+    animation: gradientShift 10s ease infinite;
+    min-height: 100vh;
     margin: 0;
+    padding: 0;
+    color: #2d3748;
+    line-height: 1.6;
+}
+
+@@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.modern-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: transparent;
+}
+
+/* Header Styling */
+.modern-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.page-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.page-subtitle {
     font-size: 16px;
-    color: #333;
+    color: #718096;
+    margin: 5px 0 0 0;
+    font-weight: 400;
 }
 
-.panel-body {
-    padding: 15px;
+/* Enhanced Card Styling */
+.modern-card {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(25px);
+    border-radius: 24px;
+    margin-bottom: 35px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08), 0 5px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
 }
 
-.input-group-addon {
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border-radius: 4px 0 0 4px;
-    color: #555;
+.modern-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.12), 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    padding: 30px 35px;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.card-header-icon {
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 22px;
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.25);
+}
+
+.card-header-text h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.card-header-text p {
+    font-size: 15px;
+    color: #718096;
+    margin: 6px 0 0 0;
+    font-weight: 400;
+}
+
+.card-body {
+    padding: 35px;
+}
+
+/* Form Styling */
+.modern-form {
+    width: 100%;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 30px;
+    align-items: start;
+}
+
+.form-row .col-md-6 {
+    width: 100%;
+}
+
+.modern-form-group {
+    margin-bottom: 28px;
+}
+
+.modern-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #2d3748;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.modern-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0aec0;
+    font-size: 17px;
+    z-index: 2;
+    pointer-events: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.modern-input:focus + .input-icon,
+.modern-select:focus + .input-icon {
+    color: #667eea;
+}
+
+.modern-input, .modern-select {
+    width: 100%;
+    padding: 16px 16px 16px 48px;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #2d3748;
+    background: #ffffff;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.modern-input:focus, .modern-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    transform: translateY(-1px);
+}
+
+.modern-input:hover, .modern-select:hover {
+    border-color: #cbd5e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.modern-input::placeholder {
+    color: #a0aec0;
+    font-weight: 400;
+}
+
+.modern-input[readonly] {
+    background: #f7fafc;
+    color: #4a5568;
+}
+
+/* Checkbox Styling */
+.modern-checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.modern-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: #667eea;
+    border-radius: 4px;
+}
+
+.checkbox-label {
     font-size: 14px;
-    font-weight: normal;
-    line-height: 1;
-    padding: 6px 12px;
-    text-align: center;
-    white-space: nowrap;
-}
-
-.form-control {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-}
-
-.form-control:focus {
-    border-color: #66afe9;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-    outline: 0;
-}
-
-.btn {
-    border: 1px solid transparent;
-    border-radius: 4px;
+    color: #4a5568;
+    font-weight: 500;
     cursor: pointer;
+}
+
+/* Modern Alert Styling */
+.modern-alert {
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.modern-alert-success {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+}
+
+.modern-alert-error {
+    background: linear-gradient(135deg, #f56565, #e53e3e);
+    color: white;
+    animation: slideDown 0.3s ease-out;
+}
+
+.alert-icon {
+    font-size: 24px;
+    margin-top: 2px;
+}
+
+.alert-content h4 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.validation-list {
+    margin: 10px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.validation-list li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
     font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857143;
-    margin-bottom: 0;
+}
+
+.validation-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+/* Field Validation Styling */
+.field-validation-error {
+    display: block;
+    color: #e53e3e;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 8px;
     padding: 6px 12px;
-    text-align: center;
+    background: rgba(229, 62, 62, 0.1);
+    border-left: 3px solid #e53e3e;
+    border-radius: 0 6px 6px 0;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.input-validation-error {
+    border-color: #e53e3e !important;
+    background: rgba(229, 62, 62, 0.05) !important;
+    animation: shake 0.5s ease-in-out;
+}
+
+@@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.field-validation-valid {
+    display: none;
+}
+.modern-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 600;
     text-decoration: none;
-    vertical-align: middle;
-    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
-.btn-primary {
-    background-color: #337ab7;
-    border-color: #2e6da4;
-    color: #fff;
+.modern-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
 }
 
-.btn-primary:hover {
-    background-color: #286090;
-    border-color: #204d74;
-    color: #fff;
+.modern-btn:hover::before {
+    left: 100%;
 }
 
-.btn-default {
-    background-color: #fff;
-    border-color: #ccc;
-    color: #333;
+.modern-btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
 }
 
-.btn-default:hover {
-    background-color: #e6e6e6;
-    border-color: #adadad;
-    color: #333;
+.modern-btn-primary:hover {
+    background: linear-gradient(135deg, #5a67d8, #6b46c1);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
 }
 
-.text-primary {
-    color: #337ab7;
+.modern-btn-secondary {
+    background: linear-gradient(135deg, #f7fafc, #edf2f7);
+    color: #4a5568;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+.modern-btn-secondary:hover {
+    background: linear-gradient(135deg, #edf2f7, #e2e8f0);
+    border-color: #cbd5e0;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.modern-btn-outline {
+    background: transparent;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.modern-btn-outline:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.button-group {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid #e2e8f0;
+    flex-wrap: wrap;
+}
+
+/* Alert Styling */
+.modern-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    font-weight: 500;
+}
+
+.modern-alert-success {
+    background: linear-gradient(45deg, #48bb78, #38a169);
+    color: white;
+    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+/* Message Styling */
 #lblmgs h3 {
-    padding: 15px;
-    border-radius: 4px;
+    padding: 15px 20px;
+    border-radius: 12px;
     font-weight: 600;
     text-align: center;
     margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 20px;
+        text-align: left;
+    }
+    
+    .button-group {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    
+    .modern-container {
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 28px;
+    }
+
+    .card-body {
+        padding: 25px;
+    }
+}
+
+/* Animation for smooth interactions */
+@@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modern-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.modern-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.modern-card:nth-child(3) {
+    animation-delay: 0.2s;
 }
 </style>
 
@@ -399,7 +875,7 @@
                 var today = new Date();
                 var frmDt = new Date($('#idDOD').val());
                 if (frmDt.getDate() > today.getDate() && frmDt.getMonth() > today.getMonth() && frmDt.getFullYear() == today.getFullYear()) {
-                    $("#lblmgs").html("<h3 style='color: red;'>Future date is not allowed.</h3>");
+                    $("#lblmgs").html("<h3 style='color: white; background: linear-gradient(45deg, #fed7d7, #feb2b2);'>Future date is not allowed.</h3>");
                 }
                 else {
                     $('#DOD').val(frmDt.toLocaleDateString());
@@ -428,18 +904,44 @@
             // New member flow
         }
         else if ('@Model.IsSucess' == "1") {
-            $("#lblmgs").html("<h3 style='color: green'>Successfully Saved Loan Details For Member :" + '@Model.Savings' + ".</h3>");
+            $("#lblmgs").html("<h3 style='color: white; background: linear-gradient(45deg, #48bb78, #38a169);'>Successfully Saved Loan Details For Member: " + '@Model.Savings' + "</h3>");
             $('#myform')[0].reset();
         }
         else if ('@Model.IsSucess' == "2") {
-            $("#lblmgs").html("<h3 style='color: red'>Failed To Save Loan Details try again.</h3>");
+            $("#lblmgs").html("<h3 style='color: white; background: linear-gradient(45deg, #f56565, #e53e3e);'>Failed To Save Loan Details. Please try again.</h3>");
         }
         else if ('@Model.IsSucess' == "Exist") {
-            $("#lblmgs").html("<h3 style='color: red'>This type of loan is already disbursed.</h3>");
+            $("#lblmgs").html("<h3 style='color: white; background: linear-gradient(45deg, #ed8936, #dd6b20);'>This type of loan is already disbursed.</h3>");
         }
         else if ('@Model.IsSucess' == "L") {
-            $("#lblmgs").html("<h3 style='color: red;'>Already This Member Have Active Loan.</h3>");
-            alert("Member Already Have Active Loan");
+            $("#lblmgs").html("<h3 style='color: white; background: linear-gradient(45deg, #f56565, #e53e3e);'>Member already has an active loan.</h3>");
+            bootbox.alert("Member Already Has Active Loan");
+        }
+        else if ('@Model.IsSucess' == "ValidationError") {
+            $("#lblmgs").html("<h3 style='color: white; background: linear-gradient(45deg, #f56565, #e53e3e);'>Please correct the validation errors below.</h3>");
+            $('#validation-summary').show();
+            
+            // Scroll to first validation error
+            var firstError = $('.field-validation-error:visible').first();
+            if (firstError.length > 0) {
+                $('html, body').animate({
+                    scrollTop: firstError.offset().top - 100
+                }, 500);
+            }
+        }
+
+        // Check if there are server-side validation errors and show them
+        if ($('.field-validation-error').filter(function() { return $(this).text().trim() !== ''; }).length > 0) {
+            $('#validation-summary').show();
+            $('.field-validation-error').filter(function() { 
+                return $(this).text().trim() !== ''; 
+            }).each(function() {
+                var fieldId = $(this).prev('.modern-input, .modern-select').attr('id') || 
+                             $(this).parent().find('.modern-input, .modern-select').attr('id');
+                if (fieldId) {
+                    $('#' + fieldId).addClass('input-validation-error');
+                }
+            }).show();
         }
     });
 
@@ -447,161 +949,210 @@
         $("form")[0].reset();
     });
 
-    // Field click/mouseout handlers
-    $("#Loan_Amount").click(function () {
-        if ($("#Loan_Amount").val() == "0.00") {
-            $("#Loan_Amount").val('');
-        }
-    });
+    // Enhanced field interactions with modern styling
+    function setupFieldInteractions(fieldId, defaultValue) {
+        $("#" + fieldId).on("focus", function () {
+            if ($(this).val() == defaultValue) {
+                $(this).val('').addClass('field-focused');
+            }
+        });
 
-    $("#Loan_Amount").mouseout(function () {
-        if ($("#Loan_Amount").val() == "") {
-            $("#Loan_Amount").val('0.00');
-        }
-    });
+        $("#" + fieldId).on("blur", function () {
+            if ($(this).val() == "") {
+                $(this).val(defaultValue).removeClass('field-focused');
+            }
+        });
+    }
 
-    $("#NoOfDays").click(function () {
-        if ($("#NoOfDays").val() == "0") {
-            $("#NoOfDays").val('');
-        }
-    });
-
-    $("#NoOfDays").mouseout(function () {
-        if ($("#NoOfDays").val() == "") {
-            $("#NoOfDays").val('0');
-        }
-    });
-
-    $("#GRFAmt").mouseout(function () {
-        if ($("#GRFAmt").val() == "") {
-            $("#GRFAmt").val('0.00');
-        }
-    });
-
-    $("#GRFAmt").click(function () {
-        if ($("#GRFAmt").val() == "0.00") {
-            $("#GRFAmt").val('');
-        }
-    });
-
-    $("#Insurance").click(function () {
-        if ($("#Insurance").val() == "0.00") {
-            $("#Insurance").val('');
-        }
-    });
-
-    $("#Insurance").mouseout(function () {
-        if ($("#Insurance").val() == "") {
-            $("#Insurance").val('0.00');
-        }
-    });
-
-    $("#Processing_Fee").click(function () {
-        if ($("#Processing_Fee").val() == "0.00") {
-            $("#Processing_Fee").val('');
-        }
-    });
-
-    $("#Processing_Fee").mouseout(function () {
-        if ($("#Processing_Fee").val() == "") {
-            $("#Processing_Fee").val('0.00');
-        }
-    });
-
-    $("#RateOfInterest").mouseout(function () {
-        if ($("#RateOfInterest").val() == "") {
-            $("#RateOfInterest").val('0.00');
-        }
-    });
-
-    $("#RateOfInterest").click(function () {
-        if ($("#RateOfInterest").val() == "0.00") {
-            $("#RateOfInterest").val('');
-        }
-    });
-
-    $("#Other_Income").click(function () {
-        if ($("#Other_Income").val() == "0.00") {
-            $("#Other_Income").val('');
-        }
-    });
-
-    $("#Other_Income").mouseout(function () {
-        if ($("#Other_Income").val() == "") {
-            $("#Other_Income").val('0.00');
-        }
-    });
-
-    $("#AdvancedEMI").click(function () {
-        if ($("#AdvancedEMI").val() == "0") {
-            $("#AdvancedEMI").val('');
-        }
-    });
-
-    $("#AdvancedEMI").mouseout(function () {
-        if ($("#AdvancedEMI").val() == "") {
-            $("#AdvancedEMI").val('0');
-        }
-    });
+    setupFieldInteractions("Loan_Amount", "0.00");
+    setupFieldInteractions("NoOfDays", "0");
+    setupFieldInteractions("GRFAmt", "0.00");
+    setupFieldInteractions("Insurance", "0.00");
+    setupFieldInteractions("Processing_Fee", "0.00");
+    setupFieldInteractions("RateOfInterest", "0.00");
+    setupFieldInteractions("Other_Income", "0.00");
+    setupFieldInteractions("AdvancedEMI", "0");
 
     $("#btnSave").click(function () {
-        var msg = "";
-        if ($("#Loan_Amount").val() == "0.00") {
-            msg = msg + "<br/> Please enter Loan Amount";
+        // Clear previous validation messages
+        clearValidationMessages();
+        
+        var isValid = true;
+        var errors = [];
+        
+        // Validate Member Selection
+        if ($("#drMbrId").val() == "" || $("#drMbrId").val() == null) {
+            showFieldError("drMbrId", "Please select a member");
+            errors.push("Please select a member");
+            isValid = false;
+        }
+        
+        // Validate Loan Amount
+        var loanAmount = parseFloat($("#Loan_Amount").val()) || 0;
+        if (loanAmount <= 0) {
+            showFieldError("Loan_Amount", "Please enter a valid loan amount");
+            errors.push("Loan amount must be greater than 0");
+            isValid = false;
         }
 
-        if ($("#NoOfDays").val() == "0") {
-            msg = msg + "<br/> Please enter No Of Days";
+        // Validate No Of Days
+        var noOfDays = parseInt($("#NoOfDays").val()) || 0;
+        if (noOfDays <= 0) {
+            showFieldError("NoOfDays", "Please enter number of days/weeks");
+            errors.push("Number of days/weeks must be greater than 0");
+            isValid = false;
         }
 
+        // Validate Disbursement Date
         if ($("#idDOD").val().length == 0) {
-            msg = msg + "<br/> Please select Disbursement Date";
+            showFieldError("idDOD", "Please select disbursement date");
+            errors.push("Please select disbursement date");
+            isValid = false;
         }
 
-        if ($("#Prin_EMI").val() == "0.00") {
-            msg = msg + "<br/> Please check Prin EMI";
+        // Validate Principal EMI
+        var prinEMI = parseFloat($("#Prin_EMI").val()) || 0;
+        if (prinEMI <= 0) {
+            showFieldError("Prin_EMI", "Principal EMI must be calculated");
+            errors.push("Principal EMI must be greater than 0");
+            isValid = false;
         }
 
-        if ($("#RateOfInterest").val() == "0.00") {
-            msg = msg + "<br/> Please enter Total Interest Amount";
+        // Validate Interest Amount
+        var interest = parseFloat($("#RateOfInterest").val()) || 0;
+        if (interest <= 0) {
+            showFieldError("RateOfInterest", "Please enter total interest amount");
+            errors.push("Total interest amount must be greater than 0");
+            isValid = false;
         }
 
+        // Validate End Date
         if ($("#Expiry_Date").val().length == 0) {
-            msg = msg + "<br/> Please enter End Date";
+            showFieldError("Expiry_Date", "End date must be calculated");
+            errors.push("End date is required");
+            isValid = false;
         }
 
-        var drpGpID = $("#LoanType option:selected").val();
-        if (drpGpID == "" || drpGpID == '-Select Loan Type-') {
-            msg = msg + "<br/> Please Select Loan Type";
+        // Validate Loan Type
+        var loanType = $("#LoanType option:selected").val();
+        if (loanType == "" || loanType == '-Select Loan Type-') {
+            showFieldError("LoanType", "Please select loan type");
+            errors.push("Please select loan type");
+            isValid = false;
         }
 
-        if (msg != "") {
-            bootbox.alert(msg);
+        // Validate Next Due Date
+        if ($("#NextDueDt").val().length == 0) {
+            showFieldError("NextDueDt", "Next due date must be calculated");
+            errors.push("Next due date is required");
+            isValid = false;
+        }
+
+        if (!isValid) {
+            showValidationSummary(errors);
+            // Scroll to first error
+            var firstError = $('.input-validation-error').first();
+            if (firstError.length > 0) {
+                $('html, body').animate({
+                    scrollTop: firstError.offset().top - 100
+                }, 500);
+            }
         }
         else {
+            // If client-side validation passes, trigger server-side validation
             $("#btnSbmt").trigger("click");
         }
     });
 
-    $("#idDOD").focusout(function () {
-        var newDt = new Date($("#idDOD").val());
-        var vDays = parseInt($("#NoOfDays").val() * 7);
-        $("#Prin_EMI").val(Math.round(parseFloat($("#Loan_Amount").val()) / parseInt($("#NoOfDays").val())));
+    function clearValidationMessages() {
+        $('.field-validation-error').hide().text('');
+        $('.input-validation-error').removeClass('input-validation-error');
+        $('#validation-summary').hide();
+        $('#client-validation-list').empty();
+    }
 
-        newDt.setDate(newDt.getDate() + parseInt(vDays));
-        $("#Expiry_Date").val(newDt.toLocaleDateString());
+    function showFieldError(fieldId, message) {
+        $('#' + fieldId).addClass('input-validation-error');
+        var validationSpan = $('#' + fieldId).next('.field-validation-error');
+        if (validationSpan.length === 0) {
+            validationSpan = $('#' + fieldId).parent().next('.field-validation-error');
+        }
+        if (validationSpan.length > 0) {
+            validationSpan.text(message).show();
+        }
+    }
 
-        var newDt2 = new Date($("#idDOD").val());
-        newDt2.setDate(newDt2.getDate() + 7);
-        $('#NextDueDt').val(newDt2.toLocaleDateString());
+    function showValidationSummary(errors) {
+        var errorList = $('#client-validation-list');
+        errorList.empty();
+        
+        errors.forEach(function(error) {
+            errorList.append('<li>' + error + '</li>');
+        });
+        
+        $('#validation-summary').show();
+    }
+
+    // Enhanced form submission with validation
+    $("form").submit(function(e) {
+        if (!$(this).valid()) {
+            e.preventDefault();
+            showValidationSummary(["Please correct the highlighted errors before submitting."]);
+            return false;
+        }
     });
 
-    $("#bAdvancedEMI").click(function () {
-        if ($("#bAdvancedEMI").is(':checked')) {
-            $('#dvPrePaid').show();
+    // Real-time validation on blur
+    $("input[required], select[required]").blur(function() {
+        var fieldId = $(this).attr('id');
+        var value = $(this).val();
+        
+        if (value === "" || value === "0" || value === "0.00") {
+            var fieldName = $(this).prev('label').text().replace(/[^a-zA-Z\s]/g, '');
+            showFieldError(fieldId, fieldName + " is required");
+        } else {
+            $(this).removeClass('input-validation-error');
+            $(this).next('.field-validation-error').hide();
+        }
+    });
+
+    // Clear validation on focus
+    $("input, select").focus(function() {
+        $(this).removeClass('input-validation-error');
+        $(this).next('.field-validation-error').hide();
+    });
+
+    $("#idDOD").focusout(function () {
+        if ($(this).val()) {
+            var newDt = new Date($(this).val());
+            var vDays = parseInt($("#NoOfDays").val() || 0) * 7;
+            
+            // Calculate Principal EMI
+            var loanAmount = parseFloat($("#Loan_Amount").val() || 0);
+            var numDays = parseInt($("#NoOfDays").val() || 1);
+            if (loanAmount > 0 && numDays > 0) {
+                $("#Prin_EMI").val(Math.round(loanAmount / numDays));
+            }
+
+            // Calculate End Date
+            if (vDays > 0) {
+                newDt.setDate(newDt.getDate() + vDays);
+                $("#Expiry_Date").val(newDt.toLocaleDateString());
+            }
+
+            // Calculate Next Due Date (7 days from disbursement)
+            var nextDue = new Date($(this).val());
+            nextDue.setDate(nextDue.getDate() + 7);
+            $('#NextDueDt').val(nextDue.toLocaleDateString());
+        }
+    });
+
+    $("#bAdvancedEMI").change(function () {
+        if ($(this).is(':checked')) {
+            $('#dvPrePaid').slideDown(300);
         }
         else {
-            $('#dvPrePaid').hide();
+            $('#dvPrePaid').slideUp(300);
         }
     });
 
@@ -616,9 +1167,11 @@
         $("#MbrID").val(mbr);
     });
 
-    // Load Data function
+    // Enhanced AJAX with loading states
     function loadData() {
         var selectedGrpCode = $("#GrpCode :selected").val();
+        
+        $("#drMbrId").prop('disabled', true).html('<option>Loading...</option>');
 
         $.ajax({
             url: '@Url.Action("GetLoanMemberList", "Loans")',
@@ -629,7 +1182,8 @@
             catch: false,
             dataType: "json",
             success: function (res) {
-                $("#drMbrId").empty();
+                $("#drMbrId").empty().prop('disabled', false);
+                $("#drMbrId").append('<option value="">-- Select Member --</option>');
                 $.each(res, function (index, item) {
                     $("#drMbrId").append($('<option></option>').text(item.Text).val(item.Value));
                 });
@@ -637,7 +1191,8 @@
                 $("#MbrID").val(mbr);
             },
             error: function (errormessage) {
-                alert(errormessage.responseText);
+                $("#drMbrId").prop('disabled', false).html('<option value="">Error loading members</option>');
+                bootbox.alert("Error loading members: " + errormessage.responseText);
             }
         });
     }

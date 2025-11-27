@@ -138,6 +138,53 @@ namespace TestApp.Controllers
             try
             {
                 logger.Info($"POST LoansDisbus_New - Starting loan disbursement for Member ID: {objLoans.MbrId}");
+                
+                // Check model state for validation errors
+                if (!ModelState.IsValid)
+                {
+                    logger.Error("Model validation failed");
+                    
+                    // Log validation errors
+                    foreach (var error in ModelState)
+                    {
+                        if (error.Value.Errors.Count > 0)
+                        {
+                            foreach (var validationError in error.Value.Errors)
+                            {
+                                logger.Error($"Validation error for {error.Key}: {validationError.ErrorMessage}");
+                            }
+                        }
+                    }
+                    
+                    // Re-populate dropdowns for redisplay
+                    try
+                    {
+                        List<SelectListItem> grpCodeList = (from p in db.FinGroups.AsEnumerable()
+                                                           select new SelectListItem
+                                                           {
+                                                               Text = p.GrpName,
+                                                               Value = p.GroupCode
+                                                           }).ToList();
+                        objLoans.GrpCodeList = grpCodeList;
+
+                        List<SelectListItem> mbrList = (from p in db.Members.AsEnumerable()
+                                                       select new SelectListItem
+                                                       {
+                                                           Text = p.MbrName,
+                                                           Value = p.MbrId.ToString()
+                                                       }).ToList();
+                        objLoans.MbrList = mbrList;
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error("Error repopulating dropdowns: " + ex.Message);
+                        objLoans.GrpCodeList = new List<SelectListItem>();
+                        objLoans.MbrList = new List<SelectListItem>();
+                    }
+                    
+                    objLoans.IsSucess = "ValidationError";
+                    return View(objLoans);
+                }
                 logger.Info($"Session SavedMbrID: {Session["SavedMbrID"]}");
                 logger.Info($"Loan Amount: {objLoans.Loan_Amount}, Rate: {objLoans.RateOfInterest}, Days: {objLoans.NoOfDays}");
                 
@@ -201,7 +248,8 @@ namespace TestApp.Controllers
                     {
                         if (!string.IsNullOrEmpty(objDBLoans.Expiry_Date))
                         {
-                            DateTime exdt = DateTime.Parse(objDBLoans.Expiry_Date, new CultureInfo("en-US", true));
+                            //DateTime exdt = DateTime.Parse(objDBLoans.Expiry_Date, new CultureInfo("en-US", true));
+                            DateTime exdt = DateTime.ParseExact(objDBLoans.Expiry_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                             if (exdt > DateTime.Now)
                             {
                                 objLoanDisbus.IsSucess = "L";
@@ -266,7 +314,8 @@ namespace TestApp.Controllers
                     objDBLoans.Int_EMI = dIntEMIAmt.ToString();
 
                     //objLoans.Date_Of_Disbursement = objLoans.Date_Of_Disbursement.ToString("MM/dd/yyyy");
-                    NxtDueDt = DateTime.Parse(objLoans.Date_Of_Disbursement, new CultureInfo("en-US", true));
+                    //NxtDueDt = DateTime.Parse(objLoans.Date_Of_Disbursement, new CultureInfo("en-US", true));
+                    NxtDueDt = DateTime.ParseExact(objLoans.Date_Of_Disbursement, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
                     if (objGrp.GType.Trim() == "Daily")
                     {
@@ -274,10 +323,7 @@ namespace TestApp.Controllers
                     }
                     else
                     {
-                        NxtDueDt = DateTime.Parse(objLoans.NextDueDt, new CultureInfo("en-US", true));
-
-                        //NxtDueDt = Convert.ToDateTime(objLoans.NextDueDt); // NxtDueDt.AddDays(7 - (int)NxtDueDt.DayOfWeek);
-
+                        NxtDueDt = DateTime.ParseExact(objLoans.NextDueDt, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     }
 
 
@@ -388,13 +434,11 @@ namespace TestApp.Controllers
 
                             if (objGrp.GType.Trim() == "Daily" && i > 1)
                             {
-                                NxtDueDt = DateTime.Parse(objLoans.NextDueDt, new CultureInfo("en-US", true)).AddDays(1);
-                                //NxtDueDt = Convert.ToDateTime(dbLoanCols.Next_Due_Date).AddDays(1);
+                                NxtDueDt = DateTime.ParseExact(dbLoanCols.Next_Due_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture).AddDays(1);
                             }
                             else
                             {
-                                NxtDueDt = DateTime.Parse(objLoans.NextDueDt, new CultureInfo("en-US", true)).AddDays(7);
-                                //NxtDueDt = Convert.ToDateTime(dbLoanCols.Next_Due_Date).AddDays(7);
+                                NxtDueDt = DateTime.ParseExact(dbLoanCols.Next_Due_Date, "dd-MM-yyyy", CultureInfo.InvariantCulture).AddDays(7);
                             }
 
                             dbAdvPaidLoanCols.PostedUserID = Convert.ToString(Session["UserID"]);
@@ -558,6 +602,8 @@ namespace TestApp.Controllers
             int iMbrID = 0;
             try
             {
+                logger.Info($"LoansList called with parameters - Group: {sGrpName}, Staff: {sStaffName}, Member: {sMbrID}, DueDate: {DueDt}");
+
                 if (string.IsNullOrEmpty(sGrpName) || sGrpName.Trim() == "--All Groups--")
                 {
                     sGrpName = null;
@@ -567,35 +613,67 @@ namespace TestApp.Controllers
                 {
                     sStaffName = null;
                 }
-                if (string.IsNullOrEmpty(sMbrID))
+                
+                if (!string.IsNullOrEmpty(sMbrID) && int.TryParse(sMbrID, out iMbrID))
                 {
-                    sMbrID = null;
+                    // Member ID parsed successfully
+                }
+                else
+                {
+                    iMbrID = 0; // Set to 0 if not provided or invalid
                 }
 
-
-                iMbrID = Convert.ToInt32(sMbrID);
-                TempData["LoansPostingData"] = sGrpName + "," + sStaffName + "," + Convert.ToInt32(sMbrID);
+                TempData["LoansPostingData"] = sGrpName + "," + sStaffName + "," + iMbrID;
                 TempData.Keep("LoansPostingData");
 
+                List<spGetLoanMbrsList_Result6> RawGetLoanMbrsList;
+                
+                try
+                {
+                    var spResult = db.spGetLoanMbrsList(null, null, 0);
+                    RawGetLoanMbrsList = spResult.ToList();
+                    logger.Info($"Stored procedure returned {RawGetLoanMbrsList.Count} records");
+                    
+                    if (!RawGetLoanMbrsList.Any())
+                    {
+                        logger.Info("No records returned from stored procedure - this might be normal if no loans exist");
+                    }
+                }
+                catch (System.Data.EntityCommandExecutionException dbEx)
+                {
+                    logger.Error("Database column mismatch error: " + dbEx.Message);
+                    logger.Error("The stored procedure 'spGetLoanMbrsList' may be missing the 'StaffName' column or other required columns.");
+                    logger.Error("Please update the stored procedure or regenerate the Entity Framework model.");
+                    return Json(new { error = "Database schema mismatch. Please contact system administrator." }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception spEx)
+                {
+                    logger.Error("Stored procedure failed: " + spEx.Message);
+                    if (spEx.InnerException != null)
+                    {
+                        logger.Error("Inner Exception: " + spEx.InnerException.Message);
+                    }
+                    return Json(new { error = "Unable to retrieve loan data: " + spEx.Message }, JsonRequestBehavior.AllowGet);
+                }
 
-                IEnumerable<spGetLoanMbrsList_Result6> RawGetLoanMbrsList = db.spGetLoanMbrsList(null, null, 0);
-
-
-
+                // Apply filters
                 if (!string.IsNullOrEmpty(sGrpName))
                 {
-                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.GrpName == sGrpName);
+                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.GrpName == sGrpName).ToList();
+                    logger.Info($"After group filter: {RawGetLoanMbrsList.Count} records");
                 }
 
                 if (!string.IsNullOrEmpty(sStaffName))
                 {
-                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.StaffName == sStaffName);
+                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.StaffName == sStaffName).ToList();
+                    logger.Info($"After staff filter: {RawGetLoanMbrsList.Count} records");
                 }
 
                 if (iMbrID > 0)
-                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.MbrId == iMbrID);
-
-
+                {
+                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.MbrId == iMbrID).ToList();
+                    logger.Info($"After member filter: {RawGetLoanMbrsList.Count} records");
+                }
 
                 if (!string.IsNullOrEmpty(DueDt))
                 {
@@ -603,15 +681,22 @@ namespace TestApp.Controllers
 
                     DueDt = dt.Month.ToString() + "/" + dt.Day.ToString() + "/" + dt.Year.ToString();
 
-                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.Next_Due_Date == DueDt);
+                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.Next_Due_Date == DueDt).ToList();
+                    logger.Info($"After due date filter: {RawGetLoanMbrsList.Count} records");
                 }
+
+                logger.Info($"Returning {RawGetLoanMbrsList.Count} records to UI");
 
                 return Json(RawGetLoanMbrsList, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                logger.Error("Error in LoansList () Get" + ex.InnerException);
-                return Json(null, JsonRequestBehavior.AllowGet);
+                logger.Error("Error in LoansList() Get: " + ex.Message);
+                if (ex.InnerException != null)
+                {
+                    logger.Error("Inner Exception: " + ex.InnerException.Message);
+                }
+                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -832,7 +917,7 @@ namespace TestApp.Controllers
             }
             catch (Exception ex)
             {
-
+                logger.Error("Error in LoansCols POST: " + ex.Message);
             }
             return RedirectToAction("LoanPosting", "Loans");
         }
@@ -878,7 +963,7 @@ namespace TestApp.Controllers
                             .Select(p => p).FirstOrDefault();
 
                 objMbr = db.Members
-                                .Where(p => p.MbrId == objLoan.LoanID)
+                                .Where(p => p.MbrId == objLoan.MbrId)
                                 .Select(p => p).FirstOrDefault();
 
                 objFinGroup = (from c in db.FinGroups
@@ -887,10 +972,11 @@ namespace TestApp.Controllers
                 if (objFinGroup != null)
                     sGType = objFinGroup.GType;
 
-                CurrentDue = objLoan.Prin_EMI;
+                CurrentDue = (Convert.ToInt32(objLoan.Prin_EMI) + Convert.ToInt32(objLoan.Int_EMI)).ToString();
                 Savings = objLoan.ALRSavings;
 
-                DateTime NxtDueDtTmp = DateTime.Parse(objLoan.NextDueDt, new CultureInfo("en-US", true));
+                //DateTime NxtDueDtTmp = DateTime.Parse(objLoan.NextDueDt, new CultureInfo("en-US", true));
+                DateTime NxtDueDtTmp = DateTime.ParseExact(objLoan.NextDueDt, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
                 DateTime NxtDueDt = new DateTime(Convert.ToInt32(NxtDueDtTmp.Year), Convert.ToInt32(NxtDueDtTmp.Month), Convert.ToInt32(NxtDueDtTmp.Day));
                 if (sGType.Trim() == "Daily")
@@ -941,7 +1027,7 @@ namespace TestApp.Controllers
                     objLoanColsdb.Int_Due = objLoan.Int_EMI;
                     objLoanColsdb.Int_Due = objLoanColsdb.Int_Due == null ? "0" : objLoanColsdb.Int_Due;
 
-                    objLoanColsdb.Transact_Date = Convert.ToString(DateTime.Now.Month) + "/" + Convert.ToString(DateTime.Now.Day) + "/" + Convert.ToString(DateTime.Now.Year);
+                    objLoanColsdb.Transact_Date = Convert.ToString(DateTime.Now.Day) + "-" + Convert.ToString(DateTime.Now.Month) + "-" + Convert.ToString(DateTime.Now.Year);
                     objLoanColsdb.Transact_Date = objLoanColsdb.Transact_Date == null ? "0" : objLoanColsdb.Transact_Date;
 
                     objLoanColsdb.Next_Due_Date = NxtDueDt.ToShortDateString();// Convert.ToString(NxtDueDt.Day) + "/" + Convert.ToString(NxtDueDt.Month) + "/" + Convert.ToString(NxtDueDt.Year);
@@ -1824,24 +1910,10 @@ namespace TestApp.Controllers
                         }
                         else if (iMbrID > 0)
                         {
-                            Loan objLoanM = new Loan();
-                            Member objMbrd = new Member();
-                            objLoanM = db.Loans
+                            objLoan = db.Loans
                                .Where(p => p.MbrId == iMbrID)
                                .OrderByDescending(p => p.LoanID)
-                               .Select(p => p).FirstOrDefault();
-
-                            objMbrd = db.Members
-                               .Where(p => p.MbrId == iMbrID)
-                               .Select(p => p).FirstOrDefault();
-
-                            Loan_Cols objLoan_Colsm = new Loan_Cols();
-                            objLoan_Colsm.Loan = objLoanM;
-                            objLoan_Colsm.Member = objMbrd;
-                            string imgName = "PLogo.png";
-
-                            ViewBag.ImagePath = @"~/Resource/" + imgName;
-                            return PartialView(sPViewName, objLoan_Colsm);
+                               .Select(p => p).ToList();
                         }
 
                     }
