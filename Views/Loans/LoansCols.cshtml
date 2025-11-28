@@ -244,7 +244,7 @@
                     </thead>
                     <tbody class="tbody">
                         <tr>
-                            <td colspan="13" class="text-center">
+                            <td colspan="14" class="text-center">
                                 <div class="spinner-border text-primary" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
@@ -392,7 +392,7 @@
         }
         
         // Show loading state
-        $('.tbody').html('<tr><td colspan="13" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div><p class="mt-2">Loading loan data...</p></td></tr>');
+        $('.tbody').html('<tr><td colspan="14" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div><p class="mt-2">Loading loan data...</p></td></tr>');
         
         console.log('Loading data with parameters:', {
             group: selectedGrpCode,
@@ -421,7 +421,7 @@
                 // Check if result has error property
                 if (result && result.error) {
                     console.error('Server error:', result.error);
-                    html = '<tr><td colspan="13" class="text-center text-danger"><i class="fas fa-exclamation-triangle"></i> Server Error: ' + result.error + '</td></tr>';
+                    html = '<tr><td colspan="14" class="text-center text-danger"><i class="fas fa-exclamation-triangle"></i> Server Error: ' + result.error + '</td></tr>';
                 }
                 else if (result && Array.isArray(result) && result.length > 0) {
                     console.log('Processing ' + result.length + ' records');
@@ -440,7 +440,7 @@
                         html += '<td id="tdCD' + item.LoanID + '"><strong class="text-primary">Rs. ' + (parseFloat(item.Prin_EMI || 0)).toLocaleString() + '</strong></td>';
                         html += '<td><small class="text-muted">' + (item.Next_Due_Date || 'N/A') + '</small></td>';
                         html += '<td class="text-center"><input type="checkbox" class="form-check-input LPost" value="Post,' + item.LoanID + '"/></td>';
-                        html += '<td class="text-center"><input type="checkbox" id="ck' + item.LoanID + '" class="form-check-input LPre" onchange="SwapValForPrePaid(ck' + item.LoanID + ')" value="PrePaid,' + item.LoanID + '"/></td>';
+                        html += '<td class="text-center"><input type="checkbox" id="ck' + item.LoanID + '" class="form-check-input LPre" onchange="SwapValForPrePaid(this)" value="PrePaid,' + item.LoanID + '"/></td>';
                         // Admin actions
                         if (true) { // TODO: Add admin check
                             html += '<td class="text-center">';
@@ -457,7 +457,7 @@
                     });
                 } else {
                     console.log('No data received or empty array');
-                    html = '<tr><td colspan="13" class="text-center text-muted"><i class="fas fa-info-circle"></i> No loan data found for the selected criteria.</td></tr>';
+                    html = '<tr><td colspan="14" class="text-center text-muted"><i class="fas fa-info-circle"></i> No loan data found for the selected criteria.</td></tr>';
                 }
                 
                 $('.tbody').html(html);
@@ -485,7 +485,7 @@
                 } else if (xhr.responseText) {
                     errorMessage = xhr.responseText.substring(0, 200);
                 }
-                $('.tbody').html('<tr><td colspan="13" class="text-center text-danger"><i class="fas fa-exclamation-triangle"></i> Error loading data: ' + errorMessage + '</td></tr>');
+                $('.tbody').html('<tr><td colspan="14" class="text-center text-danger"><i class="fas fa-exclamation-triangle"></i> Error loading data: ' + errorMessage + '</td></tr>');
             }
         });
     }
