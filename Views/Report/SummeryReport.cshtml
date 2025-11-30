@@ -330,12 +330,29 @@
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script type="text/javascript">
     <script type="text/javascript">
         // Enhanced date validation and formatting
         function formatDate(dateString) {
-            const date = new Date(dateString);
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            if (!dateString || dateString.length === 0) {
+                return 'N/A';
+            }
+            // HTML date input returns yyyy-MM-dd format
+            // Parse it manually to avoid browser inconsistencies
+            var parts = dateString.split('-');
+            if (parts.length === 3) {
+                var year = parseInt(parts[0], 10);
+                var month = parseInt(parts[1], 10) - 1; // JavaScript months are 0-indexed
+                var day = parseInt(parts[2], 10);
+                var date = new Date(year, month, day);
+                var options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+            }
+            // Fallback: try direct parsing
+            var date = new Date(dateString);
+            if (isNaN(date.getTime())) {
+                return dateString; // Return original if parsing fails
+            }
+            var options = { year: 'numeric', month: 'short', day: 'numeric' };
             return date.toLocaleDateString('en-US', options);
         }
 

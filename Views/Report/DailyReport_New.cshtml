@@ -58,13 +58,10 @@
                             new { @class = "form-select", @id = "groupFilter" })
                     </div>
                     <div class="col-md-3">
-                        <label for="reportType" class="form-label">Report Type</label>
-                        <select class="form-select" id="reportType">
-                            <option value="daily">Daily Summary</option>
-                            <option value="collection">Collection Report</option>
-                            <option value="disbursement">Disbursement Report</option>
-                            <option value="due">Due Report</option>
-                        </select>
+                        <label for="staffFilter" class="form-label">Select Staff</label>
+                        @Html.DropDownList("StaffFilter", new SelectList(ViewBag.StaffMbrList, "Value", "Text"), 
+                            "-- All Staff --", 
+                            new { @class = "form-select", @id = "staffFilter" })
                     </div>
                     <div class="col-md-3 d-flex align-items-end">
                         <button type="button" class="btn btn-primary w-100" onclick="generateReport()">
@@ -185,10 +182,10 @@
                             <th><i class="fas fa-layer-group me-1"></i>Group</th>
                             <th><i class="fas fa-user me-1"></i>Member</th>
                             <th><i class="fas fa-money-bill me-1"></i>Loan ID</th>
-                            <th><i class="fas fa-arrow-down me-1"></i>Collection</th>
-                            <th><i class="fas fa-arrow-up me-1"></i>Disbursement</th>
-                            <th><i class="fas fa-calendar-times me-1"></i>Due Amount</th>
-                            <th><i class="fas fa-clock me-1"></i>Time</th>
+                            <th><i class="fas fa-arrow-down me-1"></i>Today Collection</th>
+                            <th><i class="fas fa-arrow-up me-1"></i>Loan Amount</th>
+                            <th><i class="fas fa-calendar-times me-1"></i>Balance Amount</th>
+                            <th><i class="fas fa-clock me-1"></i>Paid EMI</th>
                             <th><i class="fas fa-info-circle me-1"></i>Status</th>
                         </tr>
                     </thead>
@@ -392,7 +389,7 @@ function initializeTableSearch() {
 function generateReport() {
     const reportDate = $('#reportDate').val();
     const groupFilter = $('#groupFilter').val();
-    const reportType = $('#reportType').val();
+    const staffFilter = $('#staffFilter').val();
     
     if (!reportDate) {
         showToast('Please select a report date', 'warning');
@@ -407,12 +404,12 @@ function generateReport() {
         data: {
             date: reportDate,
             groupId: groupFilter,
-            reportType: reportType
+            staffId: staffFilter
         },
         success: function(response) {
             hideLoadingState();
             if (response.success && response.data) {
-                renderReportData(response.data);
+                renderReportData(response);
                 updateRecordCount(response.count);
                 showToast('Report generated successfully with ' + response.count + ' records', 'success');
             } else {
@@ -428,7 +425,8 @@ function generateReport() {
     });
 }
 
-function renderReportData(data) {
+function renderReportData(response) {
+    var data = response.data;
     var html = '';
     
     if (!data || data.length === 0) {
@@ -436,44 +434,43 @@ function renderReportData(data) {
         return;
     }
     
-    var totalCollections = 0;
-    var totalDisbursements = 0;
-    var totalDue = 0;
+    // Use server-calculated totals
+    var totalCollections = parseFloat(response.totalCollections) || 0;
+    var totalNetBalance = parseFloat(response.totalNetBalance) || 0;
+    var totalDisbursements = parseFloat(response.totalDisbursements) || 0;
+    var totalDue = parseFloat(response.totalDue) || 0;
     
     $.each(data, function(index, item) {
-        var collection = parseFloat(item.TALRCollected) || 0;
-        var disbursement = parseFloat(item.LA) || 0;
-        var due = parseFloat(item.LP) || 0;
+        var todayCollection = parseFloat(item.TodayCollection) || 0;
+        var loanAmount = parseFloat(item.LoanAmount) || 0;
+        var balanceAmount = parseFloat(item.BalanceAmount) || 0;
+        var paidEMI = parseInt(item.PaidEMI) || 0;
         
-        totalCollections += collection;
-        totalDisbursements += disbursement;
-        totalDue += due;
-        
-        var statusClass = collection > 0 ? 'bg-success' : (due > 0 ? 'bg-warning' : 'bg-secondary');
-        var statusText = collection > 0 ? 'Collected' : (due > 0 ? 'Pending' : 'No Data');
+        var statusClass = todayCollection > 0 ? 'bg-success' : (balanceAmount > 0 ? 'bg-warning' : 'bg-secondary');
+        var statusText = todayCollection > 0 ? 'Collected' : (balanceAmount > 0 ? 'Pending' : 'No Data');
         
         html += '<tr>';
         html += '<td>' + item.SlNo + '</td>';
         html += '<td><span class="badge bg-primary">' + (item.GroupName || 'N/A') + '</span></td>';
         html += '<td><div class="d-flex align-items-center">';
         html += '<div class="avatar-sm bg-light rounded-circle d-flex align-items-center justify-content-center me-2">';
-        html += '<i class="fas fa-user text-primary"></i></div>' + (item.GroupName || 'N/A') + '</div></td>';
-        html += '<td><span class="text-primary fw-bold">' + item.SlNo + '</span></td>';
-        html += '<td>' + (collection > 0 ? '<span class="text-success fw-bold">Rs. ' + collection.toFixed(2) + '</span>' : '<span class="text-muted">-</span>') + '</td>';
-        html += '<td>' + (disbursement > 0 ? '<span class="text-primary fw-bold">Rs. ' + disbursement.toFixed(2) + '</span>' : '<span class="text-muted">-</span>') + '</td>';
-        html += '<td>' + (due > 0 ? '<span class="text-warning fw-bold">Rs. ' + due.toFixed(2) + '</span>' : '<span class="text-success">Paid</span>') + '</td>';
-        html += '<td><small class="text-muted">' + (item.StartDt || '-') + '</small></td>';
+        html += '<i class="fas fa-user text-primary"></i></div>' + (item.MemberName || 'N/A') + '</div></td>';
+        html += '<td><span class="text-primary fw-bold">' + (item.LoanID || '-') + '</span></td>';
+        html += '<td>' + (todayCollection > 0 ? '<span class="text-success fw-bold">Rs. ' + todayCollection.toFixed(2) + '</span>' : '<span class="text-muted">-</span>') + '</td>';
+        html += '<td>' + (loanAmount > 0 ? '<span class="text-primary fw-bold">Rs. ' + loanAmount.toFixed(2) + '</span>' : '<span class="text-muted">-</span>') + '</td>';
+        html += '<td>' + (balanceAmount > 0 ? '<span class="text-warning fw-bold">Rs. ' + balanceAmount.toFixed(2) + '</span>' : '<span class="text-success">Paid</span>') + '</td>';
+        html += '<td><span class="badge bg-info">' + paidEMI + '</span></td>';
         html += '<td><span class="badge ' + statusClass + '">' + statusText + '</span></td>';
         html += '</tr>';
     });
     
     $('#reportTable tbody').html(html);
     
-    // Update summary cards
+    // Update summary cards - use server calculated values
     $('#totalCollections').text('Rs. ' + totalCollections.toFixed(2));
     $('#totalDisbursements').text('Rs. ' + totalDisbursements.toFixed(2));
     $('#totalDue').text('Rs. ' + totalDue.toFixed(2));
-    $('#netBalance').text('Rs. ' + (totalCollections - totalDisbursements).toFixed(2));
+    $('#netBalance').text('Rs. ' + totalNetBalance.toFixed(2));
     $('#recordCount').text(data.length + ' records');
 }
 
