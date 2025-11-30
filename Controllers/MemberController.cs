@@ -606,6 +606,71 @@ namespace TestApp.Controllers
         [HttpPost]
         public ActionResult CreateMember_New(MemberViewModel objMbr)
         {
+            // Check if this is an AJAX request
+            if (Request.IsAjaxRequest())
+            {
+                try
+                {
+                    MicroFinanceEntities db = new MicroFinanceEntities();
+
+                    // Check for duplicate Aadhaar
+                    if (!string.IsNullOrEmpty(objMbr.AdharaCardNum) && 
+                        db.Members.Any(c => c.AdharaCardNum == objMbr.AdharaCardNum.Trim()))
+                    {
+                        return Json(new { success = false, message = "Member with this Aadhaar number already exists." });
+                    }
+
+                    // Get Group details
+                    var objGrp = db.FinGroups.FirstOrDefault(c => c.GroupCode == objMbr.GrpCode);
+                    if (objGrp == null)
+                    {
+                        return Json(new { success = false, message = "Selected group not found." });
+                    }
+
+                    // Get Staff name
+                    int iStaffID = objMbr.StaffID;
+                    string sStaffName = db.Staffs
+                        .Where(p => p.StaffID == iStaffID)
+                        .Select(p => p.StaffName)
+                        .FirstOrDefault() ?? "";
+
+                    // Create new member
+                    var objCrMbr = new Member
+                    {
+                        MbrName = objMbr.MbrName,
+                        GroupCode = objGrp.GroupCode,
+                        GrpName = objGrp.GrpName,
+                        Husbandname = objMbr.HsbndName ?? "",
+                        Age = objMbr.Age,
+                        MbrStatus = objMbr.MbrStatus ?? "Active",
+                        Gender = objMbr.Gen,
+                        CantactNo = objMbr.CantactNum ?? "",
+                        DOJ = objMbr.MbrDOJ ?? DateTime.Now.ToString("dd/MM/yyyy"),
+                        WithdrawDt = "",
+                        StaffId = iStaffID,
+                        StaffName = sStaffName,
+                        AdharaCardNum = objMbr.AdharaCardNum?.Trim() ?? "",
+                        Nominee = objMbr.Nominee ?? "",
+                        PhoneNo2 = objMbr.PhoneNo2 ?? "",
+                        MbrAddress = objMbr.MbrAddress ?? "",
+                        RCardNo = objMbr.RationCardNum ?? ""
+                    };
+
+                    db.Members.Add(objCrMbr);
+                    db.SaveChanges();
+
+                    logger.Info(Session["UserID"] + ": Created member: " + objMbr.MbrName + " with ID: " + objCrMbr.MbrId + " at " + DateTime.Now);
+
+                    return Json(new { success = true, message = "Member registered successfully!", memberId = objCrMbr.MbrId });
+                }
+                catch (Exception ex)
+                {
+                    logger.Error("Error in CreateMember_New() AJAX Post: " + ex.Message);
+                    return Json(new { success = false, message = "Error creating member: " + ex.Message });
+                }
+            }
+            
+            // For non-AJAX requests, use the original method
             return CreateMember(objMbr);
         }
 

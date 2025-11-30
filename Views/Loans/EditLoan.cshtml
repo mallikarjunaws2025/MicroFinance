@@ -262,12 +262,13 @@
         if ('@Model.Savings' == "Updated") {
             $("#lblmgs").html("<h3 style='color: green;'>Successfully Updated.</h3>");
         }
-        if ('@Model.Savings' == "") {
-            $("#lblmgs").html("");
+        else if ('@Model.Savings' == "Error") {
+            $("#lblmgs").html("<h3 style='color: red;'>Unable to update information.</h3>");
         }
         else {
-            $("#lblmgs").html("<h3 style='color: red;'>Unable to update information.</h3>");
-        } 
+            $("#lblmgs").html("");
+        }
+        
         if ('@Session["LoanLaterDisbusMbrID"]' != '') {
             $("#MbrID").val('@Session["LoanLaterDisbusMbrID"]');
         }

@@ -23,7 +23,7 @@
             </h5>
         </div>
         <div class="card-body">
-            @using (Html.BeginForm("CreateMember", "Member", FormMethod.Post, new { @class = "needs-validation", @id = "memberRegistrationForm", @novalidate = "novalidate" }))
+            @using (Html.BeginForm("CreateMember_New", "Member", FormMethod.Post, new { @class = "needs-validation", @id = "memberRegistrationForm", @novalidate = "novalidate" }))
             {
                 @Html.HiddenFor(model => model.IsSucess, new { @id = "IsSucess" })
                 @Html.HiddenFor(model => model.MbrDOJ, new { @id = "MbrDOJ" })
@@ -204,11 +204,10 @@
                             @Html.TextBoxFor(model => model.AdharaCardNum, new { 
                                 @class = "form-control", 
                                 @type = "text",
-                                @pattern = "[0-9]{12}",
                                 @placeholder = "Enter 12-digit Adhaar number", 
                                 @required = "required", 
                                 @id = "AdharaCardNum",
-                                @maxlength = "12"
+                                @maxlength = "14"
                             })
                         </div>
                         <div class="invalid-feedback">Please enter a valid 12-digit Adhaar number.</div>
@@ -423,21 +422,36 @@ function submitForm() {
     button.html('<span class="spinner-border spinner-border-sm me-2"></span>Registering...');
     button.prop('disabled', true);
     
-    // Set the date of joining for hidden field
-    $('#MbrDOJ').val($('#MbrDOJ').val());
+    // Remove spaces from Aadhaar card number before submission
+    var aadhaarValue = $('#AdharaCardNum').val().replace(/\s/g, '');
+    $('#AdharaCardNum').val(aadhaarValue);
+    
+    // Set the date of joining - format as dd/MM/yyyy
+    var dojValue = $('#MbrDOJ').val();
+    if (dojValue) {
+        var date = new Date(dojValue);
+        dojValue = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        $('#MbrDOJ').val(dojValue);
+    } else {
+        // Set today's date if not provided
+        var today = new Date();
+        dojValue = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+        $('#MbrDOJ').val(dojValue);
+    }
     
     // Get form data
-    const formData = new FormData(document.getElementById('memberRegistrationForm'));
+    const formData = $('#memberRegistrationForm').serialize();
     
     $.ajax({
         url: '@Url.Action("CreateMember_New", "Member")',
         type: 'POST',
         data: formData,
-        processData: false,
-        contentType: false,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
         success: function(result) {
-            if (result.success || result === "Success") {
-                showMessage('Member registered successfully!', 'success');
+            if (result.success) {
+                showMessage(result.message || 'Member registered successfully!', 'success');
                 
                 // Redirect to member list after 2 seconds
                 setTimeout(function() {

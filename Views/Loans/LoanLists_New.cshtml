@@ -1,55 +1,143 @@
 @model IEnumerable<TestApp.DB.Loan>
 @{
-    ViewBag.Title = "Loan Lists";
+    ViewBag.Title = "Loan Details";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
-<h2>Loan Lists</h2>
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0 text-primary fw-bold">
+            <i class="fas fa-list me-2"></i>Loan Details
+        </h2>
+    </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr style="background-color: #428bca; color: white;">
-                    <th>Loan ID</th>
-                    <th>Member ID</th>
-                    <th>Loan Amount</th>
-                    <th>Balance Amount</th>
-                    <th>Rate of Interest</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null)
-                {
-                    foreach (var loan in Model)
-                    {
-                        <tr>
-                            <td>@loan.LoanID</td>
-                            <td>@loan.MbrId</td>
-                            <td>Rs. @loan.Loan_Amount</td>
-                            <td>Rs. @loan.Balance_Amount</td>
-                            <td>@loan.RateOfInterest%</td>
-                            <td>
-                                @if (loan.Status == 1)
-                                {
-                                    <span class="label label-success">Active</span>
-                                }
-                                else
-                                {
-                                    <span class="label label-default">Inactive</span>
-                                }
-                            </td>
+    <!-- Filter Section -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Select Group Name</label>
+                    @Html.DropDownList("ObjList", new SelectList(ViewBag.GrpCodeList, "Value", "Text", ViewBag.GrpCodeID), "--All Groups--", new { @class = "form-select", @id = "GrpCode" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loans Table -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover mb-0" id="tblLoansList">
+                    <thead>
+                        <tr style="background-color: #428bca; color: white;">
+                            <th>Loan ID</th>
+                            <th>Member ID</th>
+                            <th>Loan Amount</th>
+                            <th>Balance Amount</th>
+                            <th>Balance Interest</th>
+                            <th>Prin EMI Amount</th>
+                            <th>Int EMI Amt</th>
+                            <th>No Of Days/Week</th>
+                            <th>Disbus Date</th>
+                            <th>Next Due Date</th>
+                            <th>Staff Name</th>
+                            <th>Group Name</th>
+                            @if (ViewBag.IsAdmin == true)
+                            {
+                                <th>Action</th>
+                            }
                         </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="6" class="text-center">No loan records found.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody class="tbody">
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var loan in Model)
+                            {
+                                <tr ondblclick="loadHistPage('@loan.LoanID')" id="@loan.LoanID" style="cursor: pointer;">
+                                    <td>@loan.LoanID</td>
+                                    <td>@loan.MbrId</td>
+                                    <td>@loan.Loan_Amount</td>
+                                    <td>@loan.Balance_Amount</td>
+                                    <td>@loan.RateOfInterest</td>
+                                    <td>@loan.Prin_EMI</td>
+                                    <td>@loan.Int_EMI</td>
+                                    <td>@loan.NoOfDay</td>
+                                    <td>@loan.Date_Of_Disbursement</td>
+                                    <td>@loan.NextDueDt</td>
+                                    <td>@loan.StaffName</td>
+                                    <td>@loan.GrpCode</td>
+                                    @if (ViewBag.IsAdmin == true)
+                                    {
+                                        <td>
+                                            <a href="#" onclick="getbyID('@loan.LoanID')" class="text-primary">Edit</a> | 
+                                            <a href="#" onclick="Delele('@loan.LoanID')" class="text-danger">Delete</a>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="13" class="text-center py-4">
+                                    <i class="fas fa-info-circle text-muted me-2"></i>No loan records found.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Initialize
+    });
+
+    // Double-click to open history page
+    function loadHistPage(LoanID) {
+        window.open("/Loans/Partialload?TabName=HistList," + LoanID, "_blank", "width=1000,height=500");
+    }
+
+    // Group filter change
+    $("#GrpCode").change(function () {
+        var selectedGrpCode = $("#GrpCode :selected").val();
+        window.location.href = "/Loans/LoanLists_New?GrpCodeID=" + selectedGrpCode;
+    });
+
+    // Edit loan function
+    function getbyID(LoanId) {
+        var iLoanId = LoanId;
+        window.open("/Loans/EditLoan?iLoanId=" + iLoanId, "_blank", "width=1000,height=500");
+    }
+
+    // Delete loan function
+    function Delele(ID) {
+        var ans = confirm("Are you sure you want to delete this Record?");
+        if (ans) {
+            $.ajax({
+                url: '@Url.Action("RemoveLoan", "Loans")',
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                async: true,
+                data: { iLoanID: ID },
+                cache: false,
+                success: function (result) {
+                    if (result == '0') {
+                        alert("Successfully Deleted Loan: " + ID);
+                        location.reload();
+                    }
+                    else {
+                        alert('Unable to delete due to relationship with loans and collections');
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+    }
+</script>
