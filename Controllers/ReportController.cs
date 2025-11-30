@@ -484,5 +484,78 @@ namespace TestApp.Controllers
             }
             return View("DailyReport_New", new List<TestApp.VModels.Reports.DailyReport>());
         }
+
+        [HttpGet]
+        public JsonResult GenerateDailyReport(string date, string groupId, string reportType)
+        {
+            MicroFinanceEntities db = new MicroFinanceEntities();
+            db.Configuration.ProxyCreationEnabled = false;
+            
+            try
+            {
+                List<DailyReport> reportData = new List<DailyReport>();
+                
+                // Parse the date
+                DateTime reportDate = DateTime.Now;
+                if (!string.IsNullOrEmpty(date))
+                {
+                    DateTime.TryParse(date, out reportDate);
+                }
+
+                // Get the group name from groupId if provided
+                string groupName = null;
+                if (!string.IsNullOrEmpty(groupId))
+                {
+                    var group = db.FinGroups.FirstOrDefault(g => g.GroupCode == groupId);
+                    if (group != null)
+                    {
+                        groupName = group.GrpName;
+                    }
+                }
+
+                // Get report data using existing stored procedure
+                var objData = db.spGetDailyDueReportsData(groupName, null).ToList();
+
+                if (objData != null && objData.Count > 0)
+                {
+                    int slNo = 1;
+                    foreach (var item in objData)
+                    {
+                        reportData.Add(new DailyReport
+                        {
+                            SlNo = slNo.ToString(),
+                            GroupName = item.GrpName,
+                            LA = item.Loan_Amount?.ToString() ?? "0",
+                            LP = item.Balance_Interest?.ToString() ?? "0",
+                            TALRCollected = item.NetSavings?.ToString() ?? "0",
+                            StartDt = item.CrDt
+                        });
+                        slNo++;
+                    }
+                }
+
+                return Json(new { success = true, data = reportData, count = reportData.Count }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error in GenerateDailyReport: " + ex.Message);
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ExportDailyReport(string date, string groupId, string reportType, string format)
+        {
+            try
+            {
+                // For now, redirect to the report page - export functionality can be enhanced later
+                return RedirectToAction("DailyReport_New");
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error in ExportDailyReport: " + ex.Message);
+                return RedirectToAction("DailyReport_New");
+            }
+        }
     }
 }

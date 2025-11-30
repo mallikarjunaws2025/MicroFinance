@@ -146,7 +146,7 @@
     //Load Data function
     function loadData() {
         var selectedGrpCode = $("#GrpCode :selected").text();
-        var vStaffId = $("#StaffId").val();
+        var vStaffId = $("#StaffId :selected").text();
         var vMbrId = $("#MbrIDName").val();
         var vDueDt = $("#DueDt").val();
         $.ajax({
@@ -155,43 +155,53 @@
             contentType: "application/json;charset=utf-8",
             async: true,
             data: { sGrpName: selectedGrpCode, sStaffName: vStaffId, sMbrID: vMbrId, DueDt: vDueDt },
-            catch: false,
+            cache: false,
             dataType: "json",
             success: function (result) {
-
                 var html = '';
-                var vCurrentDue = '';
+                
+                // Check if result is an error object
+                if (result && result.error) {
+                    html = '<tr><td colspan="10" style="text-align:center; color:red;">Error: ' + result.error + '</td></tr>';
+                    $('.tbody').html(html);
+                    return;
+                }
+                
+                // Check if result is an array with data
+                if (!result || !Array.isArray(result) || result.length === 0) {
+                    html = '<tr><td colspan="10" style="text-align:center;">No data found for the selected criteria.</td></tr>';
+                    $('.tbody').html(html);
+                    return;
+                }
+
                 $.each(result, function (key, item) {
+                    // Calculate paid amount safely
+                    var collectedAmt = parseFloat(item.Collected_Amount) || 0;
+                    var paidEMI = parseInt(item.PaidEMI) || 0;
+                    var paidAmount = collectedAmt * paidEMI;
+
                     html += '<tr id="rw' + item.LoanID + '">';
-                    html += '<td style="display:none" id="tdID' + item.LoanID + '">' + item.LoanID + '</td>';
-                    html += '<td style="display:none">' + item.MbrId + '</td>';
-                    html += '<td>' + item.MbrName + '</td>';
-                    html += '<td>' + item.GrpName + '</td>';
-                    html += '<td>' + item.StaffName + '</td>';
-                    html += '<td id="tdLA' + item.LoanID + '"> ' + item.Actual_Balance + '</td>';
-                    html += '<td>' + item.NoOfDay + '</td>';
-                    html += '<td id="tdPE' + item.LoanID + '">' + item.PaidEMI + '</td>';
-                    html += '<td id="tdCA' + item.LoanID + '">' + parseFloat(parseFloat(item.Collected_Amount) * parseInt(item.PaidEMI)) + '</td>';
-                    html += '<td id="tdBL' + item.LoanID + '">' + item.Balance_Amount + '</td>';
-                    html += '<td>' + item.Balance_Installment + '</td>';
-                    html += '<td id="tdCD' + item.LoanID + '">' + item.Prin_EMI + '</td>';
-                    //html += '<td id="tdNtSvg' + item.LoanID + '">' + item.NetSavings + '</td>';
-                    //html += '<td><input type="text" id="txtAdjst' + item.LoanID + '" disabled="disabled" style="width: 40px;" value="0.00"/></td>';
-                    //html += '<td><input type="text" id="txt' + item.LoanID + '" style="width: 40px;" value="0.00"/></td>';
-
-                    //html += '<td><input type="checkbox" checked=true class="LPost" value="Post,' + item.LoanID + '"/></td>';
-
-                    //html += '<td><input type="checkbox"  id="ck' + item.LoanID + '" class="LPre" onchange="SwapValForPrePaid(ck' + item.LoanID + ')" value="PrePaid,' + item.LoanID + '"/></td>';
-
-                    //html += '<td><a href="#" onclick="return getbyID(' + item.LoanID + ')">Post</a></td>';
-
+                    html += '<td style="display:none" id="tdID' + item.LoanID + '">' + (item.LoanID || '') + '</td>';
+                    html += '<td style="display:none">' + (item.MbrId || '') + '</td>';
+                    html += '<td>' + (item.MbrName || 'N/A') + '</td>';
+                    html += '<td>' + (item.GrpName || 'N/A') + '</td>';
+                    html += '<td>' + (item.StaffName || 'N/A') + '</td>';
+                    html += '<td id="tdLA' + item.LoanID + '">' + (item.Actual_Balance || '0') + '</td>';
+                    html += '<td>' + (item.NoOfDay || '0') + '</td>';
+                    html += '<td id="tdPE' + item.LoanID + '">' + (item.PaidEMI || '0') + '</td>';
+                    html += '<td id="tdCA' + item.LoanID + '">' + paidAmount.toFixed(2) + '</td>';
+                    html += '<td id="tdBL' + item.LoanID + '">' + (item.Balance_Amount || '0') + '</td>';
+                    html += '<td>' + (item.Balance_Installment || '0') + '</td>';
+                    html += '<td id="tdCD' + item.LoanID + '">' + (item.Prin_EMI || '0') + '</td>';
                     html += '</tr>';
                 });
                 $('.tbody').html(html);
 
             },
             error: function (errormessage) {
-                alert(errormessage.responseText);
+                var html = '<tr><td colspan="10" style="text-align:center; color:red;">Error loading data. Please try again.</td></tr>';
+                $('.tbody').html(html);
+                console.error('Error:', errormessage.responseText);
             }
         });
     }

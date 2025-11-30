@@ -136,7 +136,7 @@ namespace TestApp.DB
                 new ObjectParameter("MbrId", mbrId) :
                 new ObjectParameter("MbrId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetLoanMbrsList_Result6>("spGetLoanMbrsList", grpNameParameter, staffNameParameter, mbrIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetLoanMbrsList_Result6>("spGetLoanMbrsList1", grpNameParameter, staffNameParameter, mbrIdParameter);
         }
     
         public virtual ObjectResult<spLoansReport_Result> spLoansReport(string grpCode, string staffName)
@@ -152,7 +152,7 @@ namespace TestApp.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spLoansReport_Result>("spLoansReport", grpCodeParameter, staffNameParameter);
         }
     
-        public virtual ObjectResult<spGetLoanMbrsList_Result6> spGetLoanMbrsList1(string grpName, string staffName, Nullable<int> mbrId)
+        public virtual ObjectResult<spGetLoanMbrsList_Result6> spGetLoanMbrsList1(string grpName, string staffName, Nullable<int> mbrId, Nullable<DateTime> dueDate)
         {
             var grpNameParameter = grpName != null ?
                 new ObjectParameter("GrpName", grpName) :
@@ -165,8 +165,12 @@ namespace TestApp.DB
             var mbrIdParameter = mbrId.HasValue ?
                 new ObjectParameter("MbrId", mbrId) :
                 new ObjectParameter("MbrId", typeof(int));
+
+            var dueDateParameter = dueDate.HasValue ?
+                new ObjectParameter("DueDate", dueDate) :
+                new ObjectParameter("DueDate", typeof(DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetLoanMbrsList_Result6>("spGetLoanMbrsList1", grpNameParameter, staffNameParameter, mbrIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetLoanMbrsList_Result6>("spGetLoanMbrsList1", grpNameParameter, staffNameParameter, mbrIdParameter, dueDateParameter);
         }
     }
 }

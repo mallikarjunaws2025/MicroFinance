@@ -409,20 +409,83 @@ function generateReport() {
             groupId: groupFilter,
             reportType: reportType
         },
-        success: function(data) {
-            if (data.success) {
-                // Update the page content
-                location.reload();
+        success: function(response) {
+            hideLoadingState();
+            if (response.success && response.data) {
+                renderReportData(response.data);
+                updateRecordCount(response.count);
+                showToast('Report generated successfully with ' + response.count + ' records', 'success');
             } else {
-                hideLoadingState();
-                showToast(data.message || 'Error generating report', 'error');
+                renderNoData();
+                showToast(response.message || 'No data found', 'warning');
             }
         },
-        error: function() {
+        error: function(xhr, status, error) {
             hideLoadingState();
+            console.error('Error:', error);
             showToast('Error generating report', 'error');
         }
     });
+}
+
+function renderReportData(data) {
+    var html = '';
+    
+    if (!data || data.length === 0) {
+        renderNoData();
+        return;
+    }
+    
+    var totalCollections = 0;
+    var totalDisbursements = 0;
+    var totalDue = 0;
+    
+    $.each(data, function(index, item) {
+        var collection = parseFloat(item.TALRCollected) || 0;
+        var disbursement = parseFloat(item.LA) || 0;
+        var due = parseFloat(item.LP) || 0;
+        
+        totalCollections += collection;
+        totalDisbursements += disbursement;
+        totalDue += due;
+        
+        var statusClass = collection > 0 ? 'bg-success' : (due > 0 ? 'bg-warning' : 'bg-secondary');
+        var statusText = collection > 0 ? 'Collected' : (due > 0 ? 'Pending' : 'No Data');
+        
+        html += '<tr>';
+        html += '<td>' + item.SlNo + '</td>';
+        html += '<td><span class="badge bg-primary">' + (item.GroupName || 'N/A') + '</span></td>';
+        html += '<td><div class="d-flex align-items-center">';
+        html += '<div class="avatar-sm bg-light rounded-circle d-flex align-items-center justify-content-center me-2">';
+        html += '<i class="fas fa-user text-primary"></i></div>' + (item.GroupName || 'N/A') + '</div></td>';
+        html += '<td><span class="text-primary fw-bold">' + item.SlNo + '</span></td>';
+        html += '<td>' + (collection > 0 ? '<span class="text-success fw-bold">Rs. ' + collection.toFixed(2) + '</span>' : '<span class="text-muted">-</span>') + '</td>';
+        html += '<td>' + (disbursement > 0 ? '<span class="text-primary fw-bold">Rs. ' + disbursement.toFixed(2) + '</span>' : '<span class="text-muted">-</span>') + '</td>';
+        html += '<td>' + (due > 0 ? '<span class="text-warning fw-bold">Rs. ' + due.toFixed(2) + '</span>' : '<span class="text-success">Paid</span>') + '</td>';
+        html += '<td><small class="text-muted">' + (item.StartDt || '-') + '</small></td>';
+        html += '<td><span class="badge ' + statusClass + '">' + statusText + '</span></td>';
+        html += '</tr>';
+    });
+    
+    $('#reportTable tbody').html(html);
+    
+    // Update summary cards
+    $('#totalCollections').text('Rs. ' + totalCollections.toFixed(2));
+    $('#totalDisbursements').text('Rs. ' + totalDisbursements.toFixed(2));
+    $('#totalDue').text('Rs. ' + totalDue.toFixed(2));
+    $('#netBalance').text('Rs. ' + (totalCollections - totalDisbursements).toFixed(2));
+    $('#recordCount').text(data.length + ' records');
+}
+
+function renderNoData() {
+    var html = '<tr><td colspan="9" class="text-center py-5">';
+    html += '<div class="text-muted">';
+    html += '<i class="fas fa-chart-line fa-3x mb-3 opacity-50"></i>';
+    html += '<h5>No Data Available</h5>';
+    html += '<p>No records found for the selected criteria.</p>';
+    html += '</div></td></tr>';
+    $('#reportTable tbody').html(html);
+    $('#recordCount').text('0 records');
 }
 
 function refreshReport() {

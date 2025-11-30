@@ -622,14 +622,46 @@ namespace TestApp.Controllers
                 TempData["LoansPostingData"] = sGrpName + "," + sStaffName + "," + iMbrID;
                 TempData.Keep("LoansPostingData");
 
+                // Parse due date for stored procedure
+                DateTime? dueDateParam = null;
+                if (!string.IsNullOrEmpty(DueDt))
+                {
+                    DateTime dt;
+                    string[] dateFormats = { "yyyy-MM-dd", "dd-MM-yyyy", "MM/dd/yyyy", "dd/MM/yyyy", "M/d/yyyy" };
+                    if (DateTime.TryParseExact(DueDt, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                    {
+                        dueDateParam = dt;
+                    }
+                }
+
                 List<spGetLoanMbrsList_Result6> RawGetLoanMbrsList;
                 
                 try
                 {
-                    // Use the actual filter parameters in the stored procedure call
+                    // Use the actual filter parameters in the stored procedure call including DueDate
                     var spResult = db.spGetLoanMbrsList(sGrpName, sStaffName, iMbrID);
                     RawGetLoanMbrsList = spResult.ToList();
-                    logger.Info($"Stored procedure called with Group: {sGrpName}, Staff: {sStaffName}, Member: {iMbrID}");
+
+                    // Parse the DueDt parameter once
+                    DateTime? filterDueDate = null;
+                    if (!string.IsNullOrEmpty(DueDt))
+                    {
+                        DateTime dt;
+                        string[] dateFormats = { "dd-MM-yyyy", "yyyy-MM-dd", "MM/dd/yyyy", "dd/MM/yyyy", "M/d/yyyy" };
+                        if (DateTime.TryParseExact(DueDt, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                        {
+                            filterDueDate = dt.Date; // Use only the date part
+                        }
+                    }
+
+                    // Filter with proper date comparison
+                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x =>
+                        (string.IsNullOrEmpty(sGrpName) || x.GrpName == sGrpName) &&
+                        (string.IsNullOrEmpty(sStaffName) || x.StaffName == sStaffName) &&
+                        (string.IsNullOrEmpty(sMbrID) || x.MbrId.ToString() == sMbrID) &&
+                        (!filterDueDate.HasValue || CompareDates(x.Next_Due_Date, filterDueDate.Value))).ToList();
+
+                    logger.Info($"Stored procedure called with Group: {sGrpName}, Staff: {sStaffName}, Member: {iMbrID}, DueDate: {dueDateParam}");
                     logger.Info($"Stored procedure returned {RawGetLoanMbrsList.Count} records");
                     
                     if (!RawGetLoanMbrsList.Any())
@@ -654,17 +686,7 @@ namespace TestApp.Controllers
                     return Json(new { error = "Unable to retrieve loan data: " + spEx.Message }, JsonRequestBehavior.AllowGet);
                 }
 
-                // Apply additional due date filter if provided
-                if (!string.IsNullOrEmpty(DueDt))
-                {
-                    DateTime dt = DateTime.ParseExact(DueDt, "yyyy-MM-dd", CultureInfo.InvariantCulture);                    
-
-                    DueDt = dt.Month.ToString() + "/" + dt.Day.ToString() + "/" + dt.Year.ToString();
-
-                    RawGetLoanMbrsList = RawGetLoanMbrsList.Where(x => x.Next_Due_Date == DueDt).ToList();
-                    logger.Info($"After due date filter: {RawGetLoanMbrsList.Count} records");
-                }
-
+                // DueDate filtering is now done in the stored procedure
                 logger.Info($"Returning {RawGetLoanMbrsList.Count} records to UI");
 
                 return Json(RawGetLoanMbrsList, JsonRequestBehavior.AllowGet);
@@ -681,7 +703,28 @@ namespace TestApp.Controllers
 
         }
 
+        private bool CompareDates(string dbDateString, DateTime filterDate)
+        {
+            if (string.IsNullOrEmpty(dbDateString))
+                return false;
 
+            DateTime dbDate;
+            string[] dateFormats = {
+            "dd-MM-yyyy HH:mm:ss",
+            "dd-MM-yyyy",
+            "yyyy-MM-dd",
+            "MM/dd/yyyy",
+            "dd/MM/yyyy",
+            "M/d/yyyy"
+        };
+
+            if (DateTime.TryParseExact(dbDateString.Trim(), dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dbDate))
+            {
+                return dbDate.Date == filterDate.Date; // Compare only date parts, ignoring time
+            }
+
+            return false;
+        }
 
 
         [HttpGet]
@@ -975,7 +1018,7 @@ namespace TestApp.Controllers
 
                 objLoanColsdb.PostedUserID = Convert.ToString(Session["UserID"]);
 
-                if (string.IsNullOrEmpty(sPostType) && sPostType.Trim() != "PrePaid")
+                if ((string.IsNullOrEmpty(sPostType) || sPostType.Trim() == "Post") && sPostType.Trim() != "PrePaid")
                 {
                     objLoanColsdb.LoanId = objLoanCols.LoanId;
                     objLoanColsdb.MbrId = objLoan.MbrId;
